@@ -41,7 +41,6 @@ CREATE TABLE "osoby" (
 	"jmeno" varchar(20) NOT NULL,
 	"prijmeni" varchar(20) NOT NULL,
 	"datum_narozeni" date NOT NULL,
-	"staj_id" int4 NOT NULL,
 	PRIMARY KEY("osoba_id")
 );
 
