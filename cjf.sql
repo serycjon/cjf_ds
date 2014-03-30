@@ -24,24 +24,10 @@ CREATE TABLE "tymy" (
 	"dojel" bool NOT NULL DEFAULT False,
 	"zavod_id" int4 NOT NULL,
 	"kategorie_id" int4 NOT NULL,
-	PRIMARY KEY("tym_id")
+	PRIMARY KEY("tym_id"),
+	FOREIGN KEY ("zavod_id") REFERENCES "zavod"("zavod_id")	MATCH SIMPLE ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE,
+	FOREIGN KEY ("kategorie_id") REFERENCES "kategorie"("kategorie_id") MATCH SIMPLE ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE
 );
-ALTER TABLE "tymy" ADD CONSTRAINT "Ref_tymy_to_zavod" FOREIGN KEY ("zavod_id")
-	REFERENCES "zavod"("zavod_id")
-	MATCH SIMPLE
-	ON DELETE NO ACTION
-	ON UPDATE NO ACTION
-	NOT DEFERRABLE;
-
-ALTER TABLE "tymy" ADD CONSTRAINT "Ref_tymy_to_kategorie" FOREIGN KEY ("kategorie_id")
-	REFERENCES "kategorie"("kategorie_id")
-	MATCH SIMPLE
-	ON DELETE NO ACTION
-	ON UPDATE NO ACTION
-	NOT DEFERRABLE;
-
-
-
 
 ---------------------------------------------------------------
 
