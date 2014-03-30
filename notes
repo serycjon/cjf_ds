@@ -1,0 +1,10 @@
+host: krizik.felk.cvut.cz
+port: 5434
+user: student_db13_30
+db:   student_db13_30
+pass: cjf_kone_db
+
+// old_pass: db12_30
+
+integritni omezeni
+CHECK (sleva BETWEEN 0 AND 100)
