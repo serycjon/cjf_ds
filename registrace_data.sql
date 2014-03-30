@@ -11,7 +11,7 @@ INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
 	WHERE tymy.nazev = 'AlfaSamci' AND osoby.jmeno = 'Tomas' LIMIT 1;
 
 INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
-	SELECT tymy_tym_id, kun_id FROM tymy, kone
+	SELECT tym_id, kun_id FROM tymy, kone
 	WHERE tymy.nazev = 'AlfaSamci' AND kone.jmeno = 'Betty' LIMIT 1;
 
 -- druhej jezdec - melo by to rvat!
@@ -26,5 +26,5 @@ INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
 
 -- moc koni - melo by rvat
 INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
-	SELECT tymy_tym_id, kun_id FROM tymy, kone
+	SELECT tym_id, kun_id FROM tymy, kone
 	WHERE tymy.nazev = 'AlfaSamci' AND kone.jmeno = 'Fantom' LIMIT 1;
