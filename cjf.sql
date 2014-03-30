@@ -1,22 +1,27 @@
-﻿-- =============================================================================
--- Diagram Name: cjf
--- Created on: 30.3.2014 15:39:44
--- Diagram Version: 
--- =============================================================================
-
-
+﻿CREATE SEQUENCE seq_zavod;
 CREATE TABLE "zavod" (
-	"zavod_id" SERIAL NOT NULL,
+	"zavod_id" int NOT NULL UNIQUE DEFAULT nextval('seq_zavod'),
 	"nazev" varchar(50) NOT NULL,
 	"datum" date NOT NULL,
 	"misto_konani" varchar(50) NOT NULL,
 	PRIMARY KEY("zavod_id")
 );
 
+CREATE SEQUENCE seq_kategorie;
+CREATE TABLE "kategorie" (
+	"kategorie_id" int NOT NULL UNIQUE DEFAULT nextval('seq_kategorie'),
+	"nazev" varchar(20) NOT NULL,
+	"pocet_koni" int4 DEFAULT 1,
+	"pocet_prisedicich" int4 DEFAULT 1,
+	PRIMARY KEY("kategorie_id")
+);
+
+CREATE SEQUENCE seq_tymy;
+CREATE SEQUENCE seq_startovni_cislo;
 CREATE TABLE "tymy" (
-	"tym_id" SERIAL NOT NULL,
+	"tym_id" int NOT NULL UNIQUE DEFAULT nextval('seq_tymy'),
 	"nazev" varchar(50) NOT NULL,
-	"startovni_cislo" SERIAL NOT NULL,
+	"startovni_cislo" int NOT NULL UNIQUE DEFAULT nextval('seq_startovni_cislo'),
 	"cas_prvniho_kola" interval(0),
 	"cas_druheho_kola" interval(0),
 	"penalizace_prvni_kolo" int4 NOT NULL DEFAULT 0,
@@ -29,11 +34,10 @@ CREATE TABLE "tymy" (
 	FOREIGN KEY ("kategorie_id") REFERENCES "kategorie"("kategorie_id") MATCH SIMPLE ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE
 );
 
----------------------------------------------------------------
 
-
+CREATE SEQUENCE seq_osoby;
 CREATE TABLE "osoby" (
-	"osoba_id" SERIAL NOT NULL,
+	"osoba_id" int NOT NULL UNIQUE DEFAULT nextval('seq_osoby'),
 	"jmeno" varchar(20) NOT NULL,
 	"prijmeni" varchar(20) NOT NULL,
 	"datum_narozeni" date NOT NULL,
@@ -41,24 +45,19 @@ CREATE TABLE "osoby" (
 	PRIMARY KEY("osoba_id")
 );
 
+CREATE SEQUENCE seq_kone;
 CREATE TABLE "kone" (
-	"kun_id" SERIAL NOT NULL,
+	"kun_id" int NOT NULL UNIQUE DEFAULT nextval('seq_kone'),
 	"jmeno" varchar(20) NOT NULL,
 	"plemeno" varchar(50) NOT NULL,
 	"majitel" varchar(35) NOT NULL,
 	PRIMARY KEY("kun_id")
 );
 
-CREATE TABLE "kategorie" (
-	"kategorie_id" SERIAL NOT NULL,
-	"nazev" varchar(20) NOT NULL,
-	"pocet_koni" int4 DEFAULT 1,
-	"pocet_prisedicich" int4 DEFAULT 1,
-	PRIMARY KEY("kategorie_id")
-);
 
+CREATE SEQUENCE seq_staje;
 CREATE TABLE "staje" (
-	"staj_id" SERIAL NOT NULL,
+	"staj_id" int NOT NULL UNIQUE DEFAULT nextval('seq_staje'),
 	"jmeno" varchar(50) NOT NULL,
 	"mesto" varchar(20) NOT NULL,
 	PRIMARY KEY("staj_id")
@@ -67,83 +66,59 @@ CREATE TABLE "staje" (
 CREATE TABLE "zavod_has_kategorie" (
 	"zavod_zavod_id" int4 NOT NULL,
 	"kategorie_kategorie_id" int4 NOT NULL,
-	PRIMARY KEY("zavod_zavod_id","kategorie_kategorie_id")
+	PRIMARY KEY("zavod_zavod_id","kategorie_kategorie_id"),
+	FOREIGN KEY ("kategorie_kategorie_id") REFERENCES "kategorie"("kategorie_id") MATCH SIMPLE ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE,
+	FOREIGN KEY ("zavod_zavod_id") REFERENCES "zavod"("zavod_id") MATCH SIMPLE ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE
 );
-ALTER TABLE "zavod_has_kategorie" ADD CONSTRAINT "Ref_zavod_has_kategorie_to_kategorie" FOREIGN KEY ("kategorie_kategorie_id")
-	REFERENCES "kategorie"("kategorie_id")
-	MATCH SIMPLE
-	ON DELETE NO ACTION
-	ON UPDATE NO ACTION
-	NOT DEFERRABLE;
-ALTER TABLE "zavod_has_kategorie" ADD CONSTRAINT "Ref_zavod_has_kategorie_to_zavod" FOREIGN KEY ("zavod_zavod_id")
-	REFERENCES "zavod"("zavod_id")
-	MATCH SIMPLE
-	ON DELETE NO ACTION
-	ON UPDATE NO ACTION
-	NOT DEFERRABLE;
-
-------------------------------------------------------------------
-
 
 CREATE TABLE "tymy_has_osoby" (
 	"tymy_tym_id" int4 NOT NULL,
 	"osoby_osoba_id" int4 NOT NULL,
 	"je_jezdec" bool NOT NULL,
-	PRIMARY KEY("tymy_tym_id","osoby_osoba_id")
+	PRIMARY KEY("tymy_tym_id","osoby_osoba_id"),
+	FOREIGN KEY ("tymy_tym_id")
+		REFERENCES "tymy"("tym_id")
+		MATCH SIMPLE
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+		NOT DEFERRABLE,
+	FOREIGN KEY ("osoby_osoba_id") REFERENCES "osoby"("osoba_id") MATCH SIMPLE ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE
 );
-ALTER TABLE "tymy_has_osoby" ADD CONSTRAINT "Ref_tymy_has_osoby_to_tymy" FOREIGN KEY ("tymy_tym_id")
-	REFERENCES "tymy"("tym_id")
-	MATCH SIMPLE
-	ON DELETE NO ACTION
-	ON UPDATE NO ACTION
-	NOT DEFERRABLE;
 
-ALTER TABLE "tymy_has_osoby" ADD CONSTRAINT "Ref_tymy_has_osoby_to_osoby" FOREIGN KEY ("osoby_osoba_id")
-	REFERENCES "osoby"("osoba_id")
-	MATCH SIMPLE
-	ON DELETE NO ACTION
-	ON UPDATE NO ACTION
-	NOT DEFERRABLE;
-
-
--------------------------------------------------------------
 CREATE TABLE "tymy_has_kone" (
 	"tymy_tym_id" int4 NOT NULL,
 	"kone_kun_id" int4 NOT NULL,
-	PRIMARY KEY("tymy_tym_id","kone_kun_id")
+	PRIMARY KEY("tymy_tym_id","kone_kun_id"),
+	FOREIGN KEY ("tymy_tym_id")
+		REFERENCES "tymy"("tym_id")
+		MATCH SIMPLE
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+		NOT DEFERRABLE,
+	FOREIGN KEY ("kone_kun_id")
+		REFERENCES "kone"("kun_id")
+		MATCH SIMPLE
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+		NOT DEFERRABLE
 );
-ALTER TABLE "tymy_has_kone" ADD CONSTRAINT "Ref_tymy_has_kone_to_tymy" FOREIGN KEY ("tymy_tym_id")
-	REFERENCES "tymy"("tym_id")
-	MATCH SIMPLE
-	ON DELETE NO ACTION
-	ON UPDATE NO ACTION
-	NOT DEFERRABLE;
-
-ALTER TABLE "tymy_has_kone" ADD CONSTRAINT "Ref_tymy_has_kone_to_kone" FOREIGN KEY ("kone_kun_id")
-	REFERENCES "kone"("kun_id")
-	MATCH SIMPLE
-	ON DELETE NO ACTION
-	ON UPDATE NO ACTION
-	NOT DEFERRABLE;
-
------------------------------------------------------------
 
 CREATE TABLE "osoby_has_staje" (
 	"osoby_osoba_id" int4 NOT NULL,
 	"staje_staj_id" int4 NOT NULL,
 	"platne_od" date NOT NULL,
 	"platne_do" date NOT NULL,
-	PRIMARY KEY("osoby_osoba_id","staje_staj_id","platne_od","platne_do")
+	PRIMARY KEY("osoby_osoba_id","staje_staj_id","platne_od","platne_do"),
+	FOREIGN KEY ("staje_staj_id")
+		REFERENCES "staje"("staj_id")
+		MATCH SIMPLE
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+		NOT DEFERRABLE,
+	FOREIGN KEY ("osoby_osoba_id")
+		REFERENCES "osoby"("osoba_id")
+		MATCH SIMPLE
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+		NOT DEFERRABLE
 );
-ALTER TABLE "osoby_has_staje" ADD CONSTRAINT "Ref_osoby_has_staje_to_staje" FOREIGN KEY ("staje_staj_id")
-	REFERENCES "staje"("staj_id")
-	MATCH SIMPLE
-	ON DELETE NO ACTION
-	ON UPDATE NO ACTION
-	NOT DEFERRABLE;
-ALTER TABLE "osoby_has_staje" ADD CONSTRAINT "Ref_osoby_has_staje_to_osoby" FOREIGN KEY ("osoby_osoba_id")
-	REFERENCES "osoby"("osoba_id")
-	MATCH SIMPLE
-	ON DELETE NO ACTION
-	ON UPDATE NO ACTION
-	NOT DEFERRABLE;
