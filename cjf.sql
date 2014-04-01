@@ -31,10 +31,9 @@ CREATE TABLE "tymy" (
 	"zavod_id" int4 NOT NULL,
 	"kategorie_id" int4 NOT NULL,
 	PRIMARY KEY("tym_id"),
-	FOREIGN KEY ("zavod_id") REFERENCES "zavod"("zavod_id"),
-	FOREIGN KEY ("kategorie_id") REFERENCES "kategorie"("kategorie_id")
+	FOREIGN KEY ("zavod_id") REFERENCES "zavod"("zavod_id") ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY ("kategorie_id") REFERENCES "kategorie"("kategorie_id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
-
 
 CREATE SEQUENCE seq_osoby;
 CREATE TABLE "osoby" (
@@ -67,8 +66,8 @@ CREATE TABLE "zavod_has_kategorie" (
 	"zavod_zavod_id" int4 NOT NULL,
 	"kategorie_kategorie_id" int4 NOT NULL,
 	PRIMARY KEY("zavod_zavod_id","kategorie_kategorie_id"),
-	FOREIGN KEY ("kategorie_kategorie_id") REFERENCES "kategorie"("kategorie_id"),
-	FOREIGN KEY ("zavod_zavod_id") REFERENCES "zavod"("zavod_id")
+	FOREIGN KEY ("kategorie_kategorie_id") REFERENCES "kategorie"("kategorie_id") ON DELETE RESTRICT ON UPDATE CASCADE,
+	FOREIGN KEY ("zavod_zavod_id") REFERENCES "zavod"("zavod_id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE "tymy_has_osoby" (
@@ -76,16 +75,16 @@ CREATE TABLE "tymy_has_osoby" (
 	"osoby_osoba_id" int4 NOT NULL,
 	"je_jezdec" bool NOT NULL,
 	PRIMARY KEY("tymy_tym_id","osoby_osoba_id"),
-	FOREIGN KEY ("tymy_tym_id") REFERENCES "tymy"("tym_id"),
-	FOREIGN KEY ("osoby_osoba_id") REFERENCES "osoby"("osoba_id")
+	FOREIGN KEY ("tymy_tym_id") REFERENCES "tymy"("tym_id") ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY ("osoby_osoba_id") REFERENCES "osoby"("osoba_id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE "tymy_has_kone" (
 	"tymy_tym_id" int4 NOT NULL,
 	"kone_kun_id" int4 NOT NULL,
 	PRIMARY KEY("tymy_tym_id","kone_kun_id"),
-	FOREIGN KEY ("tymy_tym_id") REFERENCES "tymy"("tym_id"),
-	FOREIGN KEY ("kone_kun_id") REFERENCES "kone"("kun_id")
+	FOREIGN KEY ("tymy_tym_id") REFERENCES "tymy"("tym_id") ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY ("kone_kun_id") REFERENCES "kone"("kun_id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE "osoby_has_staje" (
@@ -94,6 +93,6 @@ CREATE TABLE "osoby_has_staje" (
 	"platne_od" date NOT NULL, -- zacatek tohoto roku, zatim jsme neprisli na to, jak ho tam dat defaultne
 	"platne_do" date NOT NULL, -- konec tohoto roku, zatim jsme neprisli na to, jak ho tam dat defaultne
 	PRIMARY KEY("osoby_osoba_id","staje_staj_id","platne_od","platne_do"),
-	FOREIGN KEY ("staje_staj_id") REFERENCES "staje"("staj_id"),
-	FOREIGN KEY ("osoby_osoba_id") REFERENCES "osoby"("osoba_id")
+	FOREIGN KEY ("staje_staj_id") REFERENCES "staje"("staj_id") ON DELETE RESTRICT ON UPDATE CASCADE,
+	FOREIGN KEY ("osoby_osoba_id") REFERENCES "osoby"("osoba_id") ON DELETE CASCADE ON UPDATE CASCADE
 );
