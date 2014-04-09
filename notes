@@ -10,3 +10,5 @@ psql -h krizik.felk.cvut.cz -p 5434 -U student_db13_30 student_db13_30
 
 integritni omezeni
 CHECK (sleva BETWEEN 0 AND 100)
+
+nazdaaaar
