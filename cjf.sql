@@ -1,4 +1,4 @@
-﻿CREATE SEQUENCE seq_zavod;
+CREATE SEQUENCE seq_zavod;
 CREATE TABLE "zavod" (
 	"zavod_id" int NOT NULL UNIQUE DEFAULT nextval('seq_zavod'),
 	"nazev" varchar(50) NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE "zavod" (
 CREATE SEQUENCE seq_kategorie;
 CREATE TABLE "kategorie" (
 	"kategorie_id" int NOT NULL UNIQUE DEFAULT nextval('seq_kategorie'),
-	"nazev" varchar(20) NOT NULL,
+	"nazev" varchar(20) NOT NULL UNIQUE,
 	"pocet_koni" int4 DEFAULT 1 CHECK (pocet_koni > 0),
 	"pocet_prisedicich" int4 DEFAULT 1 CHECK (pocet_prisedicich >= 0),
 	PRIMARY KEY("kategorie_id")
@@ -57,7 +57,7 @@ CREATE TABLE "kone" (
 CREATE SEQUENCE seq_staje;
 CREATE TABLE "staje" (
 	"staj_id" int NOT NULL UNIQUE DEFAULT nextval('seq_staje'),
-	"jmeno" varchar(50) NOT NULL,
+	"jmeno" varchar(50) NOT NULL UNIQUE,
 	"mesto" varchar(20) NOT NULL,
 	PRIMARY KEY("staj_id")
 );
