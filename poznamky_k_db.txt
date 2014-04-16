@@ -1,0 +1,72 @@
+udb student_db13_30
+p 5435
+heslo: cjf_kone_db
+
+1] Poladit startovaci cislo tymu
+2] unikátní jména 
+3] funkce na generovani startovnich cisel
+4] on update, on delete
+5] vkladat kone(osoby) najednou a kontrolovat pocet
+6] EXPLAIN , (DISTINCT) - 5b prozkoumat jak selecty dlouho trvaji
+
+smazani vseho obsahu
+SELECT 'TRUNCATE TABLE ' ||  tablename || ' CASCADE;' FROM pg_tables WHERE schemaname = 'public';
+a pak okopirovat vystup a spustit
+
+smazani vsech sekvenci
+SELECT 'drop sequence ' || c.relname || ' CASCADE;' FROM pg_class c WHERE (c.relkind = 'S');
+a pak okopirovat vystup a spustit...
+
+smazani vsech tabulek
+select 'drop table if exists "' || tablename || '" cascade;' 
+  from pg_tables
+ where schemaname = 'public';
+a pak okopirovat vystup a spustit...
+
+INSERT INTO tab VALUES ('a', 'b')
+
+dotazy:
+   DELETE FROM tab --- tkhle smaze data, ktere jsou v tabulce vsechna !!!
+     -> DELETE FROM tab WHERE
+    UPDATE tab SET a1 ='b' , a2 = 'c' WHERE
+
+    DROP funkce na mazani tabulky DROP --TABLE, --SEQUENCE, --ROLE, --CONSTRAINT, --INDEX
+ 
+   dotaz pres 2 tabulky
+     SELECT kategorie.nazev  FROM kategorie 
+     INNER JOIN zavod_has_kategorie ON kategorie.kategorie_id=zavod_has_kategorie.kategorie_kategorie_id 
+     INNER JOIN zavod ON zavod_has_kategorie.zavod_zavod_id=zavod.zavod_id
+     WHERE zavod.misto_konani ='pole' ;
+
+   Integritní omezení III
+CREATE ASSERTION
+A1
+CHECK
+( NOT EXISTS
+( SELECT *
+FROM
+PACKAGE
+WHERE
+PACKCOST <
+( SELECT MAX (
+SOFTCOST
+)
+FROM
+SOFTWARE
+WHERE
+PACKAGE.PACKID = SOFTWARE.PACKID
+) ) ) 
+
+
+      select tymy_tym_id, COUNT(DISTINCT kone_kun_id) from tymy_has_kone group by tymy_tym_id; 
+--pohled
+--ALTER
+
+
+    CREATE SCHEMA verze1
+
+1] opravit serial ->sequence   DONE
+2] smazat primarni klice       DONE
+3] defaulni nastaveni hodnot   DONE
+4] proykoumat datove typy      DONE
+   
