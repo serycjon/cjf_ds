@@ -33,7 +33,13 @@ INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
 	WHERE tymy.nazev = 'BetaSamci' AND osoby.jmeno = 'Lada' LIMIT 1) as jezdec
 	UNION 
 	SELECT * FROM (SELECT tym_id, osoba_id, false FROM tymy, osoby
-	WHERE tymy.nazev = 'BetaSamci' AND osoby.jmeno = 'Jan' LIMIT 1) as prisedici;
+
+-- moc koni - melo by rvat
+INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
+	SELECT tym_id, kun_id FROM tymy, kone
+	WHERE tymy.nazev = 'AlfaSamci' AND kone.jmeno = 'Fantom' LIMIT 1;
+
+WHERE tymy.nazev = 'BetaSamci' AND osoby.jmeno = 'Jan' LIMIT 1) as prisedici;
 
 INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
 	SELECT * FROM (SELECT tym_id, kun_id FROM tymy, kone
