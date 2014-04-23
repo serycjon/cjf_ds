@@ -96,3 +96,13 @@ CREATE TABLE "osoby_has_staje" (
 	FOREIGN KEY ("staje_staj_id") REFERENCES "staje"("staj_id") ON DELETE RESTRICT ON UPDATE CASCADE,
 	FOREIGN KEY ("osoby_osoba_id") REFERENCES "osoby"("osoba_id") ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+
+CREATE OR REPLACE FUNCTION get_random_number(INTEGER, INTEGER) RETURNS INTEGER AS $$
+DECLARE
+    start_int ALIAS FOR $1;
+    end_int ALIAS FOR $2;
+BEGIN
+    RETURN trunc(random() * (end_int-start_int) + start_int);
+END;
+$$ LANGUAGE 'plpgsql' STRICT;
