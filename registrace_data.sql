@@ -33,13 +33,7 @@ INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
 	WHERE tymy.nazev = 'BetaSamci' AND osoby.jmeno = 'Lada' LIMIT 1) as jezdec
 	UNION 
 	SELECT * FROM (SELECT tym_id, osoba_id, false FROM tymy, osoby
-
--- moc koni - melo by rvat
-INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
-	SELECT tym_id, kun_id FROM tymy, kone
-	WHERE tymy.nazev = 'AlfaSamci' AND kone.jmeno = 'Fantom' LIMIT 1;
-
-WHERE tymy.nazev = 'BetaSamci' AND osoby.jmeno = 'Jan' LIMIT 1) as prisedici;
+	WHERE tymy.nazev = 'BetaSamci' AND osoby.jmeno = 'Jan' LIMIT 1) as prisedici;
 
 INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
 	SELECT * FROM (SELECT tym_id, kun_id FROM tymy, kone
@@ -47,3 +41,38 @@ INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
 	UNION
 	SELECT * FROM (SELECT tym_id, kun_id FROM tymy, kone
 	WHERE tymy.nazev = 'BetaSamci' AND kone.jmeno = 'Apollo' LIMIT 1) as kun2;
+	
+--------------------------------------------------------------------------
+
+INSERT INTO tymy (nazev, zavod_id, kategorie_id)
+	SELECT 'Borci', zavod_id, kategorie_id FROM zavod, kategorie
+	WHERE zavod.misto_konani = 'Pod_susarnou' AND kategorie.nazev = 'jednospřeží';
+
+INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
+	SELECT tym_id, osoba_id, true FROM tymy, osoby
+	WHERE tymy.nazev = 'Borci' AND osoby.jmeno = 'Daniel' LIMIT 1;
+
+INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
+	SELECT tym_id, osoba_id, false FROM tymy, osoby
+	WHERE tymy.nazev = 'Borci' AND osoby.jmeno = 'Rudolf' LIMIT 1;
+
+INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
+	SELECT tym_id, kun_id FROM tymy, kone
+	WHERE tymy.nazev = 'Borci' AND kone.jmeno = 'Fantom' LIMIT 1;
+	
+--------------------------------------------------------------------------
+INSERT INTO tymy (nazev, zavod_id, kategorie_id)
+	SELECT 'DrsnoJezdci', zavod_id, kategorie_id FROM zavod, kategorie
+	WHERE zavod.misto_konani = 'Pod_susarnou' AND kategorie.nazev = 'jednospřeží';
+
+INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
+	SELECT tym_id, osoba_id, true FROM tymy, osoby
+	WHERE tymy.nazev = 'DrsnoJezdci' AND osoby.jmeno = 'Jenovéfa' LIMIT 1;
+
+INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
+	SELECT tym_id, osoba_id, false FROM tymy, osoby
+	WHERE tymy.nazev = 'DrsnoJezdci' AND osoby.jmeno = 'Michal' LIMIT 1;
+
+INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
+	SELECT tym_id, kun_id FROM tymy, kone
+	WHERE tymy.nazev = 'DrsnoJezdci' AND kone.jmeno = 'Gaston' LIMIT 1;
