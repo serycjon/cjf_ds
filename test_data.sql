@@ -14,7 +14,9 @@ INSERT INTO osoby(jmeno, prijmeni, datum_narozeni) VALUES ('Jan', 'Exnar', '1973
 INSERT INTO osoby(jmeno, prijmeni, datum_narozeni) VALUES ('Lada', 'Ondráčková', '1993-12-28');
 INSERT INTO osoby(jmeno, prijmeni, datum_narozeni) VALUES ('Daniel', 'Zigler', '1975-07-06');
 INSERT INTO osoby(jmeno, prijmeni, datum_narozeni) VALUES ('Jan', 'Bareš', '1979-08-27');
-INSERT INTO osoby(jmeno, prijmeni, datum_narozeni) VALUES ('Milan', 'Hladík', '1988-03-14');
+INSERT INTO osoby(jmeno, prijmeni, datum_narozeni) VALUES ('Hans', 'Jánošík', '1990-09-11');
+INSERT INTO osoby(jmeno, prijmeni, datum_narozeni) VALUES ('Vilam', 'Lupak', '1986-08-30');
+INSERT INTO osoby(jmeno, prijmeni, datum_narozeni) VALUES ('Jiří', 'Klatík', '1991-01-01');
 
 INSERT INTO kategorie(nazev, pocet_koni, pocet_prisedicich) VALUES ('jednospřeží', 1, 1);
 INSERT INTO kategorie(nazev, pocet_koni, pocet_prisedicich) VALUES ('dvojspřeží', 2, 1);

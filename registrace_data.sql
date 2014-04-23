@@ -76,3 +76,140 @@ INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
 INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
 	SELECT tym_id, kun_id FROM tymy, kone
 	WHERE tymy.nazev = 'DrsnoJezdci' AND kone.jmeno = 'Gaston' LIMIT 1;
+	
+	--
+	INSERT INTO tymy (nazev, zavod_id, kategorie_id)
+	SELECT 'Hnojaci', zavod_id, kategorie_id FROM zavod, kategorie
+	WHERE zavod.misto_konani = 'Pod_susarnou' AND kategorie.nazev = 'jednospřeží';
+
+INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
+	SELECT tym_id, osoba_id, true FROM tymy, osoby
+	WHERE tymy.nazev = 'Hnojaci' AND osoby.jmeno = 'Hans' LIMIT 1;
+
+INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
+	SELECT tym_id, osoba_id, false FROM tymy, osoby
+	WHERE tymy.nazev = 'Hnojaci' AND osoby.jmeno = 'Vilam' LIMIT 1;
+
+INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
+	SELECT tym_id, kun_id FROM tymy, kone
+	WHERE tymy.nazev = 'Hnojaci' AND kone.jmeno = 'Hannibal' LIMIT 1;
+	
+	--
+	INSERT INTO tymy (nazev, zavod_id, kategorie_id)
+	SELECT 'Kravataci', zavod_id, kategorie_id FROM zavod, kategorie
+	WHERE zavod.misto_konani = 'Pod_susarnou' AND kategorie.nazev = 'jednospřeží';
+
+INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
+	SELECT tym_id, osoba_id, true FROM tymy, osoby
+	WHERE tymy.nazev = 'Kravataci' AND osoby.jmeno = 'Jiří' LIMIT 1;
+
+INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
+	SELECT tym_id, osoba_id, false FROM tymy, osoby
+	WHERE tymy.nazev = 'Kravataci' AND osoby.jmeno = 'Jan' LIMIT 1;
+
+INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
+	SELECT tym_id, kun_id FROM tymy, kone
+	WHERE tymy.nazev = 'Kravataci' AND kone.jmeno = 'Fido' LIMIT 1;
+	
+	--dvojsprezi
+	INSERT INTO tymy (nazev, zavod_id, kategorie_id)
+	SELECT 'Slunicka', zavod_id, kategorie_id FROM zavod, kategorie
+	WHERE zavod.misto_konani = 'Pod_susarnou' AND kategorie.nazev = 'dvojspřeží';
+
+INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
+	SELECT tym_id, osoba_id, true FROM tymy, osoby
+	WHERE tymy.nazev = 'Slunicka' AND osoby.jmeno = 'Tomas' LIMIT 1;
+
+INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
+	SELECT tym_id, osoba_id, false FROM tymy, osoby
+	WHERE tymy.nazev = 'Slunicka' AND osoby.jmeno = 'Karel' LIMIT 1;
+
+INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
+	SELECT tym_id, kun_id FROM tymy, kone
+	WHERE tymy.nazev = 'Slunicka' AND kone.jmeno = 'Betty' LIMIT 1;
+	
+	INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
+	SELECT tym_id, kun_id FROM tymy, kone
+	WHERE tymy.nazev = 'Slunicka' AND kone.jmeno = 'Fantom' LIMIT 1;
+
+--
+	INSERT INTO tymy (nazev, zavod_id, kategorie_id)
+	SELECT 'Draci', zavod_id, kategorie_id FROM zavod, kategorie
+	WHERE zavod.misto_konani = 'Pod_susarnou' AND kategorie.nazev = 'dvojspřeží';
+
+INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
+	SELECT tym_id, osoba_id, true FROM tymy, osoby
+	WHERE tymy.nazev = 'Draci' AND osoby.jmeno = 'Rudolf' LIMIT 1;
+
+INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
+	SELECT tym_id, osoba_id, false FROM tymy, osoby
+	WHERE tymy.nazev = 'Draci' AND osoby.jmeno = 'Jenovéfa' LIMIT 1;
+
+INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
+	SELECT tym_id, kun_id FROM tymy, kone
+	WHERE tymy.nazev = 'Draci' AND kone.jmeno = 'Gaston' LIMIT 1;
+	
+	INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
+	SELECT tym_id, kun_id FROM tymy, kone
+	WHERE tymy.nazev = 'Draci' AND kone.jmeno = 'Hannibal' LIMIT 1;
+	
+	--
+	INSERT INTO tymy (nazev, zavod_id, kategorie_id)
+	SELECT 'Bondaci007', zavod_id, kategorie_id FROM zavod, kategorie
+	WHERE zavod.misto_konani = 'Pod_susarnou' AND kategorie.nazev = 'dvojspřeží';
+
+INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
+	SELECT tym_id, osoba_id, true FROM tymy, osoby
+	WHERE tymy.nazev = 'Bondaci007' AND osoby.jmeno = 'Michal' LIMIT 1;
+
+INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
+	SELECT tym_id, osoba_id, false FROM tymy, osoby
+	WHERE tymy.nazev = 'Bondaci007' AND osoby.jmeno = 'Milan' LIMIT 1;
+
+INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
+	SELECT tym_id, kun_id FROM tymy, kone
+	WHERE tymy.nazev = 'Bondaci007' AND kone.jmeno = 'Fido' LIMIT 1;
+	
+	INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
+	SELECT tym_id, kun_id FROM tymy, kone
+	WHERE tymy.nazev = 'Bondaci007' AND kone.jmeno = 'Galina' LIMIT 1;
+	--
+	INSERT INTO tymy (nazev, zavod_id, kategorie_id)
+	SELECT 'Drsoni', zavod_id, kategorie_id FROM zavod, kategorie
+	WHERE zavod.misto_konani = 'Pod_susarnou' AND kategorie.nazev = 'dvojspřeží';
+
+INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
+	SELECT tym_id, osoba_id, true FROM tymy, osoby
+	WHERE tymy.nazev = 'Drsoni' AND osoby.jmeno = 'Jan' LIMIT 1;
+
+INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
+	SELECT tym_id, osoba_id, false FROM tymy, osoby
+	WHERE tymy.nazev = 'Drsoni' AND osoby.jmeno = 'Lada' LIMIT 1;
+
+INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
+	SELECT tym_id, kun_id FROM tymy, kone
+	WHERE tymy.nazev = 'Drsoni' AND kone.jmeno = 'Up' LIMIT 1;
+	
+	INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
+	SELECT tym_id, kun_id FROM tymy, kone
+	WHERE tymy.nazev = 'Drsoni' AND kone.jmeno = 'Stargate' LIMIT 1;
+	--
+	INSERT INTO tymy (nazev, zavod_id, kategorie_id)
+	SELECT 'Dlouhani', zavod_id, kategorie_id FROM zavod, kategorie
+	WHERE zavod.misto_konani = 'Pod_susarnou' AND kategorie.nazev = 'dvojspřeží';
+
+INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
+	SELECT tym_id, osoba_id, true FROM tymy, osoby
+	WHERE tymy.nazev = 'Dlouhani' AND osoby.jmeno = 'Hans' LIMIT 1;
+
+INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
+	SELECT tym_id, osoba_id, false FROM tymy, osoby
+	WHERE tymy.nazev = 'Dlouhani' AND osoby.jmeno = 'Vilam' LIMIT 1;
+
+INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
+	SELECT tym_id, kun_id FROM tymy, kone
+	WHERE tymy.nazev = 'Dlouhani' AND kone.jmeno = 'Kent' LIMIT 1;
+	
+	INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
+	SELECT tym_id, kun_id FROM tymy, kone
+	WHERE tymy.nazev = 'Dlouhani' AND kone.jmeno = 'Anna' LIMIT 1;
