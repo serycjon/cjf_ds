@@ -1,1 +1,12 @@
--- bla blaaaa
+update tymy set cas_prvniho_kola = '00:12:50', cas_druheho_kola = '00:11:12', penalizace_prvni_kolo = 2 WHERE startovni_cislo = 5 AND zavod_id = 1;
+update tymy set cas_prvniho_kola = '00:11:50', cas_druheho_kola = '00:18:12', penalizace_prvni_kolo = 2 WHERE startovni_cislo = 6 AND zavod_id = 1;
+update tymy set cas_prvniho_kola = '00:12:50', cas_druheho_kola = '00:12:12', penalizace_prvni_kolo = 1 WHERE startovni_cislo = 7 AND zavod_id = 1;
+update tymy set cas_prvniho_kola = '00:12:50', cas_druheho_kola = '00:11:12', penalizace_prvni_kolo = 2 WHERE startovni_cislo = 8 AND zavod_id = 1;
+update tymy set cas_prvniho_kola = '00:12:50', cas_druheho_kola = '00:11:12', penalizace_prvni_kolo = 2 WHERE startovni_cislo = 9 AND zavod_id = 1;
+update tymy set cas_prvniho_kola = '00:13:50', cas_druheho_kola = '00:15:12', penalizace_prvni_kolo = 2 WHERE startovni_cislo = 1 AND zavod_id = 1;
+update tymy set cas_prvniho_kola = '00:12:50', cas_druheho_kola = '00:11:12', penalizace_prvni_kolo = 1 WHERE startovni_cislo = 2 AND zavod_id = 1;
+update tymy set cas_prvniho_kola = '00:12:50', cas_druheho_kola = '00:19:12', penalizace_prvni_kolo = 2 WHERE startovni_cislo = 3 AND zavod_id = 1;
+update tymy set cas_prvniho_kola = '00:11:50', cas_druheho_kola = '00:11:12', penalizace_prvni_kolo = 1 WHERE startovni_cislo = 4 AND zavod_id = 1;
+update tymy set cas_prvniho_kola = '00:12:40', cas_druheho_kola = '00:04:12', penalizace_prvni_kolo = 2 WHERE startovni_cislo = 10 AND zavod_id = 1;
+update tymy set cas_prvniho_kola = '00:12:50', cas_druheho_kola = '00:11:12', penalizace_prvni_kolo = 0 WHERE startovni_cislo = 11 AND zavod_id = 1;
+update tymy set cas_prvniho_kola = '00:11:50', cas_druheho_kola = '00:11:12', penalizace_prvni_kolo = 0 WHERE startovni_cislo = 12 AND zavod_id = 1;
