@@ -10,3 +10,6 @@ update tymy set cas_prvniho_kola = '00:11:50', cas_druheho_kola = '00:11:12', pe
 update tymy set cas_prvniho_kola = '00:12:40', cas_druheho_kola = '00:04:12', penalizace_prvni_kolo = 2 WHERE startovni_cislo = 10 AND zavod_id = 1;
 update tymy set cas_prvniho_kola = '00:12:50', cas_druheho_kola = '00:11:12', penalizace_prvni_kolo = 0 WHERE startovni_cislo = 11 AND zavod_id = 1;
 update tymy set cas_prvniho_kola = '00:11:50', cas_druheho_kola = '00:11:12', penalizace_prvni_kolo = 0 WHERE startovni_cislo = 12 AND zavod_id = 1;
+update tymy set cas_prvniho_kola = '00:12:40', cas_druheho_kola = '00:04:12', penalizace_prvni_kolo = 2 WHERE startovni_cislo = 13 AND zavod_id = 1;
+update tymy set cas_prvniho_kola = '00:12:50', cas_druheho_kola = '00:01:12', penalizace_prvni_kolo = 0 WHERE startovni_cislo = 14 AND zavod_id = 1;
+update tymy set cas_prvniho_kola = '00:11:50', cas_druheho_kola = '00:21:12', penalizace_prvni_kolo = 6 WHERE startovni_cislo = 15 AND zavod_id = 1;
