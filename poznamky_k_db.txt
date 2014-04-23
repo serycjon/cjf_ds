@@ -7,7 +7,11 @@ heslo: cjf_kone_db
 3] funkce na generovani startovnich cisel
 4] on update, on delete
 5] vkladat kone(osoby) najednou a kontrolovat pocet
-6] EXPLAIN , (DISTINCT) - 5b prozkoumat jak selecty dlouho trvaji
+6] EXPLAIN (EXPLAIN ANALYZE), (DISTINCT) - 5b prozkoumat jak selecty dlouho trvaji
+7]transakce (jeste nevime kde). Begin...Comit. 
+8] pridavani lidi - udelat napovedu
+9] pohledy (vysledky zavodu by mohlo byt view) - nad pohledem se neda udelat index, 
+k pohledu neni dobre delat join
 
 smazani vseho obsahu
 SELECT 'TRUNCATE TABLE ' ||  tablename || ' CASCADE;' FROM pg_tables WHERE schemaname = 'public';
@@ -61,6 +65,11 @@ PACKAGE.PACKID = SOFTWARE.PACKID
       select tymy_tym_id, COUNT(DISTINCT kone_kun_id) from tymy_has_kone group by tymy_tym_id; 
 --pohled
 --ALTER
+
+
+FORMULAR JAK? pzn
+uzivatel prochazi blokama
+
 
 
     CREATE SCHEMA verze1
