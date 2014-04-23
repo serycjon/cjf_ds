@@ -1,0 +1,1 @@
+SELECT nazev,cas_prvniho_kola+cas_druheho_kola+(penalizace_prvni_kolo+penalizace_druhe_kolo)*'00:00:01'::interval AS cas FROM tymy ORDER BY cas ASC;
