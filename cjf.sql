@@ -110,26 +110,6 @@ BEGIN
 END;
 $$ LANGUAGE 'plpgsql' STRICT;
 
-CREATE OR REPLACE FUNCTION check_pocet_koni() RETURNS TRIGGER AS '
-	DECLARE
-		pocet_povoleny INTEGER;
-		pocet_realny INTEGER;
-		check_tym_id INTEGER;
-	BEGIN
-	check_tym_id := TG_ARGV[0];
-	SELECT pocet_koni INTO pocet_povoleny FROM kategorie INNER JOIN tymy ON kategorie.kategorie_id = tymy.kategorie_id
-		WHERE tymy.tym_id = check_tym_id;
-	SELECT COUNT(DISTINCT kone_kun_id) INTO pocet_realny FROM tymy_has_kone GROUP BY tymy_tym_id
-		HAVING tymy_tym_id = check_tym_id;
-
-	IF NOT pocet_povoleny=pocet_realny THEN
-		RAISE EXCEPTION ''Spatny pocet koni !!!'';
-	END IF;
-	RETURN NULL;
-	END
-	'
-	LANGUAGE plpgsql;
-
 CREATE OR REPLACE FUNCTION check_pocty() RETURNS TRIGGER AS '
 	DECLARE
 		pocet_koni_povoleny INTEGER;
@@ -138,6 +118,8 @@ CREATE OR REPLACE FUNCTION check_pocty() RETURNS TRIGGER AS '
 		pocet_jezdcu INTEGER;
 		pocet_lidi_realny INTEGER;
 		check_tym_id INTEGER;
+		pocet_koni_dist INTEGER;
+		pocet_lidi_dist INTEGER;
 	BEGIN
 	
 	IF OLD.zavod_id IS NOT NULL OR NEW.zavod_id IS NULL THEN
@@ -149,11 +131,15 @@ CREATE OR REPLACE FUNCTION check_pocty() RETURNS TRIGGER AS '
 		WHERE tymy.tym_id = check_tym_id;
 	SELECT COUNT(kone_kun_id) INTO pocet_koni_realny FROM tymy_has_kone GROUP BY tymy_tym_id
 		HAVING tymy_tym_id = check_tym_id;
+	SELECT COUNT(DISTINCT kone_kun_id) INTO pocet_koni_dist FROM tymy_has_kone GROUP BY tymy_tym_id
+		HAVING tymy_tym_id = check_tym_id;
 
 	SELECT COUNT(osoby_osoba_id) INTO pocet_lidi_realny FROM tymy_has_osoby WHERE NOT je_jezdec GROUP BY tymy_tym_id
 		HAVING tymy_tym_id = check_tym_id;
 	SELECT COUNT(osoby_osoba_id) INTO pocet_jezdcu FROM tymy_has_osoby WHERE je_jezdec GROUP BY tymy_tym_id 
 		HAVING tymy_tym_id = check_tym_id; 
+	SELECT COUNT(DISTINCT osoby_osoba_id) INTO pocet_lidi_dist FROM tymy_has_osoby GROUP BY tymy_tym_id
+		HAVING tymy_tym_id = check_tym_id;
 
 	IF NOT pocet_koni_povoleny=pocet_koni_realny THEN
 		RAISE EXCEPTION ''Spatny pocet koni!'';
@@ -161,6 +147,10 @@ CREATE OR REPLACE FUNCTION check_pocty() RETURNS TRIGGER AS '
 		RAISE EXCEPTION ''Spatny pocet prisedicich!'';
 	ELSEIF NOT pocet_jezdcu = 1 THEN
 		RAISE EXCEPTION ''Spatny pocet jezdcu!'';
+	ELSEIF NOT pocet_lidi_dist = pocet_lidi_realny+1 THEN
+		RAISE EXCEPTION ''Duplikovane osoby!''
+	ELSEIF NOT pocet_koni_dist = pocet_koni_realny THEN
+		RAISE EXCEPTION ''Duplikovani kone!''
 	END IF;
 	RETURN NEW;
 	END
@@ -171,3 +161,16 @@ CREATE TRIGGER trig_pocty
    BEFORE UPDATE ON tymy
    FOR EACH ROW
    EXECUTE PROCEDURE check_pocty();
+
+-- zatim nic nedela
+CREATE OR REPLACE FUNCTION check_pocty_konu_after() RETURNS TRIGGER AS '
+	BEGIN
+	RETURN NEW;
+	END
+	'
+	LANGUAGE plpgsql;
+
+CREATE TRIGGER trig_pocty_konu_after_reg
+   BEFORE INSERT OR DELETE OR UPDATE ON tymy_has_kone
+   FOR EACH ROW
+   EXECUTE PROCEDURE check_pocty_konu_after();
