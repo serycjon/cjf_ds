@@ -3,9 +3,9 @@ p 5435
 heslo: cjf_kone_db
 
 1] Poladit startovaci cislo tymu
-2] unikátní jména 
+2] --unikátní jména 
 3] funkce na generovani startovnich cisel
-4] on update, on delete
+4] --on update, on delete
 5] vkladat kone(osoby) najednou a kontrolovat pocet
 6] EXPLAIN (EXPLAIN ANALYZE), (DISTINCT) - 5b prozkoumat jak selecty dlouho trvaji
 7]transakce (jeste nevime kde). Begin...Comit. 
