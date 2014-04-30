@@ -122,7 +122,10 @@ CREATE OR REPLACE FUNCTION check_pocty() RETURNS TRIGGER AS '
 		pocet_lidi_dist INTEGER;
 	BEGIN
 	
-	IF OLD.zavod_id IS NOT NULL OR NEW.zavod_id IS NULL THEN
+	IF (TG_OP = ''INSERT'') AND NEW.zavod_id IS NOT NULL THEN
+		RAISE EXCEPTION ''Tym lze priradit k zavodu az po jeho naplneni!'';
+	END IF;
+	IF NEW.zavod_id IS NULL THEN
 		RETURN NEW;
 	END IF;
 	check_tym_id := NEW.tym_id;
@@ -148,9 +151,9 @@ CREATE OR REPLACE FUNCTION check_pocty() RETURNS TRIGGER AS '
 	ELSEIF NOT pocet_jezdcu = 1 THEN
 		RAISE EXCEPTION ''Spatny pocet jezdcu!'';
 	ELSEIF NOT pocet_lidi_dist = pocet_lidi_realny+1 THEN
-		RAISE EXCEPTION ''Duplikovane osoby!''
+		RAISE EXCEPTION ''Duplikovane osoby!'';
 	ELSEIF NOT pocet_koni_dist = pocet_koni_realny THEN
-		RAISE EXCEPTION ''Duplikovani kone!''
+		RAISE EXCEPTION ''Duplikovani kone!'';
 	END IF;
 	RETURN NEW;
 	END
@@ -158,19 +161,36 @@ CREATE OR REPLACE FUNCTION check_pocty() RETURNS TRIGGER AS '
 	LANGUAGE plpgsql;
 
 CREATE TRIGGER trig_pocty
-   BEFORE UPDATE ON tymy
+   BEFORE UPDATE OR INSERT ON tymy
    FOR EACH ROW
    EXECUTE PROCEDURE check_pocty();
 
--- zatim nic nedela
-CREATE OR REPLACE FUNCTION check_pocty_konu_after() RETURNS TRIGGER AS '
+CREATE OR REPLACE FUNCTION check_after_reg() RETURNS TRIGGER AS '
+	DECLARE
+		nalezeny INTEGER;
+		id_to_find INTEGER;
 	BEGIN
+	IF (TG_OP = ''DELETE'') THEN
+		id_to_find := OLD.tymy_tym_id;
+	ELSE
+		id_to_find := NEW.tymy_tym_id;
+	END IF;
+
+	SELECT zavod_id INTO nalezeny FROM tymy WHERE tym_id = id_to_find;
+	IF nalezeny IS NOT NULL THEN
+		RAISE EXCEPTION ''Po registraci nelze slozeni tymu menit!'';
+	END IF;
 	RETURN NEW;
 	END
 	'
 	LANGUAGE plpgsql;
 
-CREATE TRIGGER trig_pocty_konu_after_reg
+CREATE TRIGGER trig_kone_after_reg
    BEFORE INSERT OR DELETE OR UPDATE ON tymy_has_kone
    FOR EACH ROW
-   EXECUTE PROCEDURE check_pocty_konu_after();
+   EXECUTE PROCEDURE check_after_reg();
+
+CREATE TRIGGER trig_osoby_after_reg
+   BEFORE INSERT OR DELETE OR UPDATE ON tymy_has_osoby
+   FOR EACH ROW
+   EXECUTE PROCEDURE check_after_reg();
