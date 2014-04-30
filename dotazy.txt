@@ -1,1 +1,8 @@
+vysledky
 SELECT nazev,cas_prvniho_kola+cas_druheho_kola+(penalizace_prvni_kolo+penalizace_druhe_kolo)*'00:00:01'::interval AS cas FROM tymy ORDER BY cas ASC;
+
+pekloselect
+select *, osoba_id = 2 from osoby where osoba_id IN (2,6) union select *, osoba_id = 4 from osoby where osoba_id IN (4,7);
+
+povolene pocty koni a lidi pro dany tym
+select pocet_koni, pocet_prisedicich from kategorie INNER JOIN tymy ON kategorie.kategorie_id = tymy.kategorie_id where tymy.tym_id = 5;
