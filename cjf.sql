@@ -98,6 +98,9 @@ CREATE TABLE "osoby_has_staje" (
 );
 
 
+-- gets random number in range...
+-- from http://www.if-not-true-then-false.com/2010/postgresql-select-a-random-number-in-a-range-between-two-numbers/
+--
 CREATE OR REPLACE FUNCTION get_random_number(INTEGER, INTEGER) RETURNS INTEGER AS $$
 DECLARE
     start_int ALIAS FOR $1;
