@@ -109,3 +109,23 @@ BEGIN
     RETURN trunc(random() * (end_int-start_int) + start_int);
 END;
 $$ LANGUAGE 'plpgsql' STRICT;
+
+CREATE OR REPLACE FUNCTION check_pocet_koni() RETURNS TRIGGER AS '
+	DECLARE
+		pocet_povoleny INTEGER;
+		pocet_realny INTEGER;
+		check_tym_id INTEGER;
+	BEGIN
+	check_tym_id := TG_ARGV[0];
+	SELECT pocet_koni INTO pocet_povoleny FROM kategorie INNER JOIN tymy ON kategorie.kategorie_id = tymy.kategorie_id
+		WHERE tymy.tym_id = check_tym_id;
+	SELECT COUNT(DISTINCT kone_kun_id) INTO pocet_realny FROM tymy_has_kone GROUP BY tymy_tym_id
+		HAVING tymy_tym_id = check_tym_id;
+
+	IF NOT pocet_povoleny=pocet_realny THEN
+		RAISE EXCEPTION ''Spatny pocet koni !!!'';
+	END IF;
+	RETURN NULL;
+	END
+	'
+	LANGUAGE plpgsql;
