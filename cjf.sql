@@ -129,3 +129,44 @@ CREATE OR REPLACE FUNCTION check_pocet_koni() RETURNS TRIGGER AS '
 	END
 	'
 	LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION check_pocty() RETURNS TRIGGER AS '
+	DECLARE
+		pocet_koni_povoleny INTEGER;
+		pocet_lidi_povoleny INTEGER;
+		pocet_koni_realny INTEGER;
+		pocet_jezdcu INTEGER;
+		pocet_lidi_realny INTEGER;
+		check_tym_id INTEGER;
+	BEGIN
+	
+	IF OLD.zavod_id IS NOT NULL OR NEW.zavod_id IS NULL THEN
+		RETURN NEW;
+	END IF;
+	check_tym_id := NEW.tym_id;
+	SELECT pocet_koni, pocet_prisedicich INTO pocet_koni_povoleny, pocet_lidi_povoleny FROM kategorie
+		INNER JOIN tymy ON kategorie.kategorie_id = tymy.kategorie_id
+		WHERE tymy.tym_id = check_tym_id;
+	SELECT COUNT(kone_kun_id) INTO pocet_koni_realny FROM tymy_has_kone GROUP BY tymy_tym_id
+		HAVING tymy_tym_id = check_tym_id;
+
+	SELECT COUNT(osoby_osoba_id) INTO pocet_lidi_realny FROM tymy_has_osoby WHERE NOT je_jezdec GROUP BY tymy_tym_id
+		HAVING tymy_tym_id = check_tym_id;
+	SELECT COUNT(osoby_osoba_id) INTO pocet_jezdcu FROM tymy_has_osoby WHERE je_jezdec GROUP BY tymy_tym_id 
+		HAVING tymy_tym_id = check_tym_id; 
+
+	IF NOT pocet_koni_povoleny=pocet_koni_realny OR
+		NOT pocet_lidi_povolny=pocet_lidi_realny OR
+		NOT pocet_jezdcu = 1
+		THEN
+		RAISE EXCEPTION ''Spatny pocet koni !!!'';
+	END IF;
+	RETURN NEW;
+	END
+	'
+	LANGUAGE plpgsql;
+
+CREATE TRIGGER trig_pocty
+   BEFORE UPDATE ON tymy
+   FOR EACH ROW
+   EXECUTE PROCEDURE check_pocty();
