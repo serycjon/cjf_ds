@@ -22,9 +22,7 @@ SELECT 'drop sequence ' || c.relname || ' CASCADE;' FROM pg_class c WHERE (c.rel
 a pak okopirovat vystup a spustit...
 
 smazani vsech tabulek
-select 'drop table if exists "' || tablename || '" cascade;' 
-  from pg_tables
- where schemaname = 'public';
+select 'drop table if exists "' || tablename || '" cascade;' from pg_tables where schemaname = 'public';
 a pak okopirovat vystup a spustit...
 
 INSERT INTO tab VALUES ('a', 'b')
