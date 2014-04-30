@@ -42,9 +42,10 @@ COMMIT;
 
 -------------------------------------------------------------------------
 
-INSERT INTO tymy (nazev, zavod_id, kategorie_id)
-	SELECT 'BetaSamci', zavod_id, kategorie_id FROM zavod, kategorie
-	WHERE zavod.misto_konani = 'pole' AND kategorie.nazev = 'dvojspřeží';
+BEGIN;
+INSERT INTO tymy (nazev, kategorie_id)
+	SELECT 'BetaSamci', kategorie_id FROM kategorie
+	WHERE kategorie.nazev = 'dvojspřeží';
 
 INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
 	SELECT * FROM (SELECT tym_id, osoba_id, true FROM tymy, osoby
@@ -59,12 +60,15 @@ INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
 	UNION
 	SELECT * FROM (SELECT tym_id, kun_id FROM tymy, kone
 	WHERE tymy.nazev = 'BetaSamci' AND kone.jmeno = 'Apollo' LIMIT 1) as kun2;
+UPDATE tymy SET zavod_id = 1 WHERE nazev = 'BetaSamci';
+COMMIT;
 	
 --------------------------------------------------------------------------
 
-INSERT INTO tymy (nazev, zavod_id, kategorie_id)
-	SELECT 'Borci', zavod_id, kategorie_id FROM zavod, kategorie
-	WHERE zavod.misto_konani = 'pole' AND kategorie.nazev = 'jednospřeží';
+BEGIN;
+INSERT INTO tymy (nazev, kategorie_id)
+	SELECT 'Borci', kategorie_id FROM kategorie
+	WHERE kategorie.nazev = 'jednospřeží';
 
 INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
 	SELECT tym_id, osoba_id, true FROM tymy, osoby
@@ -77,6 +81,8 @@ INSERT INTO tymy_has_osoby (tymy_tym_id, osoby_osoba_id, je_jezdec)
 INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
 	SELECT tym_id, kun_id FROM tymy, kone
 	WHERE tymy.nazev = 'Borci' AND kone.jmeno = 'Fantom' LIMIT 1;
+UPDATE tymy SET zavod_id = 1 WHERE nazev = 'Borci';
+COMMIT;
 	
 --------------------------------------------------------------------------
 INSERT INTO tymy (nazev, zavod_id, kategorie_id)
