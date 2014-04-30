@@ -28,7 +28,7 @@ CREATE TABLE "tymy" (
 	"penalizace_prvni_kolo" int4 NOT NULL DEFAULT 0 CHECK (penalizace_prvni_kolo >= 0),
 	"penalizace_druhe_kolo" int4 NOT NULL DEFAULT 0 CHECK (penalizace_druhe_kolo >= 0),
 	"dojel" bool NOT NULL DEFAULT False,
-	"zavod_id" int4 NOT NULL,
+	"zavod_id" int4 DEFAULT NULL,
 	"kategorie_id" int4 NOT NULL,
 	PRIMARY KEY("tym_id"),
 	FOREIGN KEY ("zavod_id") REFERENCES "zavod"("zavod_id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -155,11 +155,12 @@ CREATE OR REPLACE FUNCTION check_pocty() RETURNS TRIGGER AS '
 	SELECT COUNT(osoby_osoba_id) INTO pocet_jezdcu FROM tymy_has_osoby WHERE je_jezdec GROUP BY tymy_tym_id 
 		HAVING tymy_tym_id = check_tym_id; 
 
-	IF NOT pocet_koni_povoleny=pocet_koni_realny OR
-		NOT pocet_lidi_povolny=pocet_lidi_realny OR
-		NOT pocet_jezdcu = 1
-		THEN
-		RAISE EXCEPTION ''Spatny pocet koni !!!'';
+	IF NOT pocet_koni_povoleny=pocet_koni_realny THEN
+		RAISE EXCEPTION ''Spatny pocet koni!'';
+	ELSEIF NOT pocet_lidi_povoleny=pocet_lidi_realny THEN
+		RAISE EXCEPTION ''Spatny pocet prisedicich!'';
+	ELSEIF NOT pocet_jezdcu = 1 THEN
+		RAISE EXCEPTION ''Spatny pocet jezdcu!'';
 	END IF;
 	RETURN NEW;
 	END
