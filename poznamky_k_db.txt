@@ -40,27 +40,7 @@ dotazy:
      INNER JOIN zavod ON zavod_has_kategorie.zavod_zavod_id=zavod.zavod_id
      WHERE zavod.misto_konani ='pole' ;
 
-   Integritní omezení III
-CREATE ASSERTION
-A1
-CHECK
-( NOT EXISTS
-( SELECT *
-FROM
-PACKAGE
-WHERE
-PACKCOST <
-( SELECT MAX (
-SOFTCOST
-)
-FROM
-SOFTWARE
-WHERE
-PACKAGE.PACKID = SOFTWARE.PACKID
-) ) ) 
 
-
-      select tymy_tym_id, COUNT(DISTINCT kone_kun_id) from tymy_has_kone group by tymy_tym_id; 
 --pohled
 --ALTER
 
@@ -71,9 +51,3 @@ uzivatel prochazi blokama
 
 
     CREATE SCHEMA verze1
-
-1] opravit serial ->sequence   DONE
-2] smazat primarni klice       DONE
-3] defaulni nastaveni hodnot   DONE
-4] proykoumat datove typy      DONE
-   
