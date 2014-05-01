@@ -17,12 +17,11 @@ CREATE TABLE "kategorie" (
 );
 
 CREATE SEQUENCE seq_tymy;
-CREATE SEQUENCE seq_startovni_cislo;
+CREATE SEQUENCE seq_startovni_cislo; --nebude potreba
 CREATE TABLE "tymy" (
 	"tym_id" int NOT NULL UNIQUE DEFAULT nextval('seq_tymy'),
 	"nazev" varchar(50) NOT NULL,
-	"startovni_cislo" int NOT NULL UNIQUE DEFAULT nextval('seq_startovni_cislo'), -- chceme udelat jakoby novou sekvenci pro kazdy zavod
-										      -- jeste jsme nevymysleli, jak na to
+	"startovni_cislo" int DEFAULT NULL, --nextval('seq_startovni_cislo'), 
 	"cas_prvniho_kola" interval(0) NOT NULL DEFAULT '0',
 	"cas_druheho_kola" interval(0) NOT NULL DEFAULT '0',
 	"penalizace_prvni_kolo" int4 NOT NULL DEFAULT 0 CHECK (penalizace_prvni_kolo >= 0),
@@ -194,3 +193,10 @@ CREATE TRIGGER trig_osoby_after_reg
    BEFORE INSERT OR DELETE OR UPDATE ON tymy_has_osoby
    FOR EACH ROW
    EXECUTE PROCEDURE check_after_reg();
+
+CREATE OR REPLACE FUNCTION prirad_startovni_cisla() RETURNS boolean AS '
+	BEGIN
+		RETURN TRUE;
+	END
+	'
+	LANGUAGE plpgsql;
