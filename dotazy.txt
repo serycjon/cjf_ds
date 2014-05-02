@@ -9,3 +9,6 @@ select pocet_koni, pocet_prisedicich from kategorie INNER JOIN tymy ON kategorie
 
 realne pocty koni
 select tymy_tym_id, COUNT(DISTINCT kone_kun_id) from tymy_has_kone group by tymy_tym_id; 
+
+vygenerovani startovnich cisel
+select prirad_startovni_cisla(1); -- misto jednicky zavod_id, ve kterem chcem prirazovat

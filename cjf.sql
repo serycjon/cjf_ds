@@ -194,8 +194,22 @@ CREATE TRIGGER trig_osoby_after_reg
    FOR EACH ROW
    EXECUTE PROCEDURE check_after_reg();
 
-CREATE OR REPLACE FUNCTION prirad_startovni_cisla() RETURNS boolean AS '
+CREATE OR REPLACE FUNCTION prirad_startovni_cisla(zavod INTEGER) RETURNS boolean AS '
+	DECLARE
+		i RECORD;
+		update_count INTEGER;
 	BEGIN
+		ALTER SEQUENCE seq_startovni_cislo RESTART 1;
+		-- zda dojde ke konfliktum, pokud by ve stejnou chvili generovalo vice lidi
+		-- ignorujeme to, jakozto zcela nepravdepodobnou situaci :)
+		FOR i IN SELECT tym_id FROM tymy WHERE zavod_id = zavod ORDER BY random() LOOP
+			RAISE DEBUG ''updating id %'', i.tym_id;
+			UPDATE tymy SET startovni_cislo = nextval(''seq_startovni_cislo'') WHERE tym_id = i.tym_id;
+			GET DIAGNOSTICS update_count = ROW_COUNT;
+			IF update_count < 1 THEN
+				RETURN FALSE;
+			END IF;
+		END LOOP;
 		RETURN TRUE;
 	END
 	'
