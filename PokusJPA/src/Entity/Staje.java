@@ -26,16 +26,16 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "staje")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Staje.findAll", query = "SELECT s FROM Staje s"),
-    @NamedQuery(name = "Staje.findByStajId", query = "SELECT s FROM Staje s WHERE s.stajId = :stajId"),
-    @NamedQuery(name = "Staje.findByJmeno", query = "SELECT s FROM Staje s WHERE s.jmeno = :jmeno"),
-    @NamedQuery(name = "Staje.findByMesto", query = "SELECT s FROM Staje s WHERE s.mesto = :mesto")})
+//@XmlRootElement
+//@NamedQueries({
+//    @NamedQuery(name = "Staje.findAll", query = "SELECT s FROM Staje s"),
+//    @NamedQuery(name = "Staje.findByStajId", query = "SELECT s FROM Staje s WHERE s.stajId = :stajId"),
+//    @NamedQuery(name = "Staje.findByJmeno", query = "SELECT s FROM Staje s WHERE s.jmeno = :jmeno"),
+//    @NamedQuery(name = "Staje.findByMesto", query = "SELECT s FROM Staje s WHERE s.mesto = :mesto")})
 public class Staje implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)
     @Column(name = "staj_id")
     private Integer stajId;

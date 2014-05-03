@@ -27,14 +27,19 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "kone")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Kone.findAll", query = "SELECT k FROM Kone k"),
-    @NamedQuery(name = "Kone.findByKunId", query = "SELECT k FROM Kone k WHERE k.kunId = :kunId"),
-    @NamedQuery(name = "Kone.findByJmeno", query = "SELECT k FROM Kone k WHERE k.jmeno = :jmeno"),
-    @NamedQuery(name = "Kone.findByPlemeno", query = "SELECT k FROM Kone k WHERE k.plemeno = :plemeno"),
-    @NamedQuery(name = "Kone.findByMajitel", query = "SELECT k FROM Kone k WHERE k.majitel = :majitel")})
+//@XmlRootElement
+//@NamedQueries({
+//    @NamedQuery(name = "Kone.findAll", query = "SELECT k FROM Kone k"),
+//    @NamedQuery(name = "Kone.findByKunId", query = "SELECT k FROM Kone k WHERE k.kunId = :kunId"),
+//    @NamedQuery(name = "Kone.findByJmeno", query = "SELECT k FROM Kone k WHERE k.jmeno = :jmeno"),
+//    @NamedQuery(name = "Kone.findByPlemeno", query = "SELECT k FROM Kone k WHERE k.plemeno = :plemeno"),
+//    @NamedQuery(name = "Kone.findByMajitel", query = "SELECT k FROM Kone k WHERE k.majitel = :majitel")})
 public class Kone implements Serializable {
+    @JoinTable(name = "tymy_has_kone", joinColumns = {
+        @JoinColumn(name = "kone_kun_id", referencedColumnName = "kun_id")}, inverseJoinColumns = {
+        @JoinColumn(name = "tymy_tym_id", referencedColumnName = "tym_id")})
+    @ManyToMany
+    private Collection<Tymy> tymyCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,11 +55,11 @@ public class Kone implements Serializable {
     @Basic(optional = false)
     @Column(name = "majitel")
     private String majitel;
-    @JoinTable(name = "tymy_has_kone", joinColumns = {
-        @JoinColumn(name = "kone_kun_id", referencedColumnName = "kun_id")}, inverseJoinColumns = {
-        @JoinColumn(name = "tymy_tym_id", referencedColumnName = "tym_id")})
-    @ManyToMany
-    private Collection<Tymy> tymyCollection;
+//    @JoinTable(name = "tymy_has_kone", joinColumns = {
+//        @JoinColumn(name = "kone_kun_id", referencedColumnName = "kun_id")}, inverseJoinColumns = {
+//        @JoinColumn(name = "tymy_tym_id", referencedColumnName = "tym_id")})
+//    @ManyToMany
+//    private Collection<Tymy> tymyCollection;
 
     public Kone() {
     }
@@ -102,14 +107,14 @@ public class Kone implements Serializable {
         this.majitel = majitel;
     }
 
-    @XmlTransient
-    public Collection<Tymy> getTymyCollection() {
-        return tymyCollection;
-    }
-
-    public void setTymyCollection(Collection<Tymy> tymyCollection) {
-        this.tymyCollection = tymyCollection;
-    }
+//    @XmlTransient
+//    public Collection<Tymy> getTymyCollection() {
+//        return tymyCollection;
+//    }
+//
+//    public void setTymyCollection(Collection<Tymy> tymyCollection) {
+//        this.tymyCollection = tymyCollection;
+//    }
 
     @Override
     public int hashCode() {
@@ -134,6 +139,15 @@ public class Kone implements Serializable {
     @Override
     public String toString() {
         return "Entity.Kone[ kunId=" + kunId + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Tymy> getTymyCollection() {
+        return tymyCollection;
+    }
+
+    public void setTymyCollection(Collection<Tymy> tymyCollection) {
+        this.tymyCollection = tymyCollection;
     }
     
 }

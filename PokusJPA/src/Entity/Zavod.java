@@ -29,14 +29,18 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "zavod")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Zavod.findAll", query = "SELECT z FROM Zavod z"),
-    @NamedQuery(name = "Zavod.findByZavodId", query = "SELECT z FROM Zavod z WHERE z.zavodId = :zavodId"),
-    @NamedQuery(name = "Zavod.findByNazev", query = "SELECT z FROM Zavod z WHERE z.nazev = :nazev"),
-    @NamedQuery(name = "Zavod.findByDatum", query = "SELECT z FROM Zavod z WHERE z.datum = :datum"),
-    @NamedQuery(name = "Zavod.findByMistoKonani", query = "SELECT z FROM Zavod z WHERE z.mistoKonani = :mistoKonani")})
+//@XmlRootElement
+//@NamedQueries({
+//    @NamedQuery(name = "Zavod.findAll", query = "SELECT z FROM Zavod z"),
+//    @NamedQuery(name = "Zavod.findByZavodId", query = "SELECT z FROM Zavod z WHERE z.zavodId = :zavodId"),
+//    @NamedQuery(name = "Zavod.findByNazev", query = "SELECT z FROM Zavod z WHERE z.nazev = :nazev"),
+//    @NamedQuery(name = "Zavod.findByDatum", query = "SELECT z FROM Zavod z WHERE z.datum = :datum"),
+//    @NamedQuery(name = "Zavod.findByMistoKonani", query = "SELECT z FROM Zavod z WHERE z.mistoKonani = :mistoKonani")})
 public class Zavod implements Serializable {
+    @ManyToMany(mappedBy = "zavodCollection")
+    private Collection<Kategorie> kategorieCollection;
+    @OneToMany(mappedBy = "zavodId")
+    private Collection<Tymy> tymyCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,10 +57,10 @@ public class Zavod implements Serializable {
     @Basic(optional = false)
     @Column(name = "misto_konani")
     private String mistoKonani;
-    @ManyToMany(mappedBy = "zavodCollection")
-    private Collection<Kategorie> kategorieCollection;
-    @OneToMany(mappedBy = "zavodId")
-    private Collection<Tymy> tymyCollection;
+//    @ManyToMany(mappedBy = "zavodCollection")
+//    private Collection<Kategorie> kategorieCollection;
+//    @OneToMany(mappedBy = "zavodId")
+//    private Collection<Tymy> tymyCollection;
 
     public Zavod() {
     }
@@ -104,23 +108,23 @@ public class Zavod implements Serializable {
         this.mistoKonani = mistoKonani;
     }
 
-    @XmlTransient
-    public Collection<Kategorie> getKategorieCollection() {
-        return kategorieCollection;
-    }
-
-    public void setKategorieCollection(Collection<Kategorie> kategorieCollection) {
-        this.kategorieCollection = kategorieCollection;
-    }
-
-    @XmlTransient
-    public Collection<Tymy> getTymyCollection() {
-        return tymyCollection;
-    }
-
-    public void setTymyCollection(Collection<Tymy> tymyCollection) {
-        this.tymyCollection = tymyCollection;
-    }
+//    @XmlTransient
+//    public Collection<Kategorie> getKategorieCollection() {
+//        return kategorieCollection;
+//    }
+//
+//    public void setKategorieCollection(Collection<Kategorie> kategorieCollection) {
+//        this.kategorieCollection = kategorieCollection;
+//    }
+//
+//    @XmlTransient
+//    public Collection<Tymy> getTymyCollection() {
+//        return tymyCollection;
+//    }
+//
+//    public void setTymyCollection(Collection<Tymy> tymyCollection) {
+//        this.tymyCollection = tymyCollection;
+//    }
 
     @Override
     public int hashCode() {
@@ -145,6 +149,24 @@ public class Zavod implements Serializable {
     @Override
     public String toString() {
         return "Entity.Zavod[ zavodId=" + zavodId + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Kategorie> getKategorieCollection() {
+        return kategorieCollection;
+    }
+
+    public void setKategorieCollection(Collection<Kategorie> kategorieCollection) {
+        this.kategorieCollection = kategorieCollection;
+    }
+
+    @XmlTransient
+    public Collection<Tymy> getTymyCollection() {
+        return tymyCollection;
+    }
+
+    public void setTymyCollection(Collection<Tymy> tymyCollection) {
+        this.tymyCollection = tymyCollection;
     }
     
 }

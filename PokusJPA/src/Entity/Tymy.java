@@ -23,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.postgresql.util.PGInterval;
 
 /**
  *
@@ -40,6 +41,24 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Tymy.findByPenalizaceDruheKolo", query = "SELECT t FROM Tymy t WHERE t.penalizaceDruheKolo = :penalizaceDruheKolo"),
     @NamedQuery(name = "Tymy.findByDojel", query = "SELECT t FROM Tymy t WHERE t.dojel = :dojel")})
 public class Tymy implements Serializable {
+    @Basic(optional = false)
+    @Lob
+    @Column(name = "cas_prvniho_kola")
+    private Object casPrvnihoKola;
+    @Basic(optional = false)
+    @Lob
+    @Column(name = "cas_druheho_kola")
+    private Object casDruhehoKola;
+    @Column(name = "startovni_cislo")
+    private Integer startovniCislo;
+    @ManyToMany(mappedBy = "tymyCollection")
+    private Collection<Kone> koneCollection;
+    @JoinColumn(name = "zavod_id", referencedColumnName = "zavod_id")
+    @ManyToOne
+    private Zavod zavodId;
+    @JoinColumn(name = "kategorie_id", referencedColumnName = "kategorie_id")
+    @ManyToOne(optional = false)
+    private Kategorie kategorieId;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,17 +69,6 @@ public class Tymy implements Serializable {
     @Column(name = "nazev")
     private String nazev;
     @Basic(optional = false)
-    @Column(name = "startovni_cislo")
-    private int startovniCislo;
-    @Basic(optional = false)
-    @Lob
-    @Column(name = "cas_prvniho_kola")
-    private Object casPrvnihoKola;
-    @Basic(optional = false)
-    @Lob
-    @Column(name = "cas_druheho_kola")
-    private Object casDruhehoKola;
-    @Basic(optional = false)
     @Column(name = "penalizace_prvni_kolo")
     private int penalizacePrvniKolo;
     @Basic(optional = false)
@@ -69,13 +77,13 @@ public class Tymy implements Serializable {
     @Basic(optional = false)
     @Column(name = "dojel")
     private boolean dojel;
-    @ManyToMany(mappedBy = "tymyCollection")
-    private Collection<Kone> koneCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tymy")
-    private Collection<TymyHasOsoby> tymyHasOsobyCollection;
-    @JoinColumn(name = "zavod_id", referencedColumnName = "zavod_id")
-    @ManyToOne
-    private Zavod zavodId;
+//    @ManyToMany(mappedBy = "tymyCollection")
+//    private Collection<Kone> koneCollection;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tymy")
+//    private Collection<TymyHasOsoby> tymyHasOsobyCollection;
+//    @JoinColumn(name = "zavod_id", referencedColumnName = "zavod_id")
+//    @ManyToOne
+//    private Zavod zavodId;
     @JoinColumn(name = "kategorie_id", referencedColumnName = "kategorie_id")
     @ManyToOne(optional = false)
     private Kategorie kategorieId;
@@ -87,7 +95,7 @@ public class Tymy implements Serializable {
         this.tymId = tymId;
     }
 
-    public Tymy(Integer tymId, String nazev, int startovniCislo, Object casPrvnihoKola, Object casDruhehoKola, int penalizacePrvniKolo, int penalizaceDruheKolo, boolean dojel) {
+    public Tymy(Integer tymId, String nazev, int startovniCislo, PGInterval casPrvnihoKola, PGInterval casDruhehoKola, int penalizacePrvniKolo, int penalizaceDruheKolo, boolean dojel) {
         this.tymId = tymId;
         this.nazev = nazev;
         this.startovniCislo = startovniCislo;
@@ -126,7 +134,7 @@ public class Tymy implements Serializable {
         return casPrvnihoKola;
     }
 
-    public void setCasPrvnihoKola(Object casPrvnihoKola) {
+    public void setCasPrvnihoKola(PGInterval casPrvnihoKola) {
         this.casPrvnihoKola = casPrvnihoKola;
     }
 
@@ -134,7 +142,7 @@ public class Tymy implements Serializable {
         return casDruhehoKola;
     }
 
-    public void setCasDruhehoKola(Object casDruhehoKola) {
+    public void setCasDruhehoKola(PGInterval casDruhehoKola) {
         this.casDruhehoKola = casDruhehoKola;
     }
 
@@ -162,39 +170,39 @@ public class Tymy implements Serializable {
         this.dojel = dojel;
     }
 
-    @XmlTransient
-    public Collection<Kone> getKoneCollection() {
-        return koneCollection;
-    }
-
-    public void setKoneCollection(Collection<Kone> koneCollection) {
-        this.koneCollection = koneCollection;
-    }
-
-    @XmlTransient
-    public Collection<TymyHasOsoby> getTymyHasOsobyCollection() {
-        return tymyHasOsobyCollection;
-    }
-
-    public void setTymyHasOsobyCollection(Collection<TymyHasOsoby> tymyHasOsobyCollection) {
-        this.tymyHasOsobyCollection = tymyHasOsobyCollection;
-    }
-
-    public Zavod getZavodId() {
-        return zavodId;
-    }
-
-    public void setZavodId(Zavod zavodId) {
-        this.zavodId = zavodId;
-    }
-
-    public Kategorie getKategorieId() {
-        return kategorieId;
-    }
-
-    public void setKategorieId(Kategorie kategorieId) {
-        this.kategorieId = kategorieId;
-    }
+//    @XmlTransient
+//    public Collection<Kone> getKoneCollection() {
+//        return koneCollection;
+//    }
+//
+//    public void setKoneCollection(Collection<Kone> koneCollection) {
+//        this.koneCollection = koneCollection;
+//    }
+//
+//    @XmlTransient
+//    public Collection<TymyHasOsoby> getTymyHasOsobyCollection() {
+//        return tymyHasOsobyCollection;
+//    }
+//
+//    public void setTymyHasOsobyCollection(Collection<TymyHasOsoby> tymyHasOsobyCollection) {
+//        this.tymyHasOsobyCollection = tymyHasOsobyCollection;
+//    }
+//
+//    public Zavod getZavodId() {
+//        return zavodId;
+//    }
+//
+//    public void setZavodId(Zavod zavodId) {
+//        this.zavodId = zavodId;
+//    }
+//
+//    public Kategorie getKategorieId() {
+//        return kategorieId;
+//    }
+//
+//    public void setKategorieId(Kategorie kategorieId) {
+//        this.kategorieId = kategorieId;
+//    }
 
     @Override
     public int hashCode() {
@@ -219,6 +227,71 @@ public class Tymy implements Serializable {
     @Override
     public String toString() {
         return "Entity.Tymy[ tymId=" + tymId + " ]";
+    }
+
+//    public Integer getStartovniCislo() {
+//        return startovniCislo;
+//    }
+
+    public void setStartovniCislo(Integer startovniCislo) {
+        this.startovniCislo = startovniCislo;
+    }
+
+//    public PGInterval getCasPrvnihoKola() {
+//        return casPrvnihoKola;
+//    }
+//
+//    public void setCasPrvnihoKola(PGInterval casPrvnihoKola) {
+//        this.casPrvnihoKola = casPrvnihoKola;
+//    }
+//
+//    public PGInterval getCasDruhehoKola() {
+//        return casDruhehoKola;
+//    }
+//
+//    public void setCasDruhehoKola(PGInterval casDruhehoKola) {
+//        this.casDruhehoKola = casDruhehoKola;
+//    }
+
+    @XmlTransient
+    public Collection<Kone> getKoneCollection() {
+        return koneCollection;
+    }
+
+    public void setKoneCollection(Collection<Kone> koneCollection) {
+        this.koneCollection = koneCollection;
+    }
+
+    public Zavod getZavodId() {
+        return zavodId;
+    }
+
+    public void setZavodId(Zavod zavodId) {
+        this.zavodId = zavodId;
+    }
+
+    public Kategorie getKategorieId() {
+        return kategorieId;
+    }
+
+    public void setKategorieId(Kategorie kategorieId) {
+        this.kategorieId = kategorieId;
+    }
+
+    public Object getCasPrvnihoKola() {
+        return casPrvnihoKola;
+    }
+
+    public void setCasPrvnihoKola(Object casPrvnihoKola) {
+        this.casPrvnihoKola = casPrvnihoKola;
+    }
+
+    public Object getCasDruhehoKola() {
+        return casDruhehoKola;
+    }
+
+    public void setCasDruhehoKola(Object casDruhehoKola) {
+        this.casDruhehoKola = casDruhehoKola;
     }
     
 }

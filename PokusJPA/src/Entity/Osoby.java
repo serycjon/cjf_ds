@@ -29,13 +29,13 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "osoby")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Osoby.findAll", query = "SELECT o FROM Osoby o"),
-    @NamedQuery(name = "Osoby.findByOsobaId", query = "SELECT o FROM Osoby o WHERE o.osobaId = :osobaId"),
-    @NamedQuery(name = "Osoby.findByJmeno", query = "SELECT o FROM Osoby o WHERE o.jmeno = :jmeno"),
-    @NamedQuery(name = "Osoby.findByPrijmeni", query = "SELECT o FROM Osoby o WHERE o.prijmeni = :prijmeni"),
-    @NamedQuery(name = "Osoby.findByDatumNarozeni", query = "SELECT o FROM Osoby o WHERE o.datumNarozeni = :datumNarozeni")})
+//@XmlRootElement
+//@NamedQueries({
+//    @NamedQuery(name = "Osoby.findAll", query = "SELECT o FROM Osoby o"),
+//    @NamedQuery(name = "Osoby.findByOsobaId", query = "SELECT o FROM Osoby o WHERE o.osobaId = :osobaId"),
+//    @NamedQuery(name = "Osoby.findByJmeno", query = "SELECT o FROM Osoby o WHERE o.jmeno = :jmeno"),
+//    @NamedQuery(name = "Osoby.findByPrijmeni", query = "SELECT o FROM Osoby o WHERE o.prijmeni = :prijmeni"),
+//    @NamedQuery(name = "Osoby.findByDatumNarozeni", query = "SELECT o FROM Osoby o WHERE o.datumNarozeni = :datumNarozeni")})
 public class Osoby implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,8 +53,8 @@ public class Osoby implements Serializable {
     @Column(name = "datum_narozeni")
     @Temporal(TemporalType.DATE)
     private Date datumNarozeni;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "osoby")
-    private Collection<TymyHasOsoby> tymyHasOsobyCollection;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "osoby")
+//    private Collection<TymyHasOsoby> tymyHasOsobyCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "osoby")
     private Collection<OsobyHasStaje> osobyHasStajeCollection;
 
@@ -65,8 +65,8 @@ public class Osoby implements Serializable {
         this.osobaId = osobaId;
     }
 
-    public Osoby(Integer osobaId, String jmeno, String prijmeni, Date datumNarozeni) {
-        this.osobaId = osobaId;
+    public Osoby( String jmeno, String prijmeni, Date datumNarozeni) {
+       // this.osobaId = osobaId;
         this.jmeno = jmeno;
         this.prijmeni = prijmeni;
         this.datumNarozeni = datumNarozeni;
@@ -104,15 +104,15 @@ public class Osoby implements Serializable {
         this.datumNarozeni = datumNarozeni;
     }
 
-    @XmlTransient
-    public Collection<TymyHasOsoby> getTymyHasOsobyCollection() {
-        return tymyHasOsobyCollection;
-    }
-
-    public void setTymyHasOsobyCollection(Collection<TymyHasOsoby> tymyHasOsobyCollection) {
-        this.tymyHasOsobyCollection = tymyHasOsobyCollection;
-    }
-
+//    @XmlTransient
+//    public Collection<TymyHasOsoby> getTymyHasOsobyCollection() {
+//        return tymyHasOsobyCollection;
+//    }
+//
+//    public void setTymyHasOsobyCollection(Collection<TymyHasOsoby> tymyHasOsobyCollection) {
+//        this.tymyHasOsobyCollection = tymyHasOsobyCollection;
+//    }
+//
     @XmlTransient
     public Collection<OsobyHasStaje> getOsobyHasStajeCollection() {
         return osobyHasStajeCollection;
@@ -144,7 +144,7 @@ public class Osoby implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Osoby[ osobaId=" + osobaId + " ]";
+        return "Entity.Osoby[ osobaId=" + osobaId  +" "+ jmeno+" ]";
     }
     
 }
