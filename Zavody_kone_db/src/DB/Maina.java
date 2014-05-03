@@ -66,9 +66,9 @@ public class Maina {
             System.out.println("###########");
             System.out.println(t.getNazev());
             System.out.println("###########");
-            for (Iterator<ZavodHasKategorie> itS = t.getZavodHasKategorie().iterator(); itS.hasNext();) {
-                ZavodHasKategorie store = itS.next();
-                System.out.println(store.getKategorie().getNazev()+"\t\t");
+            for (Iterator<Tym> itS = t.getCollTymy().iterator(); itS.hasNext();) {
+                Tym store = itS.next();
+                System.out.println(store.getNazev()+"\t\t");
             }
             System.out.println("-----------");
         }

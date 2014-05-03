@@ -31,6 +31,8 @@ public class Kategorie implements Serializable {
     private int pocet_koni;
     private int pocet_prisedicich;
 
+    @OneToMany( mappedBy = "kategorieId")
+    private Collection<Tym> collectionTym;
     
     @OneToMany( mappedBy = "kategorie")
   private Collection<ZavodHasKategorie> zavodHasKategorie;
@@ -42,6 +44,14 @@ public class Kategorie implements Serializable {
         kategorie.setPocet_prisedicich(pocet_prisedicich);
         return kategorie;
     }
+
+//    public Collection<Tym> getCollectionTym() {
+//        return collectionTym;
+//    }
+//
+//    public void setCollectionTym(Collection<Tym> collectionTym) {
+//        this.collectionTym = collectionTym;
+//    }
 
     public Collection<ZavodHasKategorie> getZavodHasKategorie() {
         return zavodHasKategorie;

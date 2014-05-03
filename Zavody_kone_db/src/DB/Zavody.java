@@ -26,16 +26,20 @@ public class Zavody implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long zavod_id;
-    @Column(nullable=false, length=20)
+    @Column(nullable=false, length=50)
     private String nazev;
     private Date datum;
     @Column(nullable=false, length=50)
     private String misto_konani;
    
+//     @OneToMany( mappedBy = "zavod")
+//     private Collection<Tym> collectionTymyZavodu;
     
     @OneToMany( mappedBy = "zavody")
   private Collection<ZavodHasKategorie> zavodHasKategoriecol;
     
+     @OneToMany( mappedBy = "zavodId")
+    private Collection<Tym> collTymy;
     
     public static Zavody createZavod(String nazev,Date datum,String misto_konani){
         Zavody zavod = new Zavody();
@@ -44,6 +48,30 @@ public class Zavody implements Serializable {
         zavod.setDatum(datum);
         zavod.setMisto_konani(misto_konani);
         return zavod;
+    }
+
+//    public Collection<Tym> getCollectionTymyZavodu() {
+//        return collectionTymyZavodu;
+//    }
+//
+//    public void setCollectionTymyZavodu(Collection<Tym> collectionTymyZavodu) {
+//        this.collectionTymyZavodu = collectionTymyZavodu;
+//    }
+
+    public Collection<Tym> getCollTymy() {
+        return collTymy;
+    }
+
+    public void setCollTymy(Collection<Tym> collTymy) {
+        this.collTymy = collTymy;
+    }
+
+    public Collection<ZavodHasKategorie> getZavodHasKategoriecol() {
+        return zavodHasKategoriecol;
+    }
+
+    public void setZavodHasKategoriecol(Collection<ZavodHasKategorie> zavodHasKategoriecol) {
+        this.zavodHasKategoriecol = zavodHasKategoriecol;
     }
 
     public Collection<ZavodHasKategorie> getZavodHasKategorie() {

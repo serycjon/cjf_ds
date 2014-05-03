@@ -44,11 +44,11 @@ public class Tymy implements Serializable {
     @Basic(optional = false)
     @Lob
     @Column(name = "cas_prvniho_kola")
-    private Object casPrvnihoKola;
+    private PGInterval casPrvnihoKola;
     @Basic(optional = false)
     @Lob
     @Column(name = "cas_druheho_kola")
-    private Object casDruhehoKola;
+    private PGInterval casDruhehoKola;
     @Column(name = "startovni_cislo")
     private Integer startovniCislo;
     @ManyToMany(mappedBy = "tymyCollection")

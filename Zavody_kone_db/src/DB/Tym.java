@@ -17,8 +17,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.postgresql.util.PGInterval;
 
 /**
  *
@@ -33,15 +35,75 @@ public class Tym implements Serializable {
   @Column(nullable=false, length=50)
   private String nazev;
   private Integer startovni_cislo;
-   @OneToMany(mappedBy="tym")
+//  private  PGInterval cas_prvniho_Kola;
+//  private PGInterval cas_druheho_Kola;
+  private int penalizace_prvni_kolo;
+  private int penalizace_druhe_kolo;
+  private boolean dojel;
+  
+ 
+  @ManyToOne
+  @JoinColumn(name = "kategorie_id", referencedColumnName = "kategorie_id")
+  private Kategorie kategorieId;
+  
+   @ManyToOne
+  @JoinColumn(name = "zavod_id", referencedColumnName = "zavod_id")
+  private Zavody zavodId;
+  
+  @OneToMany(mappedBy="tym")
   private List<TymyHasOsoby> osoby;
- /*@ManyToMany
-  @JoinTable(
-      name="tymy_has_osoby",
-      joinColumns={@JoinColumn(name="tymy_tym_id", referencedColumnName="tym_id")},
-      inverseJoinColumns={@JoinColumn(name="osoby_osoba_id", referencedColumnName="osoba_id")})
-  private List<Osoba> osoby;
-  */
+
+    /*@ManyToMany
+    @JoinTable(
+    name="tymy_has_osoby",
+    joinColumns={@JoinColumn(name="tymy_tym_id", referencedColumnName="tym_id")},
+    inverseJoinColumns={@JoinColumn(name="osoby_osoba_id", referencedColumnName="osoba_id")})
+    private List<Osoba> osoby;
+     */
+  
+    public int getPenalizace_prvni_kolo() {
+        return penalizace_prvni_kolo;
+    }
+
+    public void setPenalizace_prvni_kolo(int penalizace_prvni_kolo) {
+        this.penalizace_prvni_kolo = penalizace_prvni_kolo;
+    }
+
+    public int getPenalizace_druhe_kolo() {
+        return penalizace_druhe_kolo;
+    }
+
+    public void setPenalizace_druhe_kolo(int penalizace_druhe_kolo) {
+        this.penalizace_druhe_kolo = penalizace_druhe_kolo;
+    }
+
+  
+
+   
+
+    public boolean isDojel() {
+        return dojel;
+    }
+
+    public void setDojel(boolean dojel) {
+        this.dojel = dojel;
+    }
+
+//    public Zavody getZavodId() {
+//        return zavodId;
+//    }
+//
+//    public void setZavodId(Zavody zavodId) {
+//        this.zavodId = zavodId;
+//    }
+//
+//    public Kategorie getKategorieId() {
+//        return kategorieId;
+//    }
+//
+//    public void setKategorieId(Kategorie kategorieId) {
+//        this.kategorieId = kategorieId;
+//    }
 
     /**
      * @return the tym_id
