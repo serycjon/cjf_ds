@@ -52,6 +52,9 @@ public class Tym implements Serializable {
   
   @OneToMany(mappedBy="tym")
   private List<TymyHasOsoby> osoby;
+  
+  @OneToMany(mappedBy="tym")
+  private List<TymyHasKone> kone;
 
     /*@ManyToMany
     @JoinTable(

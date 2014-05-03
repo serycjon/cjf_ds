@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -26,6 +28,15 @@ public class TymyHasKone implements Serializable {
     @Id
     private Long kone_kun_id;
 
+    @ManyToOne
+   @PrimaryKeyJoinColumn(name="kone_kun_id", referencedColumnName="kun_id")
+   private Kun kunn; 
+    
+    @ManyToOne
+    @PrimaryKeyJoinColumn(name="tymy_tym_id", referencedColumnName="tym_id")
+    private Tym tym;
+//    
+    
     @Override
     public int hashCode() {
         int hash = 3;

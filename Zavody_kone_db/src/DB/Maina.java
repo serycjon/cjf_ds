@@ -31,9 +31,10 @@ public class Maina {
 //         OsobyHasStaje st = OsobyHasStaje.createOsobyHasStaje(2, 1, Date.valueOf("1992-12-02"),Date.valueOf("1992-12-02"));
 //        Zavod za = Zavod.createZavod("Zavod, kdz je zatazeno", Date.valueOf("2014-03-05"), "doma");
 //        Kategorie kat =Kategorie.createKategorie("VtipneSprezi", 5, 10);
-//         tx.begin();
-//         em.persist(kat);
-//         tx.commit();
+        Kun k = Kun.createKun("lalala", "lelele", "lululu");
+         tx.begin();
+         em.persist(k);
+         tx.commit();
  
         
         

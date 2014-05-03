@@ -5,18 +5,22 @@
 package DB;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author Lada
  */
 @Entity
+@Table(name="kone")
 public class Kun implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,6 +31,10 @@ public class Kun implements Serializable {
      private String plemeno;
      @Column(nullable=false, length=35)
      private String majitel;
+     
+     @OneToMany(mappedBy="kunn")
+     private List<TymyHasKone> tymy;
+     
      
      public static Kun createKun(String jmeno, String plemeno, String majitel){
          Kun kun = new Kun();
