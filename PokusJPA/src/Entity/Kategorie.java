@@ -44,6 +44,8 @@ public class Kategorie implements Serializable {
     private Collection<Zavod> zavodCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kategorieId")
     private Collection<Tymy> tymyCollection;
+    
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

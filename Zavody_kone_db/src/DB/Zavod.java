@@ -6,6 +6,7 @@ package DB;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,6 +30,7 @@ public class Zavod implements Serializable {
     @Column(nullable=false, length=50)
     private String misto_konani;
    
+    //pok
     public static Zavod createZavod(String nazev,Date datum,String misto_konani){
         Zavod zavod = new Zavod();
         zavod.setNazev(nazev);
@@ -68,6 +70,45 @@ public class Zavod implements Serializable {
 
     public void setMisto_konani(String misto_konani) {
         this.misto_konani = misto_konani;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 31 * hash + Objects.hashCode(this.zavod_id);
+        hash = 31 * hash + Objects.hashCode(this.nazev);
+        hash = 31 * hash + Objects.hashCode(this.datum);
+        hash = 31 * hash + Objects.hashCode(this.misto_konani);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Zavod other = (Zavod) obj;
+        if (!Objects.equals(this.zavod_id, other.zavod_id)) {
+            return false;
+        }
+        if (!Objects.equals(this.nazev, other.nazev)) {
+            return false;
+        }
+        if (!Objects.equals(this.datum, other.datum)) {
+            return false;
+        }
+        if (!Objects.equals(this.misto_konani, other.misto_konani)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Zavod{" + "zavod_id=" + zavod_id + ", nazev=" + nazev + ", datum=" + datum + ", misto_konani=" + misto_konani + '}';
     }
    
     
