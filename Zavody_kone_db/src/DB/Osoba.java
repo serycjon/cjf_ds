@@ -37,8 +37,8 @@ public class Osoba implements Serializable {
   private Date datum_narozeni;
   @OneToMany(mappedBy="osoba")
   private List<TymyHasOsoby> tymy;
-//  @OneToMany( mappedBy = "osoba")
-//  private Collection<OsobyHasStaje> osobyHasStajeCollection;
+  @OneToMany( mappedBy = "osoba")
+  private Collection<OsobyHasStaje> staje;
  
   public static Osoba createOsoba(String jmeno, String prijmeni, Date datum_narozeni) {
         Osoba osoba = new Osoba();
@@ -121,6 +121,14 @@ public class Osoba implements Serializable {
      */
     public void setTymy(List<TymyHasOsoby> tymy) {
         this.tymy = tymy;
+    }
+
+    public Collection<OsobyHasStaje> getStaje() {
+        return staje;
+    }
+
+    public void setStaje(Collection<OsobyHasStaje> staje) {
+        this.staje = staje;
     }
  
 }

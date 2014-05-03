@@ -7,6 +7,7 @@
     <class>DB.TymyHasOsoby</class>
     <class>DB.Staj</class>
     <class>DB.OsobyHasStaje</class> 
+    <class>DB.Zavod</class> 
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://krizik.felk.cvut.cz:5434/student_db13_30"/>
       <property name="javax.persistence.jdbc.password" value="cjf_kone_db"/>

@@ -28,11 +28,14 @@ public class Maina {
 
 //create new entity and persist it to the database
 
-         OsobyHasStaje st = OsobyHasStaje.createOsobyHasStaje(1, 1, Date.valueOf("1992-12-02"),Date.valueOf("1993-12-02"));
+//         OsobyHasStaje st = OsobyHasStaje.createOsobyHasStaje(2, 1, Date.valueOf("1992-12-02"),Date.valueOf("1992-12-02"));
+        Zavod za = Zavod.createZavod("Zavod, kdz je zatazeno", Date.valueOf("2014-03-05"), "doma");
          tx.begin();
-         em.persist(st);
+         em.persist(za);
          tx.commit();
-         
+ 
+        
+        
          
          
          
@@ -62,9 +65,9 @@ public class Maina {
             System.out.println("###########");
             System.out.println(t.getJmeno());
             System.out.println("###########");
-            for (Iterator<TymyHasOsoby> itS = t.getTymy().iterator(); itS.hasNext();) {
-                TymyHasOsoby store = itS.next();
-                System.out.println(store.getTym().getNazev()+"\t\t");
+            for (Iterator<OsobyHasStaje> itS = t.getStaje().iterator(); itS.hasNext();) {
+                OsobyHasStaje store = itS.next();
+                System.out.println(store.getStaj().getJmeno()+"\t\t");
             }
             System.out.println("-----------");
         }
