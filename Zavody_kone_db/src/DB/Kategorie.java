@@ -5,12 +5,14 @@
 package DB;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -30,6 +32,9 @@ public class Kategorie implements Serializable {
     private int pocet_prisedicich;
 
     
+    @OneToMany( mappedBy = "kategorie")
+  private Collection<ZavodHasKategorie> zavodHasKategorie;
+    
     public static Kategorie createKategorie(String nazev, int pocet_koni, int pocet_prisedicich){
         Kategorie kategorie = new Kategorie();
         kategorie.setNazev(nazev);
@@ -37,6 +42,16 @@ public class Kategorie implements Serializable {
         kategorie.setPocet_prisedicich(pocet_prisedicich);
         return kategorie;
     }
+
+    public Collection<ZavodHasKategorie> getZavodHasKategorie() {
+        return zavodHasKategorie;
+    }
+
+    public void setZavodHasKategorie(Collection<ZavodHasKategorie> zavodHasKategorie) {
+        this.zavodHasKategorie = zavodHasKategorie;
+    }
+
+    
     
     public Long getKategorie_id() {
         return kategorie_id;

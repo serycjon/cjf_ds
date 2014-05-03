@@ -6,12 +6,14 @@ package DB;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Collection;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -20,7 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "zavod")
-public class Zavod implements Serializable {
+public class Zavody implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long zavod_id;
@@ -30,14 +32,26 @@ public class Zavod implements Serializable {
     @Column(nullable=false, length=50)
     private String misto_konani;
    
-    //pok
-    public static Zavod createZavod(String nazev,Date datum,String misto_konani){
-        Zavod zavod = new Zavod();
+    
+    @OneToMany( mappedBy = "zavody")
+  private Collection<ZavodHasKategorie> zavodHasKategoriecol;
+    
+    
+    public static Zavody createZavod(String nazev,Date datum,String misto_konani){
+        Zavody zavod = new Zavody();
         zavod.setNazev(nazev);
         zavod.setDatum(datum);
         zavod.setDatum(datum);
         zavod.setMisto_konani(misto_konani);
         return zavod;
+    }
+
+    public Collection<ZavodHasKategorie> getZavodHasKategorie() {
+        return zavodHasKategoriecol;
+    }
+
+    public void setZavodHasKategorie(Collection<ZavodHasKategorie> zavodHasKategorie) {
+        this.zavodHasKategoriecol = zavodHasKategorie;
     }
 
     public Long getZavod_id() {
@@ -90,7 +104,7 @@ public class Zavod implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Zavod other = (Zavod) obj;
+        final Zavody other = (Zavody) obj;
         if (!Objects.equals(this.zavod_id, other.zavod_id)) {
             return false;
         }

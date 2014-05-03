@@ -29,8 +29,8 @@ public class Staj implements Serializable {
     private String jmeno;
     @Column(nullable=false, length=20)
     private String mesto;
-//     @OneToMany(mappedBy = "staje")
-//    private Collection<OsobyHasStaje> osobyHasStajeCollection;
+     @OneToMany(mappedBy = "staj")
+    private Collection<OsobyHasStaje> osobyHasStajeCollection;
     
      public static Staj createStaj(String jmeno,String mesto){
          Staj staj = new Staj();

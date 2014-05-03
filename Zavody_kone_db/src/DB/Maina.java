@@ -30,10 +30,10 @@ public class Maina {
 
 //         OsobyHasStaje st = OsobyHasStaje.createOsobyHasStaje(2, 1, Date.valueOf("1992-12-02"),Date.valueOf("1992-12-02"));
 //        Zavod za = Zavod.createZavod("Zavod, kdz je zatazeno", Date.valueOf("2014-03-05"), "doma");
-        Kategorie kat =Kategorie.createKategorie("VtipneSprezi", 5, 10);
-         tx.begin();
-         em.persist(kat);
-         tx.commit();
+//        Kategorie kat =Kategorie.createKategorie("VtipneSprezi", 5, 10);
+//         tx.begin();
+//         em.persist(kat);
+//         tx.commit();
  
         
         
@@ -57,18 +57,18 @@ public class Maina {
         }
         
         System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-        TypedQuery queryO = em.createQuery("Select s from Osoba s", Osoba.class);
-        List<Osoba> listO = queryO.getResultList();
+        TypedQuery queryO = em.createQuery("Select a from Zavody a", Zavody.class);
+        List<Zavody> listO = queryO.getResultList();
 
-        for (Iterator<Osoba> itT = listO.iterator(); itT.hasNext();){
+        for (Iterator<Zavody> itT = listO.iterator(); itT.hasNext();){
             
-            Osoba t = itT.next();
+            Zavody t = itT.next();
             System.out.println("###########");
-            System.out.println(t.getJmeno());
+            System.out.println(t.getNazev());
             System.out.println("###########");
-            for (Iterator<OsobyHasStaje> itS = t.getStaje().iterator(); itS.hasNext();) {
-                OsobyHasStaje store = itS.next();
-                System.out.println(store.getStaj().getJmeno()+"\t\t");
+            for (Iterator<ZavodHasKategorie> itS = t.getZavodHasKategorie().iterator(); itS.hasNext();) {
+                ZavodHasKategorie store = itS.next();
+                System.out.println(store.getKategorie().getNazev()+"\t\t");
             }
             System.out.println("-----------");
         }
