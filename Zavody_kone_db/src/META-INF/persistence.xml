@@ -10,7 +10,8 @@
     <class>DB.Zavody</class> 
     <class>DB.Kategorie</class> 
     <class>DB.ZavodHasKategorie</class> 
-    
+    <class>DB.Kone</class>
+    <class>DB.ZavodHasKone</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://krizik.felk.cvut.cz:5434/student_db13_30"/>
       <property name="javax.persistence.jdbc.password" value="cjf_kone_db"/>
