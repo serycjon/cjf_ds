@@ -49,9 +49,11 @@ public class OsobyHasStaje implements Serializable {
         ohs.setPlatne_od(platne_od);
         return ohs;
     }
+
     public Osoba getOsoba() {
         return osoba;
     }
+    
 /**
  * 
  * @param osoba 
@@ -100,6 +102,10 @@ public class OsobyHasStaje implements Serializable {
     public void setStaje_staj_id(long staje_staj_id) {
         this.staje_staj_id = staje_staj_id;
     }
+
+
+
+   
 
     @Override
     public int hashCode() {

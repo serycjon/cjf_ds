@@ -35,7 +35,39 @@ public class TymyHasKone implements Serializable {
     @ManyToOne
     @PrimaryKeyJoinColumn(name="tymy_tym_id", referencedColumnName="tym_id")
     private Tym tym;
-//    
+
+    //
+    public Long getTymy_tym_id() {
+        return tymy_tym_id;
+    }
+
+    public void setTymy_tym_id(Long tymy_tym_id) {
+        this.tymy_tym_id = tymy_tym_id;
+    }
+
+    public Long getKone_kun_id() {
+        return kone_kun_id;
+    }
+
+    public void setKone_kun_id(Long kone_kun_id) {
+        this.kone_kun_id = kone_kun_id;
+    }
+
+    public Kun getKunn() {
+        return kunn;
+    }
+
+    public void setKunn(Kun kunn) {
+        this.kunn = kunn;
+    }
+
+    public Tym getTym() {
+        return tym;
+    }
+
+    public void setTym(Tym tym) {
+        this.tym = tym;
+    }
     
     @Override
     public int hashCode() {

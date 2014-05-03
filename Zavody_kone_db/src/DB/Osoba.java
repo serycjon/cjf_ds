@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -60,12 +61,6 @@ public class Osoba implements Serializable {
         return osoba_id;
     }
 
-    /**
-     * @param osoba_id the osoba_id to set
-     */
-    public void setOsoba_id(Long osoba_id) {
-        this.osoba_id = osoba_id;
-    }
 
     /**
      * @return the jmeno
@@ -129,6 +124,48 @@ public class Osoba implements Serializable {
 
     public void setStaje(Collection<OsobyHasStaje> staje) {
         this.staje = staje;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.osoba_id);
+        hash = 37 * hash + Objects.hashCode(this.jmeno);
+        hash = 37 * hash + Objects.hashCode(this.prijmeni);
+        hash = 37 * hash + Objects.hashCode(this.datum_narozeni);
+        hash = 37 * hash + Objects.hashCode(this.tymy);
+        hash = 37 * hash + Objects.hashCode(this.staje);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Osoba other = (Osoba) obj;
+        if (!Objects.equals(this.osoba_id, other.osoba_id)) {
+            return false;
+        }
+        if (!Objects.equals(this.jmeno, other.jmeno)) {
+            return false;
+        }
+        if (!Objects.equals(this.prijmeni, other.prijmeni)) {
+            return false;
+        }
+        if (!Objects.equals(this.datum_narozeni, other.datum_narozeni)) {
+            return false;
+        }
+        if (!Objects.equals(this.tymy, other.tymy)) {
+            return false;
+        }
+        if (!Objects.equals(this.staje, other.staje)) {
+            return false;
+        }
+        return true;
     }
  
 }

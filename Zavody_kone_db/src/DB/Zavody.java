@@ -50,13 +50,7 @@ public class Zavody implements Serializable {
         return zavod;
     }
 
-//    public Collection<Tym> getCollectionTymyZavodu() {
-//        return collectionTymyZavodu;
-//    }
-//
-//    public void setCollectionTymyZavodu(Collection<Tym> collectionTymyZavodu) {
-//        this.collectionTymyZavodu = collectionTymyZavodu;
-//    }
+
 
     public Collection<Tym> getCollTymy() {
         return collTymy;

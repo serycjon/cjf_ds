@@ -44,9 +44,15 @@ public class Staj implements Serializable {
         return staj_id;
     }
 
-    public void setStaj_id(Long staj_id) {
-        this.staj_id = staj_id;
+    public Collection<OsobyHasStaje> getOsobyHasStajeCollection() {
+        return osobyHasStajeCollection;
     }
+
+    public void setOsobyHasStajeCollection(Collection<OsobyHasStaje> osobyHasStajeCollection) {
+        this.osobyHasStajeCollection = osobyHasStajeCollection;
+    }
+
+    
 
     public String getJmeno() {
         return jmeno;

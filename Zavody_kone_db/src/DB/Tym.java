@@ -63,7 +63,7 @@ public class Tym implements Serializable {
     inverseJoinColumns={@JoinColumn(name="osoby_osoba_id", referencedColumnName="osoba_id")})
     private List<Osoba> osoby;
      */
-  
+   
     public int getPenalizace_prvni_kolo() {
         return penalizace_prvni_kolo;
     }
@@ -80,6 +80,30 @@ public class Tym implements Serializable {
         this.penalizace_druhe_kolo = penalizace_druhe_kolo;
     }
 
+    public List<TymyHasKone> getKone() {
+        return kone;
+    }
+
+    public void setKone(List<TymyHasKone> kone) {
+        this.kone = kone;
+    }
+
+    public Kategorie getKategorieId() {
+        return kategorieId;
+    }
+
+    public void setKategorieId(Kategorie kategorieId) {
+        this.kategorieId = kategorieId;
+    }
+
+    public Zavody getZavodId() {
+        return zavodId;
+    }
+
+    public void setZavodId(Zavody zavodId) {
+        this.zavodId = zavodId;
+    }
+
   
 
    
@@ -92,21 +116,6 @@ public class Tym implements Serializable {
         this.dojel = dojel;
     }
 
-//    public Zavody getZavodId() {
-//        return zavodId;
-//    }
-//
-//    public void setZavodId(Zavody zavodId) {
-//        this.zavodId = zavodId;
-//    }
-//
-//    public Kategorie getKategorieId() {
-//        return kategorieId;
-//    }
-//
-//    public void setKategorieId(Kategorie kategorieId) {
-//        this.kategorieId = kategorieId;
-//    }
 
     /**
      * @return the tym_id

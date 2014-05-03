@@ -7,6 +7,7 @@
 package DB;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -87,4 +88,59 @@ public class TymyHasOsoby implements Serializable{
     public void setOsoba(Osoba osoba) {
         this.osoba = osoba;
     }
+
+    public long getTymy_tym_id() {
+        return tymy_tym_id;
+    }
+
+    public void setTymy_tym_id(long tymy_tym_id) {
+        this.tymy_tym_id = tymy_tym_id;
+    }
+
+    public long getOsoby_osoba_id() {
+        return osoby_osoba_id;
+    }
+
+    public void setOsoby_osoba_id(long osoby_osoba_id) {
+        this.osoby_osoba_id = osoby_osoba_id;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + (int) (this.tymy_tym_id ^ (this.tymy_tym_id >>> 32));
+        hash = 89 * hash + (int) (this.osoby_osoba_id ^ (this.osoby_osoba_id >>> 32));
+        hash = 89 * hash + (this.je_jezdec ? 1 : 0);
+        hash = 89 * hash + Objects.hashCode(this.tym);
+        hash = 89 * hash + Objects.hashCode(this.osoba);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TymyHasOsoby other = (TymyHasOsoby) obj;
+        if (this.tymy_tym_id != other.tymy_tym_id) {
+            return false;
+        }
+        if (this.osoby_osoba_id != other.osoby_osoba_id) {
+            return false;
+        }
+        if (this.je_jezdec != other.je_jezdec) {
+            return false;
+        }
+        if (!Objects.equals(this.tym, other.tym)) {
+            return false;
+        }
+        if (!Objects.equals(this.osoba, other.osoba)) {
+            return false;
+        }
+        return true;
+    }
+    
 }

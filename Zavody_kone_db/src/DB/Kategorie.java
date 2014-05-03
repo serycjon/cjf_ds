@@ -45,13 +45,6 @@ public class Kategorie implements Serializable {
         return kategorie;
     }
 
-//    public Collection<Tym> getCollectionTym() {
-//        return collectionTym;
-//    }
-//
-//    public void setCollectionTym(Collection<Tym> collectionTym) {
-//        this.collectionTym = collectionTym;
-//    }
 
     public Collection<ZavodHasKategorie> getZavodHasKategorie() {
         return zavodHasKategorie;
@@ -67,9 +60,6 @@ public class Kategorie implements Serializable {
         return kategorie_id;
     }
 
-    public void setKategorie_id(Long kategorie_id) {
-        this.kategorie_id = kategorie_id;
-    }
 
     public String getNazev() {
         return nazev;
