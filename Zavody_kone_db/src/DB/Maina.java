@@ -27,12 +27,15 @@ public class Maina {
         EntityTransaction tx = em.getTransaction();
 
 //create new entity and persist it to the database
-/*
-         Osoba os = Osoba.createOsoba("Jon", "Serych", Date.valueOf("1992-12-02"));
+
+         OsobyHasStaje st = OsobyHasStaje.createOsobyHasStaje(1, 1, Date.valueOf("1992-12-02"),Date.valueOf("1993-12-02"));
          tx.begin();
-         em.persist(os);
+         em.persist(st);
          tx.commit();
-         */
+         
+         
+         
+         
         TypedQuery queryS = em.createQuery("Select s from Tym s", Tym.class);
         List<Tym> listS = queryS.getResultList();
 

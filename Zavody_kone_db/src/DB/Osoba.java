@@ -8,7 +8,9 @@ package DB;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Collection;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,7 +37,8 @@ public class Osoba implements Serializable {
   private Date datum_narozeni;
   @OneToMany(mappedBy="osoba")
   private List<TymyHasOsoby> tymy;
-
+//  @OneToMany( mappedBy = "osoba")
+//  private Collection<OsobyHasStaje> osobyHasStajeCollection;
  
   public static Osoba createOsoba(String jmeno, String prijmeni, Date datum_narozeni) {
         Osoba osoba = new Osoba();
