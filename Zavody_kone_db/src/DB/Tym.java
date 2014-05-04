@@ -19,6 +19,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.postgresql.util.PGInterval;
 
@@ -35,8 +36,10 @@ public class Tym implements Serializable {
   @Column(nullable=false, length=50)
   private String nazev;
   private Integer startovni_cislo;
-//  private  PGInterval cas_prvniho_Kola;
-//  private PGInterval cas_druheho_Kola;
+  @OneToOne
+  private PGInterval cas_prvniho_kola;
+  @OneToOne
+  private PGInterval cas_druheho_kola;
   private int penalizace_prvni_kolo;
   private int penalizace_druhe_kolo;
   private boolean dojel;
@@ -172,4 +175,10 @@ public class Tym implements Serializable {
     public void setOsoby(List<TymyHasOsoby> osoby) {
         this.osoby = osoby;
     }
+
+    @Override
+    public String toString() {
+        return "Tym{" + "tym_id=" + tym_id + ", nazev=" + nazev + ", startovni_cislo=" + startovni_cislo + ", penalizace_prvni_kolo=" + penalizace_prvni_kolo + ", penalizace_druhe_kolo=" + penalizace_druhe_kolo + ", dojel=" + dojel + ", kategorieId=" + kategorieId + ", zavodId=" + zavodId + ", osoby=" + osoby + ", kone=" + kone+ '}';
+    }
+    
 }

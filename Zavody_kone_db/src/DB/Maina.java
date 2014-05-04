@@ -31,9 +31,9 @@ public class Maina {
 //         OsobyHasStaje st = OsobyHasStaje.createOsobyHasStaje(2, 1, Date.valueOf("1992-12-02"),Date.valueOf("1992-12-02"));
 //        Zavod za = Zavod.createZavod("Zavod, kdz je zatazeno", Date.valueOf("2014-03-05"), "doma");
 //       Kategorie kat =Kategorie.createKategorie("VtipneSprezi", 5, 10);
-        Kategorie kat = em.find(Kategorie.class, 1L);
+        Tym kat = em.find(Tym.class, 3L);
         System.out.println("Finding book> "+kat);
-        Zavody za = em.find(Zavody.class, 1L);
+//        Zavody za = em.find(Zavody.class, 1L);
 //        Tym tym = Tym.createTym("laleTym", 2,kat,za);
 //        Kun k = Kun.createKun("lalala", "lelele", "lululu");
 //         tx.begin();
