@@ -38,7 +38,7 @@ public class Zavody implements Serializable {
     @OneToMany( mappedBy = "zavody")
   private Collection<ZavodHasKategorie> zavodHasKategoriecol;
     
-     @OneToMany( mappedBy = "zavodId")
+     @OneToMany( mappedBy = "zavodTymu")
     private Collection<Tym> collTymy;
     
     public static Zavody createZavod(String nazev,Date datum,String misto_konani){

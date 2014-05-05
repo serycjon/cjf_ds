@@ -29,16 +29,17 @@ public class Maina {
 //create new entity and persist it to the database
 
 //         OsobyHasStaje st = OsobyHasStaje.createOsobyHasStaje(2, 1, Date.valueOf("1992-12-02"),Date.valueOf("1992-12-02"));
-//        Zavod za = Zavod.createZavod("Zavod, kdz je zatazeno", Date.valueOf("2014-03-05"), "doma");
+//       Zavod za = Zavod.createZavod("Zavod, kdz je zatazeno", Date.valueOf("2014-03-05"), "doma");
 //       Kategorie kat =Kategorie.createKategorie("VtipneSprezi", 5, 10);
-        Tym kat = em.find(Tym.class, 3L);
-        System.out.println("Finding book> "+kat);
-//        Zavody za = em.find(Zavody.class, 1L);
-//        Tym tym = Tym.createTym("laleTym", 2,kat,za);
-//        Kun k = Kun.createKun("lalala", "lelele", "lululu");
-//         tx.begin();
-//         em.persist(tym);
-//         tx.commit();
+        Tym tym = em.find(Tym.class, 3L);
+        System.out.println("Finding kategorie "+tym);
+       Zavody za = em.find(Zavody.class, 2L);
+        Kategorie kat = em.find(Kategorie.class, 3L);
+//        Tym tym2 = Tym.createTym("ykousimudelattym", za, kat);
+        Kun k = Kun.createKun("kdyz njede", "tym", "pujde kun?");
+         tx.begin();
+         em.persist(k);
+         tx.commit();
  
         
         

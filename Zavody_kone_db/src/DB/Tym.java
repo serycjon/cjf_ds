@@ -36,10 +36,8 @@ public class Tym implements Serializable {
   @Column(nullable=false, length=50)
   private String nazev;
   private Integer startovni_cislo;
-  @OneToOne
-  private PGInterval cas_prvniho_kola;
-  @OneToOne
-  private PGInterval cas_druheho_kola;
+  private Integer cas_prvniho_kola;
+  private Integer cas_druheho_kola;
   private int penalizace_prvni_kolo;
   private int penalizace_druhe_kolo;
   private boolean dojel;
@@ -47,11 +45,11 @@ public class Tym implements Serializable {
  
   @ManyToOne
   @JoinColumn(name = "kategorie_id", referencedColumnName = "kategorie_id")
-  private Kategorie kategorieId;
+  private Kategorie kategorieTymu;
   
    @ManyToOne
   @JoinColumn(name = "zavod_id", referencedColumnName = "zavod_id")
-  private Zavody zavodId;
+  private Zavody zavodTymu;
   
   @OneToMany(mappedBy="tym")
   private List<TymyHasOsoby> osoby;
@@ -66,7 +64,37 @@ public class Tym implements Serializable {
     inverseJoinColumns={@JoinColumn(name="osoby_osoba_id", referencedColumnName="osoba_id")})
     private List<Osoba> osoby;
      */
-   
+  
+  public static Tym createTym(String nazev,Zavody zavod,Kategorie kategorie){
+      Tym tym  = new Tym();
+      tym.setNazev(nazev);
+      tym.setZavodId(zavod);
+//      tym.setKategorieId(kategorie);
+//      tym.setStartovni_cislo(55);
+//      tym.setDojel(false);
+//      tym.setCas_prvniho_kola(0);
+//      tym.setCas_druheho_kola(0);
+//      tym.setPenalizace_prvni_kolo(0);
+//      tym.setPenalizace_druhe_kolo(0);
+      return tym;
+  }
+  
+    public Integer getCas_prvniho_kola() {
+        return cas_prvniho_kola;
+    }
+
+    public void setCas_prvniho_kola(Integer cas_prvniho_kola) {
+        this.cas_prvniho_kola = cas_prvniho_kola;
+    }
+
+    public Integer getCas_druheho_kola() {
+        return cas_druheho_kola;
+    }
+
+    public void setCas_druheho_kola(Integer cas_druheho_kola) {
+        this.cas_druheho_kola = cas_druheho_kola;
+    }
+
     public int getPenalizace_prvni_kolo() {
         return penalizace_prvni_kolo;
     }
@@ -92,19 +120,19 @@ public class Tym implements Serializable {
     }
 
     public Kategorie getKategorieId() {
-        return kategorieId;
+        return kategorieTymu;
     }
 
     public void setKategorieId(Kategorie kategorieId) {
-        this.kategorieId = kategorieId;
+        this.kategorieTymu = kategorieId;
     }
 
     public Zavody getZavodId() {
-        return zavodId;
+        return zavodTymu;
     }
 
     public void setZavodId(Zavody zavodId) {
-        this.zavodId = zavodId;
+        this.zavodTymu = zavodId;
     }
 
   
@@ -178,7 +206,7 @@ public class Tym implements Serializable {
 
     @Override
     public String toString() {
-        return "Tym{" + "tym_id=" + tym_id + ", nazev=" + nazev + ", startovni_cislo=" + startovni_cislo + ", penalizace_prvni_kolo=" + penalizace_prvni_kolo + ", penalizace_druhe_kolo=" + penalizace_druhe_kolo + ", dojel=" + dojel + ", kategorieId=" + kategorieId + ", zavodId=" + zavodId + ", osoby=" + osoby + ", kone=" + kone+ '}';
+        return "Tym{" + "tym_id=" + tym_id + ", nazev=" + nazev + ", startovni_cislo=" + startovni_cislo + ", penalizace_prvni_kolo=" + penalizace_prvni_kolo + ", penalizace_druhe_kolo=" + penalizace_druhe_kolo + ", dojel=" + dojel + ", kategorieId=" + kategorieTymu + ", zavodId=" + zavodTymu + ", osoby=" + osoby + ", kone=" + kone+ '}';
     }
     
 }

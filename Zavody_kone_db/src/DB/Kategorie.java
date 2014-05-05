@@ -31,7 +31,7 @@ public class Kategorie implements Serializable {
     private int pocet_koni;
     private int pocet_prisedicich;
 
-    @OneToMany( mappedBy = "kategorieId")
+    @OneToMany( mappedBy = "kategorieTymu")
     private Collection<Tym> collectionTym;
     
     @OneToMany( mappedBy = "kategorie")
