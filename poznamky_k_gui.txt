@@ -4,3 +4,4 @@
 	(aspon predpokladam, ze to nema byt to same, jako registrace zavodu)
 4) ZavodRegistrace - editovat by bylo asi nejlepsi jako tlacitko pro kazdy radek (treba jenom male s ikonkou, nebo tak), takhle neni uplne jasne, co s tim.
                    - potom by mohlo vlastne stejne fungovat i ten formular na zadavani vysledku (ale pripada mi, ze je to lepsi rozdelene do dvou)
+5) Tlacitko prirazeni startovnich cisel -> varovani, ze pak uz nic nepujde upravovat
