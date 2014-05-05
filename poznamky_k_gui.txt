@@ -1,7 +1,18 @@
 1) PanelRegistraceTymu - udelat jinak zadavani clenu tymu. Musime pocitat s velkou databazi, neda se hledat ve stovkach lidi jenom v seznamu
+			
+Re: Nevim jak to myslis, takhle jsem to udelala pro to, ze by se pridava libovolny pocet koni.... tkz kdyz budou 3 kone v rolovacim
+menu, kt kdzy tam bude kun1 tk v upravit bz se upravil kun 1, pak by se vzbral kun 2 - upravit a vzbral kun 2. Asi to neni uplne idealni, al envim jak to vzresit jinak. Jedine spousta dalsich okenktere bz te provayeli. No nevim. Nestojim si zatim, ale nemam moc napad, jak to zmenit.
+
 2) RegistraceKZavodum - vybrat ze stavajicich/registrovat? neco z toho trochu navic? neni uplne jasne, jak s tim zachazet
+Re: Souhlasim.... je to nejake divne, uy ani nejak nevim co jsem tim presne myslela.
+
 3) VstupniFormular - super, akorat bych jeste pridal prubeh zavodu, nebo neco takoveho - tam se pak budou psat casy a penalizace v prubehu zavodu
-	(aspon predpokladam, ze to nema byt to same, jako registrace zavodu)
+	(aspon predpokladam, ze to nema byt to same, jako registrace zavodu). 
+Re: Jj. Ja jsem tedy myslela,ze by to bylo nekde u registrace, ale je fakt, ze je lepsi ukoncit registrci a mit pak dalsi hlavni podprogram, kde si mohu vzbrat k dopisovani casu jen zavody, ktere maji dane  startovni cisla :)
+
 4) ZavodRegistrace - editovat by bylo asi nejlepsi jako tlacitko pro kazdy radek (treba jenom male s ikonkou, nebo tak), takhle neni uplne jasne, co s tim.
                    - potom by mohlo vlastne stejne fungovat i ten formular na zadavani vysledku (ale pripada mi, ze je to lepsi rozdelene do dvou)
+Re: Je to celkem zmatene, co tam je. To jsem nejak zkombinovala 2 veci dohromady...Chtelo bz to nejprve zobrazit seznam vsech zavodu a pak teprve, kdyz se vybere registrovat k zavodu, tk by to moho vzpadat podobne, akorat by v te tabulce byly vyjmenovane tymy...treba :D
+
 5) Tlacitko prirazeni startovnich cisel -> varovani, ze pak uz nic nepujde upravovat
+Re:po zadani startovnich cisel, by se mohlo dat jit na dalsi okno, kde by se k danemu zavodu dali davat casy a penalizace - lepsi tvoje reseni rovnou z  hlavniho meny
