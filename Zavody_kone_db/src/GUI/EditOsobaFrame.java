@@ -6,17 +6,25 @@
 
 package GUI;
 
+import DB.DBTools;
+import DB.Osoba;
+import DB.OsobyHasStaje;
+import DB.TymyHasOsoby;
+import java.util.Iterator;
+
 /**
  *
  * @author jonas
  */
 public class EditOsobaFrame extends javax.swing.JFrame {
-
+private Long osobaId;
+Osoba o1;
     /**
      * Creates new form EditOsobaFrame
      */
-    public EditOsobaFrame() {
+    public EditOsobaFrame(Long id) {
         super("Úprava osoby");
+        osobaId = id;
         initComponents();
     }
 
@@ -49,7 +57,7 @@ public class EditOsobaFrame extends javax.swing.JFrame {
         stornoButton = new javax.swing.JButton();
         ulozitButton = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
-
+        o1 =DBTools.getInstance().getEm().find(Osoba.class, osobaId);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jmenoLabel.setText("Jmeno");
@@ -58,24 +66,35 @@ public class EditOsobaFrame extends javax.swing.JFrame {
 
         datumLabel.setText("Datum narození");
 
-        jmenoField.setText("");
+        jmenoField.setText(o1.getJmeno());
         jmenoField.setColumns(20);
 
-        prijmeniField.setText("");
+        prijmeniField.setText(o1.getPrijmeni());
         prijmeniField.setColumns(20);
 
-        datumField.setText("rrrr-mm-dd");
+        datumField.setText(o1.getDatum_narozeni().toString());
         datumField.setColumns(10);
 
         jLabel4.setText("");//("Uprava osoby");
 
+        Object[][] data = new Object [o1.getStaje().size()][4];
+        int i =0;
+        for (Iterator<OsobyHasStaje> itS = o1.getStaje().iterator(); itS.hasNext();) {
+            
+                OsobyHasStaje store = itS.next();
+                data[i][0]=store.getStaj().getJmeno();
+                data[i][1]=store.getStaj().getMesto();
+                data[i][2]=store.getPlatne_od();
+                data[i][3]=store.getPlatne_do();
+                System.out.println(store.getStaj().getJmeno() + "\t\t" );
+                i++;
+            }
+        
+//        for (int i = 0; i < o1.getStaje().size(); i++) {
+//            data[i][0] = o1.getStaje().
+//        }
         stajTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
+            data,
             new String [] {
                 "Nazev", "Mesto", "platnost od", "platnost do"
             }
@@ -236,7 +255,7 @@ public class EditOsobaFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EditOsobaFrame().setVisible(true);
+                new EditOsobaFrame(1L).setVisible(true);
             }
         });
     }

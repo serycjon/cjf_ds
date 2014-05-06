@@ -38,12 +38,22 @@ public class Maina {
 //         OsobyHasStaje st = OsobyHasStaje.createOsobyHasStaje(2, 1, Date.valueOf("1992-12-02"),Date.valueOf("1992-12-02"));
 //       Zavod za = Zavod.createZavod("Zavod, kdz je zatazeno", Date.valueOf("2014-03-05"), "doma");
 //       Kategorie kat =Kategorie.createKategorie("VtipneSprezi", 5, 10);
+//       OsobyHasStaje book = OsobyHasStaje.createOsobyHasStaje(1L, 1L, Date.valueOf("2012-01-01"), Date.valueOf("2013-12-12"));
+//tx.begin();
+//em.persist(book);
+//tx.commit();
+        
+        
+        
+        
         Tym tym = em.find(Tym.class, 3L);
         System.out.println("Finding kategorie " + tym);
         Zavody za = em.find(Zavody.class, 2L);
         Kategorie kat = em.find(Kategorie.class, 1L);
         Kun k1 = em.find(Kun.class, 1L);
         Osoba o1 = em.find(Osoba.class, 1L);
+        System.out.println("-+++-+-+-+-+-");
+        
         System.out.println(o1);
         Osoba o2 = em.find(Osoba.class, 2L);
         tx.begin();
@@ -77,8 +87,8 @@ public class Maina {
 //        System.out.println("tym "+tym2);
 //        
 
-        TypedQuery queryS = em.createQuery("Select s from Kun s", Kun.class);
-        List<Kun> listS = queryS.getResultList();
+        TypedQuery queryS = em.createQuery("Select s from Tym s", Tym.class);
+        List<Tym> listS = queryS.getResultList();
 
         for (Iterator<Tym> itT = listS.iterator(); itT.hasNext();) {
 
