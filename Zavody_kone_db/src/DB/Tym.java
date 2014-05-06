@@ -31,7 +31,7 @@ import org.postgresql.util.PGInterval;
 @Table(name="tymy")
 public class Tym implements Serializable {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long tym_id;
   @Column(nullable=false, length=50)
   private String nazev;
@@ -69,13 +69,13 @@ public class Tym implements Serializable {
       Tym tym  = new Tym();
       tym.setNazev(nazev);
       tym.setZavodId(zavod);
-//      tym.setKategorieId(kategorie);
-//      tym.setStartovni_cislo(55);
-//      tym.setDojel(false);
-//      tym.setCas_prvniho_kola(0);
-//      tym.setCas_druheho_kola(0);
-//      tym.setPenalizace_prvni_kolo(0);
-//      tym.setPenalizace_druhe_kolo(0);
+      tym.setKategorieId(kategorie);
+      tym.setStartovni_cislo(55);
+      tym.setDojel(false);
+      tym.setCas_prvniho_kola(0);
+      tym.setCas_druheho_kola(0);
+      tym.setPenalizace_prvni_kolo(0);
+      tym.setPenalizace_druhe_kolo(0);
       return tym;
   }
   

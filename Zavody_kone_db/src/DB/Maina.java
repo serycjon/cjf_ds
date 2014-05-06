@@ -30,17 +30,17 @@ public class Maina {
 
 //         OsobyHasStaje st = OsobyHasStaje.createOsobyHasStaje(2, 1, Date.valueOf("1992-12-02"),Date.valueOf("1992-12-02"));
 //       Zavod za = Zavod.createZavod("Zavod, kdz je zatazeno", Date.valueOf("2014-03-05"), "doma");
-//       Kategorie kat =Kategorie.createKategorie("VtipneSprezi", 5, 10);
+       Kategorie kat =Kategorie.createKategorie("VtipneSprezi", 5, 10);
         Tym tym = em.find(Tym.class, 3L);
         System.out.println("Finding kategorie "+tym);
        Zavody za = em.find(Zavody.class, 2L);
-        Kategorie kat = em.find(Kategorie.class, 3L);
-//        Tym tym2 = Tym.createTym("ykousimudelattym", za, kat);
-        Kun k = Kun.createKun("kdyz njede", "tym", "pujde kun?");
+//        Kategorie kat = em.find(Kategorie.class, 1L);
+//        Tym tym2 = Tym.createTym("zkousimudelattym", za, kat);
+////        Kun k = Kun.createKun("jak", "generovat", "id2");
          tx.begin();
-         em.persist(k);
+         em.persist(kat);
          tx.commit();
- 
+        System.out.println("kat "+kat);
         
         
          

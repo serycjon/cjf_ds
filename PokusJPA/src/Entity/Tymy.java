@@ -86,7 +86,7 @@ public class Tymy implements Serializable {
 //    private Zavod zavodId;
     @JoinColumn(name = "kategorie_id", referencedColumnName = "kategorie_id")
     @ManyToOne(optional = false)
-    private Kategorie kategorieId;
+    private Kategorie kategorie;
 
     public Tymy() {
     }

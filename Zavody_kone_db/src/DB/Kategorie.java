@@ -24,7 +24,7 @@ import javax.persistence.Table;
 public class Kategorie implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long kategorie_id;
     @Column(nullable = false, length = 20)
     private String nazev;

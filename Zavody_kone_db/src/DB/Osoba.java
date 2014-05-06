@@ -29,7 +29,7 @@ import org.postgresql.util.PGInterval;
 @Table(name="osoby")
 public class Osoba implements Serializable {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long osoba_id;
   @Column(nullable=false, length=20)
   private String jmeno;

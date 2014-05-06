@@ -23,7 +23,7 @@ import javax.persistence.Table;
 @Table(name="kone")
 public class Kun implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long kun_id;
      @Column(nullable=false, length=20)
      private String jmeno;
@@ -41,11 +41,16 @@ public class Kun implements Serializable {
          kun.setJmeno(jmeno);
          kun.setMajitel(majitel);
          kun.setPlemeno(plemeno);
+       
          return kun;
      }
 
     public Long getKun_id() {
         return kun_id;
+    }
+
+    public void setKun_id(Long kun_id) {
+        this.kun_id = kun_id;
     }
 
     public String getJmeno() {
