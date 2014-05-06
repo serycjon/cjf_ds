@@ -5,8 +5,12 @@
  */
 package GUI;
 
+import DB.DBTools;
+import DB.Kun;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.List;
+import javax.persistence.TypedQuery;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JTable;
@@ -44,14 +48,24 @@ public class RegistraceKonuFrame extends javax.swing.JFrame {
         //setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         jLabel1.setText("Registrace konu");
 
-        String[] columnNames = {"First Name", "Last Name", ""};
-        Object[][] data
-                = {
-                    {"Homer", "Simpson", "delete Homer"},
-                    {"Madge", "Simpson", "delete Madge"},
-                    {"Bart", "Simpson", "delete Bart"},
-                    {"Lisa", "Simpson", "delete Lisa"},};
-
+        String[] columnNames = {"Jmeno", "Plemeno", "Majitel","",""};
+        
+//                = {
+//                    {"Homer", "Simpson", "delete Homer"},
+//                    {"Madge", "Simpson", "delete Madge"},
+//                    {"Bart", "Simpson", "delete Bart"},
+//                    {"Lisa", "Simpson", "delete Lisa"},};
+        
+        TypedQuery queryS = DBTools.getInstance().getEm().createQuery("Select s from Kun s", Kun.class);
+        List<Kun> listKone = queryS.getResultList();
+         Object[][] data = new Object [listKone.size()][5];
+        for (int i = 0; i < listKone.size(); i++) {
+            data[i][0]=listKone.get(i).getJmeno();
+            data[i][1]=listKone.get(i).getPlemeno();
+            data[i][2]=listKone.get(i).getMajitel();
+            data[i][3]="Upravit";
+            data[i][4]="Smazat";
+        }
         DefaultTableModel model = new DefaultTableModel(data, columnNames);
 
         Action delete = new AbstractAction() {
@@ -63,9 +77,11 @@ public class RegistraceKonuFrame extends javax.swing.JFrame {
         };
 
         jTable1.setModel(model);
-        ButtonColumn buttonColumn = new ButtonColumn(jTable1, delete, 2);
+        ButtonColumn buttonColumn = new ButtonColumn(jTable1, delete, 4);
         buttonColumn.setMnemonic(KeyEvent.VK_D);
 
+        ButtonColumn buttonColumn2 = new ButtonColumn(jTable1, delete, 3);
+        buttonColumn2.setMnemonic(KeyEvent.VK_D);
         
         jScrollPane1.setViewportView(jTable1);
 
