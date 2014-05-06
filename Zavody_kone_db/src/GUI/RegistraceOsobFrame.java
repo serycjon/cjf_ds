@@ -3,8 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package GUI;
+
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -12,10 +21,15 @@ package GUI;
  */
 public class RegistraceOsobFrame extends javax.swing.JFrame {
 
+    public static void main(String[] args) {
+        new RegistraceOsobFrame().setVisible(true);
+    }
+
     /**
      * Creates new form NewJFrame
      */
     public RegistraceOsobFrame() {
+        super("Registrace členů");
         initComponents();
     }
 
@@ -28,94 +42,138 @@ public class RegistraceOsobFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//BLOKOVANE-BLOKOVANE-GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        nextButton = new javax.swing.JButton();
+        prevButton = new javax.swing.JButton();
+        newButton = new javax.swing.JButton();
+        hledejButton = new javax.swing.JButton();
+        hledejField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        osobyTable = new javax.swing.JTable();
 
         //setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jButton1.setText("další stránka");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        nextButton.setText("další stránka");
+        nextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("předchozí stránka");
+        prevButton.setText("předchozí stránka");
 
-        jButton3.setText("Nový člen");
+        newButton.setText("Nový člen");
 
-        jButton5.setText("hledej");
+        hledejButton.setText("hledej");
 
-        jTextField1.setText("jTextField1");
+        //hledejField.setText("jTextField1");
+        jLabel1.setText(""); //Registrace členu");
 
-        jLabel1.setText("Registrace členu");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
+        osobyTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{
+                    {1L, "jonas", null, null, "edit", "delete"},
+                    {2L, "honza", null, null, "edit", "delete"},
+                    {3L, "lada", null, null, "edit", "delete"},
+                    {4L, "amelie", null, null, "edit", "delete"}
+                },
+                new String[]{
+                    "hidden Id", "Jméno", "Příjmení", "Datum narození", "upravit", "smazat"
+                }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        TableColumnModel cm = osobyTable.getColumnModel();
+        TableColumn id_column = cm.getColumn(0);
+        cm.removeColumn(id_column);
+        jScrollPane2.setViewportView(osobyTable);
+        final JFrame frame = this;
+
+        Action delete = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                JTable table = (JTable) e.getSource();
+                int modelRow = Integer.valueOf(e.getActionCommand());
+                Long id = (Long) ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 0);
+                
+                Object[] options = {"Smazat", "Storno"};
+                int n = JOptionPane.showOptionDialog(frame,
+                        "Smazání osoby je nevratné!\n Opravdu si přejete pokračovat?",
+                        "Potvrzení smazání",
+                       
+                        JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[1]);
+                if(n==0){
+                    ((DefaultTableModel) table.getModel()).removeRow(modelRow);
+                    System.out.println("deleting id: " + id);
+                }
+                /*final JOptionPane optionPane = new JOptionPane(
+                        "Smazání osoby je nevratné!",
+                        JOptionPane.QUESTION_MESSAGE,
+                        JOptionPane.YES_NO_OPTION);*/
+            }
+        };
+
+        Action edit = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                JTable table = (JTable) e.getSource();
+                int modelRow = Integer.valueOf(e.getActionCommand());
+                Long id = (Long) ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 0);
+                //TODO: 
+                System.out.println("editing id: " + id);
+                EditOsobaFrame editOsoba = new EditOsobaFrame();
+                editOsoba.setVisible(true);
+            }
+        };
+
+        ButtonColumn buttonColumnDelete = new ButtonColumn(osobyTable, delete, 4);
+        ButtonColumn buttonColumnEdit = new ButtonColumn(osobyTable, edit, 3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(213, 213, 213)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(5, 5, 5)
-                                .addComponent(jButton2)
-                                .addGap(49, 49, 49)
-                                .addComponent(jButton1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(164, Short.MAX_VALUE))
+                                .addGroup(layout.createSequentialGroup()
+                                        .addGap(213, 213, 213)
+                                        .addComponent(jLabel1))
+                                .addGroup(layout.createSequentialGroup()
+                                        .addGap(29, 29, 29)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGroup(layout.createSequentialGroup()
+                                                        .addGap(5, 5, 5)
+                                                        .addComponent(prevButton)
+                                                        .addGap(49, 49, 49)
+                                                        .addComponent(nextButton))
+                                                .addGroup(layout.createSequentialGroup()
+                                                        .addComponent(hledejField, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                        .addComponent(hledejButton)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(newButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addContainerGap(164, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(76, 76, 76)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1))
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(hledejField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(hledejButton)
+                                .addComponent(newButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(76, 76, 76)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(prevButton)
+                                .addComponent(nextButton))
+                        .addContainerGap())
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -155,15 +213,14 @@ public class RegistraceOsobFrame extends javax.swing.JFrame {
 //            }
 //        });
 //    }
-
     // Variables declaration - do not modify//BLOKOVANE-BLOKOVANE-GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton nextButton;
+    private javax.swing.JButton prevButton;
+    private javax.swing.JButton newButton;
+    private javax.swing.JButton hledejButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    // End of variables declaration//GEN-END:variables
+    private javax.swing.JTable osobyTable;
+    private javax.swing.JTextField hledejField;
+    // End of variables declaration                   
 }
