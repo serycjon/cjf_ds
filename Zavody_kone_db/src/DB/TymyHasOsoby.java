@@ -25,9 +25,9 @@ import javax.persistence.Table;
 @IdClass(TymyHasOsoby_ID.class)
 public class TymyHasOsoby implements Serializable{
   @Id
-  private long tymy_tym_id;
+  private Long tymy_tym_id;
   @Id
-  private long osoby_osoba_id;
+  private Long osoby_osoba_id;
   private boolean je_jezdec;
   @ManyToOne
   @PrimaryKeyJoinColumn(name="tymy_tym_id", referencedColumnName="tym_id")

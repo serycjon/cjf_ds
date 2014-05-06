@@ -65,12 +65,12 @@ public class Tym implements Serializable {
     private List<Osoba> osoby;
      */
   
-  public static Tym createTym(String nazev,Zavody zavod,Kategorie kategorie){
+  public static Tym createTym(String nazev,Kategorie kategorie){
       Tym tym  = new Tym();
       tym.setNazev(nazev);
-      tym.setZavodId(zavod);
+      //tym.setZavodId(zavod);
       tym.setKategorieId(kategorie);
-      tym.setStartovni_cislo(55);
+      //tym.setStartovni_cislo(55);
       tym.setDojel(false);
       tym.setCas_prvniho_kola(0);
       tym.setCas_druheho_kola(0);
