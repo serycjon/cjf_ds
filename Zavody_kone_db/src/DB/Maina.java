@@ -20,11 +20,11 @@ import javax.persistence.TypedQuery;
  * @author jonas
  */
 public class Maina {
-
+private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("Zavody_kone_dbPU");
+        private static EntityManager em = emf.createEntityManager();
     public static void main(String[] args) {
         //Entity manager and transaction
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Zavody_kone_dbPU");
-        EntityManager em = emf.createEntityManager();
+        
         EntityTransaction tx = em.getTransaction();
 
 //create new entity and persist it to the database
