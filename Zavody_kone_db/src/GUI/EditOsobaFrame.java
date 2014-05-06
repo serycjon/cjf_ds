@@ -58,7 +58,7 @@ Osoba o1;
         ulozitButton = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
         o1 =DBTools.getInstance().getEm().find(Osoba.class, osobaId);
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jmenoLabel.setText("Jmeno");
 

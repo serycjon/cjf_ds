@@ -119,7 +119,7 @@ public class RegistraceOsobFrame extends javax.swing.JFrame {
                 Long id = (Long) ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 0);
                 //TODO: 
                 System.out.println("editing id: " + id);
-                EditOsobaFrame editOsoba = new EditOsobaFrame();
+                EditOsobaFrame editOsoba = new EditOsobaFrame(id);
                 editOsoba.setVisible(true);
             }
         };
