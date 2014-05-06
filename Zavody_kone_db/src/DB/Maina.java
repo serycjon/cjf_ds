@@ -20,13 +20,20 @@ import javax.persistence.TypedQuery;
  * @author jonas
  */
 public class Maina {
-private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("Zavody_kone_dbPU");
-        private static EntityManager em = emf.createEntityManager();
+
+    private static EntityManagerFactory emf ;
+    private static EntityManager em ;
+    private static EntityTransaction tx;
+
+    
     public static void main(String[] args) {
         //Entity manager and transaction
-        
-        EntityTransaction tx = em.getTransaction();
 
+//        EntityTransaction tx = em.getTransaction();
+
+        em=DBTools.getInstance().getEm();
+        tx=DBTools.getInstance().getTx();
+        
 //create new entity and persist it to the database
 //         OsobyHasStaje st = OsobyHasStaje.createOsobyHasStaje(2, 1, Date.valueOf("1992-12-02"),Date.valueOf("1992-12-02"));
 //       Zavod za = Zavod.createZavod("Zavod, kdz je zatazeno", Date.valueOf("2014-03-05"), "doma");
@@ -70,8 +77,8 @@ private static EntityManagerFactory emf = Persistence.createEntityManagerFactory
 //        System.out.println("tym "+tym2);
 //        
 
-        TypedQuery queryS = em.createQuery("Select s from Tym s", Tym.class);
-        List<Tym> listS = queryS.getResultList();
+        TypedQuery queryS = em.createQuery("Select s from Kun s", Kun.class);
+        List<Kun> listS = queryS.getResultList();
 
         for (Iterator<Tym> itT = listS.iterator(); itT.hasNext();) {
 
