@@ -36,6 +36,12 @@ public class TymyHasKone implements Serializable {
     @PrimaryKeyJoinColumn(name="tymy_tym_id", referencedColumnName="tym_id")
     private Tym tym;
 
+    public static TymyHasKone createTymMaKone(Long tym_id, Long kun_id){
+        TymyHasKone thk = new TymyHasKone();
+        thk.setTymy_tym_id(tym_id);
+        thk.setKone_kun_id(kun_id);
+        return thk;
+    }
     //
     public Long getTymy_tym_id() {
         return tymy_tym_id;

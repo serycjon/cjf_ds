@@ -46,6 +46,13 @@ public class TymyHasOsoby implements Serializable{
   * or @JoinColumn(name = "projectId", updatable = false, insertable = false, referencedColumnName = "id")
   */
   private Osoba osoba;
+  
+  public static TymyHasOsoby createTymMaOsobu(Long tym_id,Long osoba_id){
+      TymyHasOsoby tho = new TymyHasOsoby();
+      tho.setTymy_tym_id(tym_id);
+      tho.setOsoby_osoba_id(osoba_id);
+      return tho;
+  }
 
     /**
      * @return the je_jezdec
