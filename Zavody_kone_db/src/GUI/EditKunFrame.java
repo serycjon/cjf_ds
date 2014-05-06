@@ -6,6 +6,8 @@
 
 package GUI;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author jonas
@@ -55,8 +57,19 @@ public class EditKunFrame extends javax.swing.JFrame {
         jTextField3.setText("jTextField3");
 
         jButton1.setText("Uložit");
+        final JFrame tmp = this;
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ulozitButtonActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Storno");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tmp.dispose();
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -110,7 +123,7 @@ public class EditKunFrame extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
     /**
      * @param args the command line arguments
@@ -146,6 +159,11 @@ public class EditKunFrame extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void ulozitButtonActionPerformed(java.awt.event.ActionEvent evt) {                                               
+        
+// TODO add your handling code here:
+    }
 
     // Variables declaration - do not modify//BLOKOVANE-BLOKOVANE-GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -157,5 +175,5 @@ public class EditKunFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 }
