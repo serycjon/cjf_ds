@@ -37,8 +37,8 @@ public class EditKunFrame extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        ulozitButton = new javax.swing.JButton();
+        stornoButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,16 +56,17 @@ public class EditKunFrame extends javax.swing.JFrame {
 
         jTextField3.setText("jTextField3");
 
-        jButton1.setText("Uložit");
-        final JFrame tmp = this;
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        ulozitButton.setText("Uložit");
+        
+        ulozitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ulozitButtonActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Storno");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        stornoButton.setText("Storno");
+        final JFrame tmp = this;
+        stornoButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tmp.dispose();
             }
@@ -81,9 +82,9 @@ public class EditKunFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(stornoButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(ulozitButton)
                 .addGap(157, 157, 157))
             .addGroup(layout.createSequentialGroup()
                 .addGap(46, 46, 46)
@@ -117,8 +118,8 @@ public class EditKunFrame extends javax.swing.JFrame {
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(ulozitButton)
+                    .addComponent(stornoButton))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
@@ -166,8 +167,8 @@ public class EditKunFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//BLOKOVANE-BLOKOVANE-GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton ulozitButton;
+    private javax.swing.JButton stornoButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
