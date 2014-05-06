@@ -10,12 +10,12 @@ package GUI;
  *
  * @author Lada
  */
-public class RegistraceTymuDoZavodu extends javax.swing.JFrame {
+public class RegistraceTymuFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form RegistraceTymuDoy
      */
-    public RegistraceTymuDoZavodu() {
+    public RegistraceTymuFrame() {
         initComponents();
     }
 
@@ -154,20 +154,20 @@ public class RegistraceTymuDoZavodu extends javax.swing.JFrame {
 //                }
 //            }
 //        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(RegistraceTymuDoZavodu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(RegistraceTymuFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(RegistraceTymuDoZavodu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(RegistraceTymuFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(RegistraceTymuDoZavodu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(RegistraceTymuFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(RegistraceTymuDoZavodu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(RegistraceTymuFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        }
 //        //</editor-fold>
 //
 //        /* Create and display the form */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                new RegistraceTymuDoZavodu().setVisible(true);
+//                new RegistraceTymuFrame().setVisible(true);
 //            }
 //        });
 //    }

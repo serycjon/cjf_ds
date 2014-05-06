@@ -40,6 +40,7 @@ CREATE TABLE "osoby" (
 	"jmeno" varchar(20) NOT NULL,
 	"prijmeni" varchar(20) NOT NULL,
 	"datum_narozeni" date NOT NULL,
+	-- rodne cislo pro nase demo nepotrebujeme
 	PRIMARY KEY("osoba_id")
 );
 
@@ -49,6 +50,7 @@ CREATE TABLE "kone" (
 	"jmeno" varchar(20) NOT NULL,
 	"plemeno" varchar(50) NOT NULL,
 	"majitel" varchar(35) NOT NULL,
+	-- konske cislo
 	PRIMARY KEY("kun_id")
 );
 
