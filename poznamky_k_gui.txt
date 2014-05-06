@@ -4,7 +4,7 @@ Re: Nevim jak to myslis, takhle jsem to udelala pro to, ze by se pridava libovol
 menu, kt kdzy tam bude kun1 tk v upravit bz se upravil kun 1, pak by se vzbral kun 2 - upravit a vzbral kun 2. Asi to neni uplne idealni, al envim jak to vzresit jinak. Jedine spousta dalsich okenktere bz te provayeli. No nevim. Nestojim si zatim, ale nemam moc napad, jak to zmenit.
 
 2) RegistraceKZavodum - vybrat ze stavajicich/registrovat? neco z toho trochu navic? neni uplne jasne, jak s tim zachazet
-Re: Souhlasim.... je to nejake divne, uy ani nejak nevim co jsem tim presne myslela.
+Re: Souhlasim.... je to nejake divne, uz ani nejak nevim, co jsem tim presne myslela.
 
 3) VstupniFormular - super, akorat bych jeste pridal prubeh zavodu, nebo neco takoveho - tam se pak budou psat casy a penalizace v prubehu zavodu
 	(aspon predpokladam, ze to nema byt to same, jako registrace zavodu). 

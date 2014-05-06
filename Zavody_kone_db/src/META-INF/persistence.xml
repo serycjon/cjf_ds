@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="Zavody_kone_dbPU"  transaction-type="RESOURCE_LOCAL">
-       
+  <persistence-unit name="Zavody_kone_dbPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>DB.Osoba</class>
     <class>DB.Tym</class>
     <class>DB.TymyHasOsoby</class>
     <class>DB.Staj</class>
-    <class>DB.OsobyHasStaje</class> 
-    <class>DB.Zavody</class> 
-    <class>DB.Kategorie</class> 
-    <class>DB.ZavodHasKategorie</class> 
+    <class>DB.OsobyHasStaje</class>
+    <class>DB.Zavody</class>
+    <class>DB.Kategorie</class>
+    <class>DB.ZavodHasKategorie</class>
     <class>DB.Kun</class>
     <class>DB.TymyHasKone</class>
     <class>DB.</class>
+    <class>DB.DBTools</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://krizik.felk.cvut.cz:5434/student_db13_30"/>
       <property name="javax.persistence.jdbc.password" value="cjf_kone_db"/>
