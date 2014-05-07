@@ -5,7 +5,12 @@
  */
 package GUI;
 
+import DB.DBTools;
+import DB.Kun;
+import DB.Osoba;
 import java.awt.event.ActionEvent;
+import java.util.List;
+import javax.persistence.TypedQuery;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFrame;
@@ -67,14 +72,19 @@ public class RegistraceOsobFrame extends javax.swing.JFrame {
 
         //hledejField.setText("jTextField1");
         jLabel1.setText(""); //Registrace členu");
-
+        TypedQuery queryS = DBTools.getInstance().getEm().createQuery("Select s from Osoba s", Osoba.class);
+        List<Osoba> listOsoby = queryS.getResultList();
+         Object[][] data = new Object [listOsoby.size()][6];
+        for (int i = 0; i < listOsoby.size(); i++) {
+            data[i][0]=listOsoby.get(i).getOsoba_id();
+            data[i][1]=listOsoby.get(i).getJmeno();
+            data[i][2]=listOsoby.get(i).getPrijmeni();
+            data[i][3]=listOsoby.get(i).getDatum_narozeni();
+            data[i][4]="Upravit";
+            data[i][5]="Smazat";
+        }
         osobyTable.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{
-                    {1L, "jonas", null, null, "edit", "delete"},
-                    {2L, "honza", null, null, "edit", "delete"},
-                    {3L, "lada", null, null, "edit", "delete"},
-                    {4L, "amelie", null, null, "edit", "delete"}
-                },
+                data,
                 new String[]{
                     "hidden Id", "Jméno", "Příjmení", "Datum narození", "upravit", "smazat"
                 }
