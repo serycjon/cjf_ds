@@ -5,6 +5,8 @@
  */
 package GUI;
 
+import DB.DBTools;
+import DB.Osoba;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -90,25 +92,31 @@ public class RegistraceOsobFrame extends javax.swing.JFrame {
                 JTable table = (JTable) e.getSource();
                 int modelRow = Integer.valueOf(e.getActionCommand());
                 Long id = (Long) ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 0);
-                
+
                 Object[] options = {"Smazat", "Storno"};
                 int n = JOptionPane.showOptionDialog(frame,
                         "Smazání osoby je nevratné!\n Opravdu si přejete pokračovat?",
                         "Potvrzení smazání",
-                       
                         JOptionPane.YES_NO_CANCEL_OPTION,
                         JOptionPane.QUESTION_MESSAGE,
                         null,
                         options,
                         options[1]);
-                if(n==0){
+                if (n == 0) {
                     ((DefaultTableModel) table.getModel()).removeRow(modelRow);
                     System.out.println("deleting id: " + id);
+                    Osoba osobaf = DBTools.getInstance().getEm().find(Osoba.class, id);
+                    System.out.println("Remove osoba before> " + osobaf);
+                    DBTools.getInstance().getTx().begin();
+                    DBTools.getInstance().getEm().remove(osobaf);
+                    DBTools.getInstance().getTx().commit();
+                    // TODO TRY a CATCH
+
                 }
                 /*final JOptionPane optionPane = new JOptionPane(
-                        "Smazání osoby je nevratné!",
-                        JOptionPane.QUESTION_MESSAGE,
-                        JOptionPane.YES_NO_OPTION);*/
+                 "Smazání osoby je nevratné!",
+                 JOptionPane.QUESTION_MESSAGE,
+                 JOptionPane.YES_NO_OPTION);*/
             }
         };
 
