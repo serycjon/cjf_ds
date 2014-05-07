@@ -56,10 +56,10 @@ public class Maina {
         
         System.out.println(o1);
         Osoba o2 = em.find(Osoba.class, 2L);
-        tx.begin();
+        
         Tym tym2 = Tym.createTym("zkousimudelattym", kat);
         em.persist(tym2);
-        tx.commit();
+        
         tx.begin();
         System.out.println("TID: " + tym2.getTym_id());
         TymyHasKone thk = TymyHasKone.createTymMaKone(tym2.getTym_id(), k1.getKun_id());

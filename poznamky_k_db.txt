@@ -1,3 +1,22 @@
+zapocet
+1) GUI tymy
+2) demonstrovat omezeni kategoriemi
+3) generovani dat
+4) statistiky, vysledky, prumerne casy, prumerne umisteni, ...
+5) do pdfka okecat trigger
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------
 udb student_db13_30
 p 5435
 heslo: cjf_kone_db
