@@ -99,6 +99,7 @@ public class UniverzalniVybiratko extends javax.swing.JDialog {
 
         DefaultTableModel model = new DefaultTableModel(data, columnNames);
         jTable1.setModel(model);
+        
         TableColumnModel cm = jTable1.getColumnModel();
         TableColumn id_column = cm.getColumn(0);
         cm.removeColumn(id_column);

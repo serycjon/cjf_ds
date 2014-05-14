@@ -12,3 +12,23 @@ select tymy_tym_id, COUNT(DISTINCT kone_kun_id) from tymy_has_kone group by tymy
 
 vygenerovani startovnich cisel
 select prirad_startovni_cisla(1); -- misto jednicky zavod_id, ve kterem chcem prirazovat
+
+
+---------------------------------
+:P vysledkova listina osob pro danou kategorii a zavod podle id
+
+SELECT osoby.jmeno,osoby.prijmeni,tymy.nazev,tymy.zavod_id,tymy.kategorie_id,cas_prvniho_kola+cas_druheho_kola+(penalizace_prvni_kolo+penalizace_druhe_kolo) AS cas FROM  osoby
+      INNER JOIN tymy_has_osoby ON osoby.osoba_id=tymy_has_osoby.osoby_osoba_id 
+     INNER JOIN tymy ON tymy_has_osoby.tymy_tym_id=tymy.tym_id
+      WHERE tymy_has_osoby.je_jezdec=true  AND tymy.kategorie_id=1 AND tymy.zavod_id=1  --AND tymy.dojel=true;
+      ORDER BY cas ASC;
+
+:P vysledkova listina koni pro urcity zavod podle id zavodu
+SELECT kone.jmeno,kone.plemeno,tymy.nazev,tymy.zavod_id,tymy.kategorie_id,cas_prvniho_kola+cas_druheho_kola+(penalizace_prvni_kolo+penalizace_druhe_kolo) AS cas FROM  kone
+      INNER JOIN tymy_has_kone ON kone.kun_id=tymy_has_kone.kone_kun_id 
+     INNER JOIN tymy ON tymy_has_kone.tymy_tym_id=tymy.tym_id
+      WHERE   tymy.zavod_id=1  --AND tymy.dojel=true;
+      ORDER BY cas ASC;
+
+:P nejrychlejsi kolo podle kategorie a zavodu
+
