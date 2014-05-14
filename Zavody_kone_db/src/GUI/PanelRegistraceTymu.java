@@ -4,11 +4,27 @@
  */
 package GUI;
 
+import DB.DBTools;
+import DB.Kategorie;
+import DB.Osoba;
+import java.awt.event.ActionEvent;
+import java.util.List;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Lada
  */
-public class PanelRegistraceTymu extends javax.swing.JPanel {
+public class PanelRegistraceTymu extends javax.swing.JFrame {
+    private ButtonColumn buttonColumnKone;
+    private ButtonColumn buttonColumnPrisedici;
 
     /**
      * Creates new form PanelRegistraceTymu
@@ -26,202 +42,281 @@ public class PanelRegistraceTymu extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//BLOKOVANE-GEN-BEGIN:initComponents
     private void initComponents() {
 
-        JamenoTymuField = new javax.swing.JTextField();
-        JmenoTymuPolisek = new javax.swing.JLabel();
+        JmenoTymuField = new javax.swing.JTextField();
+        JmenoTymuPopisek = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        kategorieCombo = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        prisediciTable = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        koneTable = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jezdecTable = new javax.swing.JTable();
+        ulozitButton = new javax.swing.JButton();
+        stornoButton = new javax.swing.JButton();
 
-        JamenoTymuField.setText("jTextField1");
-        JamenoTymuField.addActionListener(new java.awt.event.ActionListener() {
+        JmenoTymuField.setText("jTextField1");
+        JmenoTymuField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 JamenoTymuFieldActionPerformed(evt);
             }
         });
 
-        JmenoTymuPolisek.setText("Jméno týmu:");
+        JmenoTymuPopisek.setText("Jméno týmu:");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Vytvoření nového týmu");
 
         jLabel2.setText("Kategorie");
+        TypedQuery queryS = DBTools.getInstance().getEm().createQuery("Select s from Kategorie s", Kategorie.class);
+        List<Kategorie> listKategorie = queryS.getResultList();
+        String[] model = new String[listKategorie.size()];
+        for (int i = 0; i < listKategorie.size(); i++) {
+            model[i] = listKategorie.get(i).getNazev();
+        }
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        kategorieCombo.setModel(new javax.swing.DefaultComboBoxModel(model));
+        kategorieCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                kategorieComboActionPerformed(evt);
             }
         });
+        //System.out.println(kategorieCombo.getSelectedItem());
 
         jLabel3.setText("Jezdec");
 
         jLabel4.setText("Přísedící");
 
         jLabel6.setText("Koně");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        
+        zmenit = new AbstractAction() {
+            private int typ;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JTable table = (JTable) e.getSource();
+                int modelRow = Integer.valueOf(e.getActionCommand());
+                if(table.equals(koneTable)){
+                    typ = UniverzalniVybiratko.TYP_KUN;
+                }else{
+                    typ = UniverzalniVybiratko.TYP_OSOBA;
+                }
+                UniverzalniVybiratko uv = new UniverzalniVybiratko(PanelRegistraceTymu.this, true, typ);
+                uv.setVisible(true);
+                //((DefaultTableModel) table.getModel()).removeRow(modelRow);
             }
+        };
+
+        prisediciTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null}
+                },
+                new String[]{
+                    "Jmeno", "Prijmeni", "Datum narozeni", ""
+                }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(prisediciTable);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
+        
+
+        koneTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null}
+                },
+                new String[]{
+                    "Jmeno", "Plemeno", "Majitel", ""
+                }
         ));
-        jScrollPane3.setViewportView(jTable2);
+        ButtonColumn buttonColumnKone = new ButtonColumn(koneTable, zmenit, 3);
+        jScrollPane3.setViewportView(koneTable);
+        
+        updateTables(kategorieCombo.getSelectedItem().toString());
+        
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
+        jezdecTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{
+                    {"---", "---", "---", "zmenit"},},
+                new String[]{
+                    "Jmeno", "Prijmeni", "Datum narozeni", ""
+                }
         ));
-        jScrollPane4.setViewportView(jTable3);
 
-        jButton1.setText("Ulozit");
+        ButtonColumn buttonColumnJezdec = new ButtonColumn(jezdecTable, zmenit, 3);
+        jScrollPane4.setViewportView(jezdecTable);
 
-        jButton2.setText("Storno");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        ulozitButton.setText("Ulozit");
+
+        stornoButton.setText("Storno");
+        stornoButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addComponent(jScrollPane4))
-                                    .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(139, 139, 139)
-                                                .addComponent(jLabel1))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(7, 7, 7)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(JmenoTymuPolisek, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                        .addComponent(JamenoTymuField, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGap(33, 33, 33)
-                                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                                        .addGap(187, 187, 187)))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane2)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel6))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addGap(31, 31, 31))
+                                                .addGroup(layout.createSequentialGroup()
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                .addGroup(layout.createSequentialGroup()
+                                                                        .addContainerGap()
+                                                                        .addComponent(jScrollPane4))
+                                                                .addGroup(layout.createSequentialGroup()
+                                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                .addGroup(layout.createSequentialGroup()
+                                                                                        .addGap(139, 139, 139)
+                                                                                        .addComponent(jLabel1))
+                                                                                .addGroup(layout.createSequentialGroup()
+                                                                                        .addGap(7, 7, 7)
+                                                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                                                .addGroup(layout.createSequentialGroup()
+                                                                                                        .addComponent(JmenoTymuPopisek, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                                                        .addComponent(JmenoTymuField, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                                .addGroup(layout.createSequentialGroup()
+                                                                                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                        .addGap(33, 33, 33)
+                                                                                                        .addComponent(kategorieCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                                                        .addGap(187, 187, 187)))
+                                                        .addGap(0, 0, Short.MAX_VALUE))
+                                                .addGroup(layout.createSequentialGroup()
+                                                        .addContainerGap()
+                                                        .addComponent(jScrollPane2)))
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                .addGroup(layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jScrollPane3)
+                                                .addGroup(layout.createSequentialGroup()
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                .addComponent(jLabel4)
+                                                                .addComponent(jLabel3)
+                                                                .addComponent(jLabel6))
+                                                        .addGap(0, 0, Short.MAX_VALUE)))))
+                        .addContainerGap())
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(stornoButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ulozitButton)
+                        .addGap(31, 31, 31))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JmenoTymuPolisek)
-                    .addComponent(JamenoTymuField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(JmenoTymuPopisek)
+                                .addComponent(JmenoTymuField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(kategorieCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(ulozitButton)
+                                .addComponent(stornoButton))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-    }// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>                        
+    
+    private void updateTables(String nazevKategorie){
+        String sql = "select * from kategorie where nazev=?";
+        Query query = DBTools.getInstance().getEm().createNativeQuery(sql, Kategorie.class);
+
+        query.setParameter(1, nazevKategorie);
+
+        Kategorie aktKat = (Kategorie) query.getSingleResult();
+
+        //System.out.println(aktKat);
+
+        String[][] koneData = new String[aktKat.getPocet_koni()][4];
+        for(String[] a: koneData){
+            a[0] = "---";
+            a[1] = "---";
+            a[2] = "---";
+            a[3] = "zmenit";
+        }
+
+        koneTable.setModel(new javax.swing.table.DefaultTableModel(
+                koneData,
+                new String[]{
+                    "Jmeno", "Plemeno", "Majitel", ""
+                }
+        ));
+        buttonColumnKone = new ButtonColumn(koneTable, zmenit, 3);
+        
+        String[][] prisediciData = new String[aktKat.getPocet_prisedicich()][4];
+        for(String[] a: prisediciData){
+            a[0] = "---";
+            a[1] = "---";
+            a[2] = "---";
+            a[3] = "zmenit";
+        }
+
+        prisediciTable.setModel(new javax.swing.table.DefaultTableModel(
+                prisediciData,
+                new String[]{
+                    "Jmeno", "Prijmeni", "Datum narozeni", ""
+                }
+        ));
+        buttonColumnPrisedici = new ButtonColumn(prisediciTable, zmenit, 3);
+    }
 
     private void JamenoTymuFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JamenoTymuFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_JamenoTymuFieldActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    private void kategorieComboActionPerformed(java.awt.event.ActionEvent evt) {
+        //System.out.println(evt.getActionCommand());
+        updateTables( ((JComboBox)evt.getSource()).getSelectedItem().toString() );
+        //updateTables(evt.getActionCommand());
+    }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    public static void main(String[] args) {
+        PanelRegistraceTymu fr = new PanelRegistraceTymu();
+        fr.setVisible(true);
+    }
+
     // Variables declaration - do not modify//BLOKOVANE-GEN-BEGIN:variables
-    private javax.swing.JTextField JamenoTymuField;
-    private javax.swing.JLabel JmenoTymuPolisek;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JTextField JmenoTymuField;
+    private javax.swing.JLabel JmenoTymuPopisek;
+    private javax.swing.JButton ulozitButton;
+    private javax.swing.JButton stornoButton;
+    private javax.swing.JComboBox kategorieCombo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -230,8 +325,9 @@ public class PanelRegistraceTymu extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    // End of variables declaration//GEN-END:variables
+    private javax.swing.JTable prisediciTable;
+    private javax.swing.JTable koneTable;
+    private javax.swing.JTable jezdecTable;
+    private Action zmenit;
+    // End of variables declaration                   
 }
