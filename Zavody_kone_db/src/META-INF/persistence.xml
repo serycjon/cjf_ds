@@ -14,6 +14,8 @@
     <class>DB.TymyHasKone</class>
     <class>DB.</class>
     <class>DB.DBTools</class>
+    <class>DB.OsobaJmPok</class>
+    
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://krizik.felk.cvut.cz:5434/student_db13_30"/>
       <property name="javax.persistence.jdbc.password" value="cjf_kone_db"/>
