@@ -17,7 +17,6 @@ CREATE TABLE "kategorie" (
 );
 
 CREATE SEQUENCE seq_tymy;
-CREATE SEQUENCE seq_startovni_cislo; --nebude potreba
 CREATE TABLE "tymy" (
 	"tym_id" int NOT NULL UNIQUE DEFAULT nextval('seq_tymy'),
 	"nazev" varchar(50) NOT NULL,
@@ -200,14 +199,14 @@ CREATE OR REPLACE FUNCTION prirad_startovni_cisla(zavod INTEGER) RETURNS boolean
 	DECLARE
 		i RECORD;
 		update_count INTEGER;
+		cislo INTEGER;
 	BEGIN
-		ALTER SEQUENCE seq_startovni_cislo RESTART 1;
-		-- zda dojde ke konfliktum, pokud by ve stejnou chvili generovalo vice lidi
-		-- ignorujeme to, jakozto zcela nepravdepodobnou situaci :)
+		cislo := 1;
 		FOR i IN SELECT tym_id FROM tymy WHERE zavod_id = zavod ORDER BY random() LOOP
 			RAISE DEBUG ''updating id %'', i.tym_id;
-			UPDATE tymy SET startovni_cislo = nextval(''seq_startovni_cislo'') WHERE tym_id = i.tym_id;
+			UPDATE tymy SET startovni_cislo = cislo WHERE tym_id = i.tym_id;
 			GET DIAGNOSTICS update_count = ROW_COUNT;
+			cislo := cislo+1;
 			IF update_count < 1 THEN
 				RETURN FALSE;
 			END IF;
