@@ -116,7 +116,7 @@ public class Maina {
 //      String sql2 ="SELECT *  FROM  osoby  WHERE  ILIKE osoby\n" +
 //"       JOIN tymy_has_osoby ON osoby.osoba_id=tymy_has_osoby.osoby_osoba_id \n" ;//+
          String hledaneSlovo= "%an%";
-      String sql2 = "select * from osoby where jmeno ilike ?";// or prijmeni ilike '%?%' or datum_narozeni::text like '%?%'";
+      String sql2 = "select * from osoby where jmeno ilike ? or prijmeni ilike '%?%' or datum_narozeni::text like '%?%'";
 //"      JOIN tymy ON tymy_has_osoby.tymy_tym_id=tymy.tym_id\n" +
 //"      WHERE tymy_has_osoby.je_jezdec=true AND tymy.kategorie_id=1 AND --tymy.dojel=true;\n" +
 //"      ORDER BY tymy.cas_prvniho_kola+tymy.cas_druheho_kola+(tymy.penalizace_prvni_kolo+tymy.penalizace_druhe_kolo) ASC";
