@@ -11,11 +11,12 @@ package GUI;
  * @author jonas
  */
 public class UniverzalniVybiratko extends javax.swing.JDialog {
-
+public static final int TYP_KUN = 1;
+public static final int TYP_OSOBA = 2;
     /**
      * Creates new form UniverzalniVybiratko
      */
-    public UniverzalniVybiratko(java.awt.Frame parent, boolean modal) {
+    public UniverzalniVybiratko(java.awt.Frame parent, boolean modal, int typ) {
         super(parent, modal);
         initComponents();
     }
@@ -106,7 +107,7 @@ public class UniverzalniVybiratko extends javax.swing.JDialog {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
     /**
      * @param args the command line arguments
@@ -138,7 +139,7 @@ public class UniverzalniVybiratko extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                UniverzalniVybiratko dialog = new UniverzalniVybiratko(new javax.swing.JFrame(), true);
+                UniverzalniVybiratko dialog = new UniverzalniVybiratko(new javax.swing.JFrame(), true,TYP_KUN);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -158,5 +159,5 @@ public class UniverzalniVybiratko extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 }
