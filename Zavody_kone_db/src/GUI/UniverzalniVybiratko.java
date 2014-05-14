@@ -6,6 +6,7 @@
 package GUI;
 
 import DB.DBTools;
+import DB.Kun;
 import DB.Osoba;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,9 +14,11 @@ import java.awt.event.MouseAdapter;
 import java.util.Iterator;
 import java.util.List;
 import javax.persistence.Query;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -26,6 +29,7 @@ public class UniverzalniVybiratko extends javax.swing.JDialog {
     public static final int TYP_KUN = 1;
     public static final int TYP_OSOBA = 2;
     private int typ;
+    private Integer result;
 
     /**
      * Creates new form UniverzalniVybiratko
@@ -58,8 +62,8 @@ public class UniverzalniVybiratko extends javax.swing.JDialog {
         jTextField1.setText("");
 
         jButton1.setText("Hledat");
-        String[][] data = new String[1][4];
-        String[] columnNames = new String[4];
+        String[][] data = new String[0][4];
+        
         if (typ == TYP_KUN) {
             columnNames[0] = "hidden Id";
             columnNames[1] = "Jméno";
@@ -76,32 +80,21 @@ public class UniverzalniVybiratko extends javax.swing.JDialog {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                String hledaneSlovo = "%" + jTextField1.getText() + "%";
-                String sql2 = "select * from osoby where jmeno ilike ? or prijmeni ilike ? or datum_narozeni::text like ?";
-                Query query2 = DBTools.getInstance().getEm().createNativeQuery(sql2, Osoba.class);
-                query2.setParameter(1, hledaneSlovo);
-                query2.setParameter(2, hledaneSlovo);
-                query2.setParameter(3, hledaneSlovo);
-                List<Osoba> oslistik = query2.getResultList();
-                Object[][] NovaData = new Object[oslistik.size()][6];
-                for (int i = 0; i < oslistik.size(); i++) {
-                    NovaData[i][0] = oslistik.get(i).getOsoba_id();
-                    NovaData[i][1] = oslistik.get(i).getJmeno();
-                    NovaData[i][2] = oslistik.get(i).getPrijmeni();
-                    NovaData[i][3] = oslistik.get(i).getDatum_narozeni();
-
+                TableModel nastaveniTabulky;
+                if(typ==TYP_KUN){
+                    nastaveniTabulky=nastavTAbulceHledaniHodnotyKoni(jTextField1);
+                }else{
+                    nastaveniTabulky=nastavTAbulceHledaniHodnotyOsob(jTextField1);
                 }
-                jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                        NovaData,
-                        new String[]{"hidden Id", "Jméno", "Příjmení", "Datum narození"}
-                ));
+                
+                jTable1.setModel(nastaveniTabulky);
                 TableColumnModel cm = jTable1.getColumnModel();
                 TableColumn id_column = cm.getColumn(0);
                 cm.removeColumn(id_column);
-               
-                System.out.println("get selected row "+ jTable1.getSelectedRow());
                 //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
+
+            
         });
 
         DefaultTableModel model = new DefaultTableModel(data, columnNames);
@@ -121,12 +114,24 @@ public class UniverzalniVybiratko extends javax.swing.JDialog {
                     System.out.println("Nebzlo vybrano zadne pole");
                 }else{
                 System.out.println("Vybrany radek: "+vybranyRadek);
+                    System.out.println(jTable1.getModel().getValueAt(vybranyRadek, 1));
+                    result=(Integer)jTable1.getModel().getValueAt(vybranyRadek, 0);
+                    UniverzalniVybiratko.this.dispose();
                 }
                // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         });
         jButton3.setText("Storno");
-        System.out.println("typ " + typ);
+        jButton3.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                result=null;
+                 UniverzalniVybiratko.this.dispose();
+                System.out.println("zavrit a nevratit nic...");
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
         if (typ == TYP_KUN) {
             jLabel1.setText("Výběr kone");
         } else {
@@ -208,7 +213,7 @@ public class UniverzalniVybiratko extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                UniverzalniVybiratko dialog = new UniverzalniVybiratko(new javax.swing.JFrame(), true, TYP_KUN);
+                UniverzalniVybiratko dialog = new UniverzalniVybiratko(new javax.swing.JFrame(), true, TYP_OSOBA);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -220,7 +225,49 @@ public class UniverzalniVybiratko extends javax.swing.JDialog {
         });
     }
 
+    private TableModel nastavTAbulceHledaniHodnotyOsob(JTextField jTextField1) {
+       String hledaneSlovo = "%" + jTextField1.getText() + "%";
+                String sql2 = "select * from osoby where jmeno ilike ? or prijmeni ilike ? or datum_narozeni::text like ?";
+                Query query2 = DBTools.getInstance().getEm().createNativeQuery(sql2, Osoba.class);
+                query2.setParameter(1, hledaneSlovo);
+                query2.setParameter(2, hledaneSlovo);
+                query2.setParameter(3, hledaneSlovo);
+                List<Osoba> oslistik = query2.getResultList();
+                Object[][] NovaData = new Object[oslistik.size()][6];
+                for (int i = 0; i < oslistik.size(); i++) {
+                    NovaData[i][0] = oslistik.get(i).getOsoba_id();
+                    NovaData[i][1] = oslistik.get(i).getJmeno();
+                    NovaData[i][2] = oslistik.get(i).getPrijmeni();
+                    NovaData[i][3] = oslistik.get(i).getDatum_narozeni();
+
+                }
+                TableModel table= new DefaultTableModel(NovaData, columnNames);
+                return table;
+    }
+     private TableModel nastavTAbulceHledaniHodnotyKoni(JTextField jTextField1) {
+       String hledaneSlovo = "%" + jTextField1.getText() + "%";
+                String sql2 = "select * from kone where jmeno ilike ? or plemeno ilike ? or majitel ilike ?";
+                Query query2 = DBTools.getInstance().getEm().createNativeQuery(sql2, Kun.class);
+                query2.setParameter(1, hledaneSlovo);
+                query2.setParameter(2, hledaneSlovo);
+                query2.setParameter(3, hledaneSlovo);
+                List<Kun> oslistik = query2.getResultList();
+                Object[][] NovaData = new Object[oslistik.size()][6];
+                for (int i = 0; i < oslistik.size(); i++) {
+                    NovaData[i][0] = oslistik.get(i).getKun_id();
+                    NovaData[i][1] = oslistik.get(i).getJmeno();
+                    NovaData[i][2] = oslistik.get(i).getPlemeno();
+                    NovaData[i][3] = oslistik.get(i).getMajitel();
+                }
+                TableModel table= new DefaultTableModel(NovaData, columnNames);
+                return table;
+    }
+     public Integer showDialog(){
+         setVisible(true);
+         return result;
+     }
     // Variables declaration - do not modify//BLOKOVANE-GEN-BEGIN:variables
+    private String[] columnNames = new String[4];
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
