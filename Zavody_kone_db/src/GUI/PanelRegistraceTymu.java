@@ -6,6 +6,7 @@ package GUI;
 
 import DB.DBTools;
 import DB.Kategorie;
+import DB.Kun;
 import DB.Osoba;
 import java.awt.event.ActionEvent;
 import java.util.List;
@@ -17,6 +18,9 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -105,9 +109,17 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
                     typ = UniverzalniVybiratko.TYP_OSOBA;
                 }
                 UniverzalniVybiratko uv = new UniverzalniVybiratko(PanelRegistraceTymu.this, true, typ);
-                uv.setVisible(true);
+                Long result = uv.showDialog();
+                if(result==null){
+                    return;
+                }else{
+                    PanelRegistraceTymu.this.setRow(table, modelRow, typ, result);
+                }
+                
                 //((DefaultTableModel) table.getModel()).removeRow(modelRow);
             }
+
+            
         };
 
         prisediciTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -121,6 +133,7 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
                     "Jmeno", "Prijmeni", "Datum narozeni", ""
                 }
         ));
+        //prisediciTable.setEnabled(false);
         jScrollPane2.setViewportView(prisediciTable);
 
         
@@ -144,11 +157,14 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
 
         jezdecTable.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
-                    {"---", "---", "---", "zmenit"},},
+                    {"---", "---", "---", "---", "zmenit"},},
                 new String[]{
-                    "Jmeno", "Prijmeni", "Datum narozeni", ""
+                    "id", "Jmeno", "Prijmeni", "Datum narozeni", ""
                 }
         ));
+        TableColumnModel cm = jezdecTable.getColumnModel();
+        TableColumn id_column = cm.getColumn(0);
+        cm.removeColumn(id_column);
 
         ButtonColumn buttonColumnJezdec = new ButtonColumn(jezdecTable, zmenit, 3);
         jScrollPane4.setViewportView(jezdecTable);
@@ -259,37 +275,70 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
 
         //System.out.println(aktKat);
 
-        String[][] koneData = new String[aktKat.getPocet_koni()][4];
+        String[][] koneData = new String[aktKat.getPocet_koni()][5];
         for(String[] a: koneData){
             a[0] = "---";
             a[1] = "---";
             a[2] = "---";
-            a[3] = "zmenit";
+            a[3] = "---";
+            a[4] = "zmenit";
         }
 
         koneTable.setModel(new javax.swing.table.DefaultTableModel(
                 koneData,
                 new String[]{
-                    "Jmeno", "Plemeno", "Majitel", ""
+                    "id","Jmeno", "Plemeno", "Majitel", ""
                 }
         ));
-        buttonColumnKone = new ButtonColumn(koneTable, zmenit, 3);
         
-        String[][] prisediciData = new String[aktKat.getPocet_prisedicich()][4];
+        
+        String[][] prisediciData = new String[aktKat.getPocet_prisedicich()][5];
         for(String[] a: prisediciData){
             a[0] = "---";
             a[1] = "---";
             a[2] = "---";
-            a[3] = "zmenit";
+            a[3] = "---";
+            a[4] = "zmenit";
         }
 
         prisediciTable.setModel(new javax.swing.table.DefaultTableModel(
                 prisediciData,
                 new String[]{
-                    "Jmeno", "Prijmeni", "Datum narozeni", ""
+                    "id", "Jmeno", "Prijmeni", "Datum narozeni", ""
                 }
         ));
+        
+        
+        TableColumnModel cm = prisediciTable.getColumnModel();
+        TableColumn id_column = cm.getColumn(0);
+        cm.removeColumn(id_column);
+        
+        cm = koneTable.getColumnModel();
+        id_column = cm.getColumn(0);
+        cm.removeColumn(id_column);
+        
+        buttonColumnKone = new ButtonColumn(koneTable, zmenit, 3);
         buttonColumnPrisedici = new ButtonColumn(prisediciTable, zmenit, 3);
+    }
+    
+    private void setRow(JTable table, int modelRow, int typ, Long result) {
+        System.out.println("typ: "+typ+";  result: "+result);
+        if(typ == UniverzalniVybiratko.TYP_OSOBA){
+            Osoba os = DBTools.getInstance().getEm().find(Osoba.class, result);
+            TableModel mod = table.getModel();
+            mod.setValueAt(os.getOsoba_id(), modelRow, 0);
+            mod.setValueAt(os.getJmeno(), modelRow, 1);
+            mod.setValueAt(os.getPrijmeni(), modelRow, 2);
+            mod.setValueAt(os.getDatum_narozeni(), modelRow, 3);
+        }else{
+            Kun kun = DBTools.getInstance().getEm().find(Kun.class, result);
+            TableModel mod = table.getModel();
+            mod.setValueAt(kun.getKun_id(), modelRow, 0);
+            mod.setValueAt(kun.getJmeno(), modelRow, 1);
+            mod.setValueAt(kun.getPlemeno(), modelRow, 2);
+            mod.setValueAt(kun.getMajitel(), modelRow, 3);
+            
+        }
     }
 
     private void JamenoTymuFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JamenoTymuFieldActionPerformed
@@ -330,4 +379,5 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
     private javax.swing.JTable jezdecTable;
     private Action zmenit;
     // End of variables declaration                   
+
 }

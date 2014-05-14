@@ -29,7 +29,7 @@ public class UniverzalniVybiratko extends javax.swing.JDialog {
     public static final int TYP_KUN = 1;
     public static final int TYP_OSOBA = 2;
     private int typ;
-    private Integer result;
+    private Long result;
 
     /**
      * Creates new form UniverzalniVybiratko
@@ -115,7 +115,7 @@ public class UniverzalniVybiratko extends javax.swing.JDialog {
                 }else{
                 System.out.println("Vybrany radek: "+vybranyRadek);
                     System.out.println(jTable1.getModel().getValueAt(vybranyRadek, 1));
-                    result=(Integer)jTable1.getModel().getValueAt(vybranyRadek, 0);
+                    result=(Long)jTable1.getModel().getValueAt(vybranyRadek, 0);
                     UniverzalniVybiratko.this.dispose();
                 }
                // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -262,7 +262,7 @@ public class UniverzalniVybiratko extends javax.swing.JDialog {
                 TableModel table= new DefaultTableModel(NovaData, columnNames);
                 return table;
     }
-     public Integer showDialog(){
+     public Long showDialog(){
          setVisible(true);
          return result;
      }
