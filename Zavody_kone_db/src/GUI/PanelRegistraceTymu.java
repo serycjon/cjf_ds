@@ -8,15 +8,25 @@ import DB.DBTools;
 import DB.Kategorie;
 import DB.Kun;
 import DB.Osoba;
+import DB.Tym;
+import DB.TymyHasKone;
+import DB.TymyHasOsoby;
+import DB.Zavody;
 import java.awt.event.ActionEvent;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -133,6 +143,7 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
                     "Jmeno", "Prijmeni", "Datum narozeni", ""
                 }
         ));
+        //prisediciTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         //prisediciTable.setEnabled(false);
         jScrollPane2.setViewportView(prisediciTable);
 
@@ -157,7 +168,7 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
 
         jezdecTable.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
-                    {"---", "---", "---", "---", "zmenit"},},
+                    {null, "---", "---", "---", "zmenit"},},
                 new String[]{
                     "id", "Jmeno", "Prijmeni", "Datum narozeni", ""
                 }
@@ -170,6 +181,11 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
         jScrollPane4.setViewportView(jezdecTable);
 
         ulozitButton.setText("Ulozit");
+        ulozitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ulozitActionPerformed(evt);
+            }
+        });
 
         stornoButton.setText("Storno");
         stornoButton.addActionListener(new java.awt.event.ActionListener() {
@@ -277,7 +293,7 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
 
         String[][] koneData = new String[aktKat.getPocet_koni()][5];
         for(String[] a: koneData){
-            a[0] = "---";
+            a[0] = null;
             a[1] = "---";
             a[2] = "---";
             a[3] = "---";
@@ -294,7 +310,7 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
         
         String[][] prisediciData = new String[aktKat.getPocet_prisedicich()][5];
         for(String[] a: prisediciData){
-            a[0] = "---";
+            a[0] = null;
             a[1] = "---";
             a[2] = "---";
             a[3] = "---";
@@ -351,6 +367,109 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
         //updateTables(evt.getActionCommand());
     }
 
+    private void ulozitActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        PanelRegistraceTymu fr = PanelRegistraceTymu.this;
+        EntityManager em = DBTools.getInstance().getEm();
+        EntityTransaction tx = DBTools.getInstance().getTx();
+        
+        System.out.println("");
+        System.out.println("ULOZIT");
+        System.out.println("");
+        
+        String sql = "select * from kategorie where nazev=?";
+        Query query = DBTools.getInstance().getEm().createNativeQuery(sql, Kategorie.class);
+
+        query.setParameter(1, fr.kategorieCombo.getSelectedItem().toString());
+
+        Kategorie kat = (Kategorie) query.getSingleResult();
+        tx.begin();
+        Tym tym = Tym.createTym(fr.JmenoTymuField.getText(), kat);
+        em.persist(tym);
+        tx.commit();
+        tym = em.find(Tym.class, tym.getTym_id());
+        
+        System.out.println(tym);
+        tx.begin();
+        
+        //System.out.println("jezdec");
+        TableModel jtm = fr.jezdecTable.getModel();
+        for (int i = 0; i < jtm.getRowCount(); i++) {
+            Long val = (Long) jtm.getValueAt(i, 0);
+            if(val == null){
+                JOptionPane.showMessageDialog(PanelRegistraceTymu.this, 
+                        "Nelze ulozit! \nNebyl vybran jezdec!", "Pozor", 
+                        JOptionPane.ERROR_MESSAGE);
+                tx.rollback();
+                tx.begin();
+                em.remove(em.find(Tym.class, tym.getTym_id()));
+                tx.commit();
+                return;
+            }else{
+                Osoba o = em.find(Osoba.class, val);
+                System.out.println(o);
+                TymyHasOsoby tho = TymyHasOsoby.createTymMaOsobu(tym.getTym_id(), o.getOsoba_id());
+                tho.setJe_jezdec(true);
+                em.persist(tho);
+            }
+        }
+        
+        //System.out.println("prisedici");
+        TableModel ptm = fr.prisediciTable.getModel();
+        for (int i = 0; i < ptm.getRowCount(); i++) {
+            Long val = (Long) ptm.getValueAt(i, 0);
+            if(val == null){
+                JOptionPane.showMessageDialog(PanelRegistraceTymu.this, 
+                        "Nelze ulozit! \nNebyli vybrani vsichni prisedici!", "Pozor", 
+                        JOptionPane.ERROR_MESSAGE);
+                tx.rollback();
+                tx.begin();
+                em.remove(em.find(Tym.class, tym.getTym_id()));
+                tx.commit();
+                return;
+            }else{
+                Osoba o = em.find(Osoba.class, val);
+                System.out.println(o);
+                TymyHasOsoby tho = TymyHasOsoby.createTymMaOsobu(tym.getTym_id(), o.getOsoba_id());
+                em.persist(tho);
+            }
+        }
+        
+        //System.out.println("kone");
+        TableModel ktm = fr.koneTable.getModel();
+        for (int i = 0; i < ktm.getRowCount(); i++) {
+            Long val = (Long) ktm.getValueAt(i, 0);
+            if(val == null){
+                JOptionPane.showMessageDialog(PanelRegistraceTymu.this, 
+                        "Nelze ulozit! \nNebyli vybrani vsichni kone!", "Pozor", 
+                        JOptionPane.ERROR_MESSAGE);
+                tx.rollback();
+                tx.begin();
+                em.remove(em.find(Tym.class, tym.getTym_id()));
+                tx.commit();
+                return;
+            }else{
+                Kun k = em.find(Kun.class, val);
+                System.out.println(k);
+                TymyHasKone thk = TymyHasKone.createTymMaKone(tym.getTym_id(), k.getKun_id());
+                em.persist(thk);
+            }
+        }
+        
+        try{
+        tx.commit();
+        tx.begin();
+        tym.setZavodId(em.find(Zavody.class, 1L));
+        em.persist(tym);
+        tx.commit();
+        //dispose();
+        }catch(RollbackException e){
+            System.out.println("ERROR -> rollback");
+            tx.begin();
+            em.remove(em.find(Tym.class, tym.getTym_id()));
+            tx.commit();
+        }
+    }
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed

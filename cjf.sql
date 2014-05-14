@@ -144,17 +144,20 @@ CREATE OR REPLACE FUNCTION check_pocty() RETURNS TRIGGER AS '
 	SELECT COUNT(DISTINCT osoby_osoba_id) INTO pocet_lidi_dist FROM tymy_has_osoby GROUP BY tymy_tym_id
 		HAVING tymy_tym_id = check_tym_id;
 
-	IF NOT pocet_koni_povoleny=pocet_koni_realny THEN
+	IF NOT pocet_koni_povoleny=pocet_koni_realny OR pocet_koni_realny IS NULL THEN
 		RAISE EXCEPTION ''Spatny pocet koni!'';
-	ELSEIF NOT pocet_lidi_povoleny=pocet_lidi_realny THEN
+	ELSEIF NOT pocet_lidi_povoleny=pocet_lidi_realny OR pocet_lidi_realny IS NULL THEN
 		RAISE EXCEPTION ''Spatny pocet prisedicich!'';
-	ELSEIF NOT pocet_jezdcu = 1 THEN
+	ELSEIF NOT pocet_jezdcu = 1 OR pocet_jezdcu IS NULL THEN
 		RAISE EXCEPTION ''Spatny pocet jezdcu!'';
-	ELSEIF NOT pocet_lidi_dist = pocet_lidi_realny+1 THEN
+	ELSEIF NOT pocet_lidi_dist = pocet_lidi_realny+1 OR pocet_lidi_dist IS NULL THEN
 		RAISE EXCEPTION ''Duplikovane osoby!'';
-	ELSEIF NOT pocet_koni_dist = pocet_koni_realny THEN
+	ELSEIF NOT pocet_koni_dist = pocet_koni_realny OR pocet_koni_dist IS NULL THEN
 		RAISE EXCEPTION ''Duplikovani kone!'';
 	END IF;
+
+	--RAISE DEBUG ''pocet koni realny %'', pocet_koni_realny;
+	--SET client_min_messages TO WARNING;
 	RETURN NEW;
 	END
 	'
