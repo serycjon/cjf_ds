@@ -195,27 +195,19 @@ CREATE OR REPLACE FUNCTION prirad_startovni_cisla(zavod INTEGER) RETURNS boolean
 \section*{Statistiky}
 Česká Jezdecká Federace každoročně vyhlašuje jezdce,
 který strávil na kolbišti nejvíce času. Pro tuto statistiku jsme vytvořili následující dotaz (ve výpisu~\ref{list:third})
-\begin{lstlisting}[label={list:second},caption=Uložená procedura prirad\_startovni\_cisla\(\)]
-CREATE OR REPLACE FUNCTION prirad_startovni_cisla(zavod INTEGER) RETURNS boolean AS '
-	DECLARE
-		i RECORD;
-		update_count INTEGER;
-		cislo INTEGER;
-	BEGIN
-		cislo := 1;
-		FOR i IN SELECT tym_id FROM tymy WHERE zavod_id = zavod ORDER BY random() LOOP
-			RAISE DEBUG ''updating id %'', i.tym_id;
-			UPDATE tymy SET startovni_cislo = cislo WHERE tym_id = i.tym_id;
-			GET DIAGNOSTICS update_count = ROW_COUNT;
-			cislo := cislo+1;
-			IF update_count < 1 THEN
-				RETURN FALSE;
-			END IF;
-		END LOOP;
-		RETURN TRUE;
-	END
-	'
-	LANGUAGE plpgsql;
+\begin{lstlisting}[label={list:third},caption=Statistika času na kolbišti.]
+SELECT osoby.jmeno,osoby.prijmeni,vnitrek.cas FROM osoby
+INNER JOIN(  
+	SELECT osoby.osoba_id,
+	SUM(cas_prvniho_kola+cas_druheho_kola) AS cas FROM  osoby
+	      INNER JOIN tymy_has_osoby ON
+	      	osoby.osoba_id=tymy_has_osoby.osoby_osoba_id 
+	      INNER JOIN tymy ON tymy_has_osoby.tymy_tym_id=tymy.tym_id
+	      INNER JOIN zavod ON zavod.zavod_id=tymy.zavod_id
+	      WHERE tymy_has_osoby.je_jezdec
+	      	AND EXTRACT(year from zavod.datum)=2014
+	GROUP BY osoby.osoba_id      
+	ORDER BY cas DESC) AS vnitrek ON osoby.osoba_id=vnitrek.osoba_id;    
 \end{lstlisting}
 
 \end{document}
