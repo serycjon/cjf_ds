@@ -39,10 +39,10 @@ public class Maina {
 //         OsobyHasStaje st = OsobyHasStaje.createOsobyHasStaje(2, 1, Date.valueOf("1992-12-02"),Date.valueOf("1992-12-02"));
 //       Zavod za = Zavod.createZavod("Zavod, kdz je zatazeno", Date.valueOf("2014-03-05"), "doma");
 //       Kategorie kat =Kategorie.createKategorie("VtipneSprezi", 5, 10);
-//       OsobyHasStaje book = OsobyHasStaje.createOsobyHasStaje(1L, 1L, Date.valueOf("2012-01-01"), Date.valueOf("2013-12-12"));
-//tx.begin();
-//em.persist(book);
-//tx.commit();
+       OsobyHasStaje book = OsobyHasStaje.createOsobyHasStaje(1L, 1L, Date.valueOf("2012-01-01"), Date.valueOf("2013-12-12"));
+tx.begin();
+em.persist(book);
+tx.commit();
         
         
         
@@ -58,18 +58,18 @@ public class Maina {
         System.out.println(o1);
         Osoba o2 = em.find(Osoba.class, 2L);
         
-        Tym tym2 = Tym.createTym("zkousimudelattym", kat);
+        Tym tym2 = Tym.createTym("Nejlepsi tym", kat);
         em.persist(tym2);
         
-//        tx.begin();
-//        System.out.println("TID: " + tym2.getTym_id());
-//        TymyHasKone thk = TymyHasKone.createTymMaKone(tym2.getTym_id(), k1.getKun_id());
-//        TymyHasOsoby tho1 = TymyHasOsoby.createTymMaOsobu(tym2.getTym_id(), 1L);
-//        tho1.setJe_jezdec(true);
-//        TymyHasOsoby tho2 = TymyHasOsoby.createTymMaOsobu(tym2.getTym_id(), 2L);
-//        System.out.println(tym2);
-//        tym2.setZavodId(za);
-//        tx.commit();
+        tx.begin();
+        System.out.println("TID: " + tym2.getTym_id());
+        TymyHasKone thk = TymyHasKone.createTymMaKone(tym2.getTym_id(), k1.getKun_id());
+        TymyHasOsoby tho1 = TymyHasOsoby.createTymMaOsobu(tym2.getTym_id(), 1L);
+        tho1.setJe_jezdec(true);
+        TymyHasOsoby tho2 = TymyHasOsoby.createTymMaOsobu(tym2.getTym_id(), 2L);
+        System.out.println(tym2);
+        tym2.setZavodId(za);
+        tx.commit();
 //        //tx.begin();
 //        Query queryN = em.createNativeQuery("select prirad_startovni_cisla(?)");
 //        queryN.setParameter(1, 2);
@@ -78,7 +78,7 @@ public class Maina {
 //            Object obj = itN.next();
 //            System.out.println(obj);
 //        }
-//        //tx.commit();
+        //tx.commit();
 
 ////        Kun k = Kun.createKun("jak", "generovat", "id2");
         System.out.println("tym " + tym2);

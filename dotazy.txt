@@ -32,3 +32,11 @@ SELECT kone.jmeno,kone.plemeno,tymy.nazev,tymy.zavod_id,tymy.kategorie_id,cas_pr
 
 :P nejrychlejsi kolo podle kategorie a zavodu
 
+:P Prùmìrný èas kola pro danou kategorii a závod podle id
+SELECT  AVG(cas_prvniho_kola+cas_druheho_kola+penalizace_prvni_kolo+penalizace_druhe_kolo) FROM  tymy    
+      WHERE   tymy.zavod_id=1 AND tymy.kategorie_id=1;
+
+:P Nejrychlejsi tym v zavode a kategorii //možná 3 pro výsledky
+SELECT  tymy.nazev,cas_prvniho_kola+cas_druheho_kola+(penalizace_prvni_kolo+penalizace_druhe_kolo) AS cas FROM  tymy
+WHERE   tymy.zavod_id=1 AND tymy.kategorie_id=2       
+ORDER BY cas ASC LIMIT 1;
