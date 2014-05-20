@@ -37,6 +37,7 @@ import javax.swing.table.TableModel;
  * @author Lada
  */
 public class PanelRegistraceTymu extends javax.swing.JFrame {
+
     private ButtonColumn buttonColumnKone;
     private ButtonColumn buttonColumnPrisedici;
 
@@ -56,6 +57,7 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//BLOKOVANE-GEN-BEGIN:initComponents
     private void initComponents() {
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         JmenoTymuField = new javax.swing.JTextField();
         JmenoTymuPopisek = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -106,30 +108,60 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
         jLabel4.setText("Přísedící");
 
         jLabel6.setText("Koně");
-        
+
         zmenit = new AbstractAction() {
             private int typ;
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 JTable table = (JTable) e.getSource();
                 int modelRow = Integer.valueOf(e.getActionCommand());
-                if(table.equals(koneTable)){
+                if (table.equals(koneTable)) {
                     typ = UniverzalniVybiratko.TYP_KUN;
-                }else{
+                } else {
                     typ = UniverzalniVybiratko.TYP_OSOBA;
                 }
                 UniverzalniVybiratko uv = new UniverzalniVybiratko(PanelRegistraceTymu.this, true, typ);
                 Long result = uv.showDialog();
-                if(result==null){
+                if (result == null) {
                     return;
-                }else{
+                } else {
+                    if (typ == UniverzalniVybiratko.TYP_KUN) {
+                        for (int i = 0; i < table.getModel().getRowCount(); i++) {
+                            if (table.getModel().getValueAt(i, 0).equals(result)) {
+                                JOptionPane.showMessageDialog(PanelRegistraceTymu.this,
+                                        "Tento kůň už v týmu je!", "Chyba",
+                                        JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+                        }
+                    }else{
+                        JTable tbl = PanelRegistraceTymu.this.jezdecTable;
+                        for (int i = 0; i < tbl.getModel().getRowCount(); i++) {
+                            System.out.println("i: "+i);
+                            if (tbl.getModel().getValueAt(i, 0)!=null && tbl.getModel().getValueAt(i, 0).equals(result)) {
+                                JOptionPane.showMessageDialog(PanelRegistraceTymu.this,
+                                        "Tento člověk už v týmu je!", "Chyba",
+                                        JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+                        }
+                        tbl = PanelRegistraceTymu.this.prisediciTable;
+                        for (int i = 0; i < tbl.getModel().getRowCount(); i++) {
+                            if (tbl.getModel().getValueAt(i, 0)!=null && tbl.getModel().getValueAt(i, 0).equals(result)) {
+                                JOptionPane.showMessageDialog(PanelRegistraceTymu.this,
+                                        "Tento člověk už v týmu je!", "Chyba",
+                                        JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+                        }
+                    }
                     PanelRegistraceTymu.this.setRow(table, modelRow, typ, result);
                 }
-                
+
                 //((DefaultTableModel) table.getModel()).removeRow(modelRow);
             }
 
-            
         };
 
         prisediciTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -147,8 +179,6 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
         //prisediciTable.setEnabled(false);
         jScrollPane2.setViewportView(prisediciTable);
 
-        
-
         koneTable.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
                     {null, null, null, null},
@@ -162,9 +192,8 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
         ));
         ButtonColumn buttonColumnKone = new ButtonColumn(koneTable, zmenit, 3);
         jScrollPane3.setViewportView(koneTable);
-        
+
         updateTables(kategorieCombo.getSelectedItem().toString());
-        
 
         jezdecTable.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
@@ -280,8 +309,8 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
         );
         pack();
     }// </editor-fold>                        
-    
-    private void updateTables(String nazevKategorie){
+
+    private void updateTables(String nazevKategorie) {
         String sql = "select * from kategorie where nazev=?";
         Query query = DBTools.getInstance().getEm().createNativeQuery(sql, Kategorie.class);
 
@@ -290,10 +319,9 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
         Kategorie aktKat = (Kategorie) query.getSingleResult();
 
         //System.out.println(aktKat);
-
         String[][] koneData = new String[aktKat.getPocet_koni()][5];
-        for(String[] a: koneData){
-            a[0] = null;
+        for (String[] a : koneData) {
+            a[0] = "-1";
             a[1] = "---";
             a[2] = "---";
             a[3] = "---";
@@ -303,14 +331,13 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
         koneTable.setModel(new javax.swing.table.DefaultTableModel(
                 koneData,
                 new String[]{
-                    "id","Jmeno", "Plemeno", "Majitel", ""
+                    "id", "Jmeno", "Plemeno", "Majitel", ""
                 }
         ));
-        
-        
+
         String[][] prisediciData = new String[aktKat.getPocet_prisedicich()][5];
-        for(String[] a: prisediciData){
-            a[0] = null;
+        for (String[] a : prisediciData) {
+            a[0] = "-1";
             a[1] = "---";
             a[2] = "---";
             a[3] = "---";
@@ -323,37 +350,36 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
                     "id", "Jmeno", "Prijmeni", "Datum narozeni", ""
                 }
         ));
-        
-        
+
         TableColumnModel cm = prisediciTable.getColumnModel();
         TableColumn id_column = cm.getColumn(0);
         cm.removeColumn(id_column);
-        
+
         cm = koneTable.getColumnModel();
         id_column = cm.getColumn(0);
         cm.removeColumn(id_column);
-        
+
         buttonColumnKone = new ButtonColumn(koneTable, zmenit, 3);
         buttonColumnPrisedici = new ButtonColumn(prisediciTable, zmenit, 3);
     }
-    
+
     private void setRow(JTable table, int modelRow, int typ, Long result) {
-        System.out.println("typ: "+typ+";  result: "+result);
-        if(typ == UniverzalniVybiratko.TYP_OSOBA){
+        System.out.println("typ: " + typ + ";  result: " + result);
+        if (typ == UniverzalniVybiratko.TYP_OSOBA) {
             Osoba os = DBTools.getInstance().getEm().find(Osoba.class, result);
             TableModel mod = table.getModel();
             mod.setValueAt(os.getOsoba_id(), modelRow, 0);
             mod.setValueAt(os.getJmeno(), modelRow, 1);
             mod.setValueAt(os.getPrijmeni(), modelRow, 2);
             mod.setValueAt(os.getDatum_narozeni(), modelRow, 3);
-        }else{
+        } else {
             Kun kun = DBTools.getInstance().getEm().find(Kun.class, result);
             TableModel mod = table.getModel();
             mod.setValueAt(kun.getKun_id(), modelRow, 0);
             mod.setValueAt(kun.getJmeno(), modelRow, 1);
             mod.setValueAt(kun.getPlemeno(), modelRow, 2);
             mod.setValueAt(kun.getMajitel(), modelRow, 3);
-            
+
         }
     }
 
@@ -363,19 +389,19 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
 
     private void kategorieComboActionPerformed(java.awt.event.ActionEvent evt) {
         //System.out.println(evt.getActionCommand());
-        updateTables( ((JComboBox)evt.getSource()).getSelectedItem().toString() );
+        updateTables(((JComboBox) evt.getSource()).getSelectedItem().toString());
         //updateTables(evt.getActionCommand());
     }
 
-    private void ulozitActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void ulozitActionPerformed(java.awt.event.ActionEvent evt) {
         PanelRegistraceTymu fr = PanelRegistraceTymu.this;
         EntityManager em = DBTools.getInstance().getEm();
         EntityTransaction tx = DBTools.getInstance().getTx();
-        
+
         System.out.println("");
         System.out.println("ULOZIT");
         System.out.println("");
-        
+
         String sql = "select * from kategorie where nazev=?";
         Query query = DBTools.getInstance().getEm().createNativeQuery(sql, Kategorie.class);
 
@@ -387,24 +413,24 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
         em.persist(tym);
         tx.commit();
         tym = em.find(Tym.class, tym.getTym_id());
-        
+
         System.out.println(tym);
         tx.begin();
-        
+
         //System.out.println("jezdec");
         TableModel jtm = fr.jezdecTable.getModel();
         for (int i = 0; i < jtm.getRowCount(); i++) {
             Long val = (Long) jtm.getValueAt(i, 0);
-            if(val == null){
-                JOptionPane.showMessageDialog(PanelRegistraceTymu.this, 
-                        "Nelze ulozit! \nNebyl vybran jezdec!", "Pozor", 
+            if (val == null) {
+                JOptionPane.showMessageDialog(PanelRegistraceTymu.this,
+                        "Nelze ulozit! \nNebyl vybran jezdec!", "Pozor",
                         JOptionPane.ERROR_MESSAGE);
                 tx.rollback();
                 tx.begin();
                 em.remove(em.find(Tym.class, tym.getTym_id()));
                 tx.commit();
                 return;
-            }else{
+            } else {
                 Osoba o = em.find(Osoba.class, val);
                 System.out.println(o);
                 TymyHasOsoby tho = TymyHasOsoby.createTymMaOsobu(tym.getTym_id(), o.getOsoba_id());
@@ -412,66 +438,70 @@ public class PanelRegistraceTymu extends javax.swing.JFrame {
                 em.persist(tho);
             }
         }
-        
+
         //System.out.println("prisedici");
         TableModel ptm = fr.prisediciTable.getModel();
         for (int i = 0; i < ptm.getRowCount(); i++) {
             Long val = (Long) ptm.getValueAt(i, 0);
-            if(val == null){
-                JOptionPane.showMessageDialog(PanelRegistraceTymu.this, 
-                        "Nelze ulozit! \nNebyli vybrani vsichni prisedici!", "Pozor", 
+            if (val == null) {
+                JOptionPane.showMessageDialog(PanelRegistraceTymu.this,
+                        "Nelze ulozit! \nNebyli vybrani vsichni prisedici!", "Pozor",
                         JOptionPane.ERROR_MESSAGE);
                 tx.rollback();
                 tx.begin();
                 em.remove(em.find(Tym.class, tym.getTym_id()));
                 tx.commit();
                 return;
-            }else{
+            } else {
                 Osoba o = em.find(Osoba.class, val);
                 System.out.println(o);
                 TymyHasOsoby tho = TymyHasOsoby.createTymMaOsobu(tym.getTym_id(), o.getOsoba_id());
                 em.persist(tho);
             }
         }
-        
+
         //System.out.println("kone");
         TableModel ktm = fr.koneTable.getModel();
         for (int i = 0; i < ktm.getRowCount(); i++) {
             Long val = (Long) ktm.getValueAt(i, 0);
-            if(val == null){
-                JOptionPane.showMessageDialog(PanelRegistraceTymu.this, 
-                        "Nelze ulozit! \nNebyli vybrani vsichni kone!", "Pozor", 
+            if (val == null) {
+                JOptionPane.showMessageDialog(PanelRegistraceTymu.this,
+                        "Nelze ulozit! \nNebyli vybrani vsichni kone!", "Pozor",
                         JOptionPane.ERROR_MESSAGE);
                 tx.rollback();
                 tx.begin();
                 em.remove(em.find(Tym.class, tym.getTym_id()));
                 tx.commit();
                 return;
-            }else{
+            } else {
                 Kun k = em.find(Kun.class, val);
                 System.out.println(k);
                 TymyHasKone thk = TymyHasKone.createTymMaKone(tym.getTym_id(), k.getKun_id());
                 em.persist(thk);
             }
         }
-        
-        try{
-        tx.commit();
-        tx.begin();
-        tym.setZavodId(em.find(Zavody.class, 1L));
-        em.persist(tym);
-        tx.commit();
-        //dispose();
-        }catch(RollbackException e){
+
+        try {
+            tx.commit();
+            tx.begin();
+            tym.setZavodId(em.find(Zavody.class, 1L));
+            em.persist(tym);
+            tx.commit();
+            dispose();
+        } catch (RollbackException e) {
+
             System.out.println("ERROR -> rollback");
+            JOptionPane.showMessageDialog(PanelRegistraceTymu.this,
+                    "Došlo k chybě: " + e.getMessage(), "Chyba",
+                    JOptionPane.ERROR_MESSAGE);
             tx.begin();
             em.remove(em.find(Tym.class, tym.getTym_id()));
             tx.commit();
         }
     }
-    
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public static void main(String[] args) {

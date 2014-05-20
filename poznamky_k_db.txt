@@ -1,7 +1,7 @@
 zapocet
-1) GUI tymy
+DONE  1) GUI tymy
 2) demonstrovat omezeni kategoriemi
-3) generovani dat
+DONE  3) generovani dat
 4) statistiky, vysledky, prumerne casy, prumerne umisteni, ...
 	- vysledky podle zavodu a kategorie - tymy, jezdci, kone
 	- nejrychlejsi kolo

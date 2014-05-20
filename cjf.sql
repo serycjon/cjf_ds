@@ -90,25 +90,12 @@ CREATE TABLE "tymy_has_kone" (
 CREATE TABLE "osoby_has_staje" (
 	"osoby_osoba_id" int4 NOT NULL,
 	"staje_staj_id" int4 NOT NULL,
-	"platne_od" date NOT NULL, -- zacatek tohoto roku, zatim jsme neprisli na to, jak ho tam dat defaultne
-	"platne_do" date NOT NULL, -- konec tohoto roku, zatim jsme neprisli na to, jak ho tam dat defaultne
+	"platne_od" date NOT NULL, 
+	"platne_do" date NOT NULL, 
 	PRIMARY KEY("osoby_osoba_id","staje_staj_id","platne_od","platne_do"),
 	FOREIGN KEY ("staje_staj_id") REFERENCES "staje"("staj_id") ON DELETE RESTRICT ON UPDATE CASCADE,
 	FOREIGN KEY ("osoby_osoba_id") REFERENCES "osoby"("osoba_id") ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-
--- gets random number in range...
--- from http://www.if-not-true-then-false.com/2010/postgresql-select-a-random-number-in-a-range-between-two-numbers/
---
-CREATE OR REPLACE FUNCTION get_random_number(INTEGER, INTEGER) RETURNS INTEGER AS $$
-DECLARE
-    start_int ALIAS FOR $1;
-    end_int ALIAS FOR $2;
-BEGIN
-    RETURN trunc(random() * (end_int-start_int) + start_int);
-END;
-$$ LANGUAGE 'plpgsql' STRICT;
 
 CREATE OR REPLACE FUNCTION check_pocty() RETURNS TRIGGER AS '
 	DECLARE
@@ -118,8 +105,6 @@ CREATE OR REPLACE FUNCTION check_pocty() RETURNS TRIGGER AS '
 		pocet_jezdcu INTEGER;
 		pocet_lidi_realny INTEGER;
 		check_tym_id INTEGER;
-		pocet_koni_dist INTEGER;
-		pocet_lidi_dist INTEGER;
 	BEGIN
 	
 	IF (TG_OP = ''INSERT'') AND NEW.zavod_id IS NOT NULL THEN
@@ -134,15 +119,11 @@ CREATE OR REPLACE FUNCTION check_pocty() RETURNS TRIGGER AS '
 		WHERE tymy.tym_id = check_tym_id;
 	SELECT COUNT(kone_kun_id) INTO pocet_koni_realny FROM tymy_has_kone GROUP BY tymy_tym_id
 		HAVING tymy_tym_id = check_tym_id;
-	SELECT COUNT(DISTINCT kone_kun_id) INTO pocet_koni_dist FROM tymy_has_kone GROUP BY tymy_tym_id
-		HAVING tymy_tym_id = check_tym_id;
 
 	SELECT COUNT(osoby_osoba_id) INTO pocet_lidi_realny FROM tymy_has_osoby WHERE NOT je_jezdec GROUP BY tymy_tym_id
 		HAVING tymy_tym_id = check_tym_id;
 	SELECT COUNT(osoby_osoba_id) INTO pocet_jezdcu FROM tymy_has_osoby WHERE je_jezdec GROUP BY tymy_tym_id 
 		HAVING tymy_tym_id = check_tym_id; 
-	SELECT COUNT(DISTINCT osoby_osoba_id) INTO pocet_lidi_dist FROM tymy_has_osoby GROUP BY tymy_tym_id
-		HAVING tymy_tym_id = check_tym_id;
 
 	IF NOT pocet_koni_povoleny=pocet_koni_realny OR pocet_koni_realny IS NULL THEN
 		RAISE EXCEPTION ''Spatny pocet koni!'';
@@ -150,10 +131,6 @@ CREATE OR REPLACE FUNCTION check_pocty() RETURNS TRIGGER AS '
 		RAISE EXCEPTION ''Spatny pocet prisedicich!'';
 	ELSEIF NOT pocet_jezdcu = 1 OR pocet_jezdcu IS NULL THEN
 		RAISE EXCEPTION ''Spatny pocet jezdcu!'';
-	ELSEIF NOT pocet_lidi_dist = pocet_lidi_realny+1 OR pocet_lidi_dist IS NULL THEN
-		RAISE EXCEPTION ''Duplikovane osoby!'';
-	ELSEIF NOT pocet_koni_dist = pocet_koni_realny OR pocet_koni_dist IS NULL THEN
-		RAISE EXCEPTION ''Duplikovani kone!'';
 	END IF;
 
 	--RAISE DEBUG ''pocet koni realny %'', pocet_koni_realny;
@@ -173,6 +150,7 @@ CREATE OR REPLACE FUNCTION check_after_reg() RETURNS TRIGGER AS '
 		nalezeny INTEGER;
 		id_to_find INTEGER;
 	BEGIN
+	--RETURN NEW;
 	IF (TG_OP = ''DELETE'') THEN
 		id_to_find := OLD.tymy_tym_id;
 	ELSE

@@ -1,0 +1,221 @@
+%%% Template originaly created by Karol Kozioł (mail@karol-koziol.net) and modified for ShareLaTeX use
+
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+\renewcommand\familydefault{\sfdefault}
+\usepackage{tgheros}
+\usepackage[defaultmono]{droidmono}
+
+\usepackage{amsmath,amssymb,amsthm,textcomp}
+\usepackage{enumerate}
+\usepackage{multicol}
+\usepackage{tikz}
+
+\usepackage{geometry}
+\geometry{total={210mm,297mm},
+left=25mm,right=25mm,%
+bindingoffset=0mm, top=20mm,bottom=20mm}
+
+
+\linespread{1.3}
+
+\newcommand{\linia}{\rule{\linewidth}{0.5pt}}
+
+% custom theorems if needed
+\newtheoremstyle{mytheor}
+    {1ex}{1ex}{\normalfont}{0pt}{\scshape}{.}{1ex}
+    {{\thmname{#1 }}{\thmnumber{#2}}{\thmnote{ (#3)}}}
+
+\theoremstyle{mytheor}
+\newtheorem{defi}{Definition}
+
+% my own titles
+\makeatletter
+\renewcommand{\maketitle}{
+\begin{center}
+\vspace{2ex}
+{\huge \textsc{\@title}}
+\vspace{1ex}
+\\
+\linia\\
+\@author \hfill \@date
+\vspace{4ex}
+\end{center}
+}
+\makeatother
+%%%
+
+% custom footers and headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{}
+\lfoot{DS CP 2}
+\cfoot{}
+\rfoot{Strana \thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+%
+
+% code listing settings
+\usepackage{listings}
+\lstset{
+    language=SQL,
+    basicstyle=\ttfamily\small,
+    aboveskip={1.0\baselineskip},
+    belowskip={1.0\baselineskip},
+    columns=fixed,
+    extendedchars=true,
+    breaklines=true,
+    tabsize=4,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color[rgb]{0.627,0.126,0.941},
+    commentstyle=\color[rgb]{0.133,0.545,0.133},
+    stringstyle=\color[rgb]{01,0,0},
+    numbers=left,
+    numberstyle=\small,
+    stepnumber=1,
+    numbersep=10pt,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+\renewcommand{\lstlistingname}{Kód}
+
+%%%----------%%%----------%%%----------%%%----------%%%
+
+\begin{document}
+
+\title{DS - Česká Jezdecká Federace}
+
+\author{Ondráčková, Šerých}
+
+\date{20/05/2014}
+
+\maketitle
+
+\section*{Triggery}
+
+V našem databázovém systému potřebujeme kontrolovat, jestli je v každém registrovaném týmu právě tolik koní a tolik lidí, kolik je v dané soutěžní kategorii povoleno. To se ukázalo jako netriviální omezení, které je potřeba kontrolovat triggerem. Rozhodli jsme se, že se počty zkontrolují ve chvíli, kdy se má přiřadit tým k závodu. Tím se uzavře registrace týmu a již dále nelze měnit jeho obsazení. Samotný trigger je ve výpisu~\ref{list:first}\ldots{}
+
+\begin{lstlisting}[label={list:first},caption=trigger check pocty.]
+CREATE OR REPLACE FUNCTION check_pocty() RETURNS TRIGGER AS '
+	DECLARE
+		pocet_koni_povoleny INTEGER;
+		pocet_lidi_povoleny INTEGER;
+		pocet_koni_realny INTEGER;
+		pocet_jezdcu INTEGER;
+		pocet_lidi_realny INTEGER;
+		check_tym_id INTEGER;
+	BEGIN
+	
+	IF (TG_OP = ''INSERT'') AND NEW.zavod_id IS NOT NULL THEN
+		RAISE EXCEPTION 
+			''Tym lze priradit k zavodu az po jeho naplneni!'';
+	END IF;
+	IF NEW.zavod_id IS NULL THEN
+		RETURN NEW;
+	END IF;
+	check_tym_id := NEW.tym_id;
+	SELECT pocet_koni, pocet_prisedicich
+		INTO pocet_koni_povoleny, pocet_lidi_povoleny
+		FROM kategorie
+		INNER JOIN tymy ON kategorie.kategorie_id = tymy.kategorie_id
+		WHERE tymy.tym_id = check_tym_id;
+	SELECT COUNT(kone_kun_id) INTO pocet_koni_realny
+		FROM tymy_has_kone GROUP BY tymy_tym_id
+		HAVING tymy_tym_id = check_tym_id;
+
+	SELECT COUNT(osoby_osoba_id) INTO pocet_lidi_realny
+		FROM tymy_has_osoby WHERE NOT je_jezdec GROUP BY tymy_tym_id
+		HAVING tymy_tym_id = check_tym_id;
+	SELECT COUNT(osoby_osoba_id) INTO pocet_jezdcu
+		FROM tymy_has_osoby WHERE je_jezdec GROUP BY tymy_tym_id 
+		HAVING tymy_tym_id = check_tym_id; 
+
+	IF NOT pocet_koni_povoleny=pocet_koni_realny
+		OR pocet_koni_realny IS NULL THEN
+			RAISE EXCEPTION ''Spatny pocet koni!'';
+	ELSEIF NOT pocet_lidi_povoleny=pocet_lidi_realny
+		OR pocet_lidi_realny IS NULL THEN
+			RAISE EXCEPTION ''Spatny pocet prisedicich!'';
+	ELSEIF NOT pocet_jezdcu = 1 OR pocet_jezdcu IS NULL THEN
+		RAISE EXCEPTION ''Spatny pocet jezdcu!'';
+	END IF;
+
+	RETURN NEW;
+	END
+	'
+	LANGUAGE plpgsql;
+
+CREATE TRIGGER trig_pocty
+   BEFORE UPDATE OR INSERT ON tymy
+   FOR EACH ROW
+   EXECUTE PROCEDURE check_pocty();
+\end{lstlisting}
+
+\section*{Uložené procedury}
+V naší databázi používáme uloženou proceduru prirad\_startovni\_cisla(zavod\_id) (ve výpisu~\ref{list:second}) která přiřadí všem týmům zaregistrovaným v daném závodu náhodná startovní čísla
+od jedné do počtu týmů. Nejprve jsme k tomuto účelu chtěli použít SEQUENCE, ale ukázalo se, že to není praktické řešení. Naše procedura tedy nejdřív SELECTuje
+všechny týmy a náhodně je seřadí a tyto výsledky pak prochází po řádkách a do startovního čísla ukládá postupně inkrementovanou lokální proměnnou.
+
+
+\begin{lstlisting}[label={list:second},caption=Uložená procedura prirad\_startovni\_cisla\(\)]
+CREATE OR REPLACE FUNCTION prirad_startovni_cisla(zavod INTEGER) RETURNS boolean AS '
+	DECLARE
+		i RECORD;
+		update_count INTEGER;
+		cislo INTEGER;
+	BEGIN
+		cislo := 1;
+		FOR i IN SELECT tym_id FROM tymy WHERE zavod_id = zavod ORDER BY random() LOOP
+			RAISE DEBUG ''updating id %'', i.tym_id;
+			UPDATE tymy SET startovni_cislo = cislo WHERE tym_id = i.tym_id;
+			GET DIAGNOSTICS update_count = ROW_COUNT;
+			cislo := cislo+1;
+			IF update_count < 1 THEN
+				RETURN FALSE;
+			END IF;
+		END LOOP;
+		RETURN TRUE;
+	END
+	'
+	LANGUAGE plpgsql;
+\end{lstlisting}
+
+\section*{Statistiky}
+Česká Jezdecká Federace každoročně vyhlašuje jezdce,
+který strávil na kolbišti nejvíce času. Pro tuto statistiku jsme vytvořili následující dotaz (ve výpisu~\ref{list:third})
+\begin{lstlisting}[label={list:second},caption=Uložená procedura prirad\_startovni\_cisla\(\)]
+CREATE OR REPLACE FUNCTION prirad_startovni_cisla(zavod INTEGER) RETURNS boolean AS '
+	DECLARE
+		i RECORD;
+		update_count INTEGER;
+		cislo INTEGER;
+	BEGIN
+		cislo := 1;
+		FOR i IN SELECT tym_id FROM tymy WHERE zavod_id = zavod ORDER BY random() LOOP
+			RAISE DEBUG ''updating id %'', i.tym_id;
+			UPDATE tymy SET startovni_cislo = cislo WHERE tym_id = i.tym_id;
+			GET DIAGNOSTICS update_count = ROW_COUNT;
+			cislo := cislo+1;
+			IF update_count < 1 THEN
+				RETURN FALSE;
+			END IF;
+		END LOOP;
+		RETURN TRUE;
+	END
+	'
+	LANGUAGE plpgsql;
+\end{lstlisting}
+
+\end{document}
