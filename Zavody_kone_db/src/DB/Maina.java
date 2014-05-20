@@ -58,16 +58,30 @@ tx.commit();
         System.out.println(o1);
         Osoba o2 = em.find(Osoba.class, 2L);
         
+
         Tym tym2 = Tym.createTym("Nejlepsi tym", kat);
         em.persist(tym2);
         
         tx.begin();
         System.out.println("TID: " + tym2.getTym_id());
+
+        tx.begin();
+       // Tym tym2 = Tym.createTym("zkousimudelattym", kat);
+        
+        em.persist(tym2);
+        tx.commit();
+                tx.begin();
+//        System.out.println("TID: " + tym2.getTym_id());
+
         TymyHasKone thk = TymyHasKone.createTymMaKone(tym2.getTym_id(), k1.getKun_id());
         TymyHasOsoby tho1 = TymyHasOsoby.createTymMaOsobu(tym2.getTym_id(), 1L);
         tho1.setJe_jezdec(true);
         TymyHasOsoby tho2 = TymyHasOsoby.createTymMaOsobu(tym2.getTym_id(), 2L);
+
         System.out.println(tym2);
+
+//        System.out.println(tym2);
+
         tym2.setZavodId(za);
         tx.commit();
 //        //tx.begin();
@@ -81,7 +95,7 @@ tx.commit();
         //tx.commit();
 
 ////        Kun k = Kun.createKun("jak", "generovat", "id2");
-        System.out.println("tym " + tym2);
+        //System.out.println("tym " + tym2);
 //         tx.begin();
 //         em.persist(tym2);
 //         tx.commit();

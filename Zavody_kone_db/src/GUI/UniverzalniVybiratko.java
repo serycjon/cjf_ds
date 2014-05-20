@@ -114,7 +114,7 @@ public class UniverzalniVybiratko extends javax.swing.JDialog {
                 int vybranyRadek = jTable1.getSelectedRow();
                 if (vybranyRadek < 0) {
 
-                    JOptionPane.showMessageDialog(rootPane, "Nelze vybrat! \nNebyla vybrána žádná položka!", "Pozor", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(UniverzalniVybiratko.this, "Nelze vybrat! \nNebyla vybrána žádná položka!", "Pozor", JOptionPane.ERROR_MESSAGE);
                 } else {
 
                     result = (Long) jTable1.getModel().getValueAt(vybranyRadek, 0);
