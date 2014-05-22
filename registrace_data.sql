@@ -262,3 +262,5 @@ INSERT INTO tymy_has_kone (tymy_tym_id, kone_kun_id)
 	WHERE tymy.nazev = 'Dlouhani' AND kone.jmeno = 'Anna' LIMIT 1;
 UPDATE tymy SET zavod_id = 2 WHERE nazev = 'Dlouhani';
 COMMIT;
+
+
